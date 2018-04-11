@@ -1,0 +1,38 @@
+<script type="text/javascript" src="/js/header_login_cookie.js"></script>
+<header class="head clearfix">
+    <div class="logo"><a href="/"><img src="/assets/index/img/logo.png" alt="7724小游戏" title="7724小游戏" /></a></div>
+    <div class="search" style="float:left;margin-left:10px;margin-right: 0px;">
+        <form id="search_form_id" action="<?php echo $this->createUrl('index/search'); ?>"  onSubmit="return searchnamesend()">
+            <?php
+            $data = Gamefun::allGameSearchStatus(3);
+            $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                'name' => 'keyword',
+                'source' => array_values($data), 'skin' => false,
+                'options' => array( 'autoFocus' => '1',
+                    'minLength' => '1',
+                ), 'htmlOptions' => array(
+                    'class' => 'search_tx',
+                    'placeholder' => '请输入游戏名称'
+                ),
+            ));
+            ?>
+            <input type="submit" class="search_bt" value="" />
+        </form> 
+    </div>
+    <div style="float:left;width:30px; height:35px; position:relative;">
+        <em class="red_click"></em>
+
+        <?php if($_GET['opentype'] == "7724") { ?>
+            <script type="text/javascript" >
+                function showLogin() {
+                    jsobj.login(); 
+                }
+            </script>
+            <a id="head_user_login" href="javascript:void(0);" onclick="showLogin();" style="margin-right:4px; width:35px; height:35px; display:block;background:url(/img/ico_13.png) no-repeat center center; background-size:20px 20px;"></a> 
+            <?php
+        } else
+            echo '<a id="head_user_login" href="/user/login" style="margin-right:4px; width:35px; height:35px; display:block;background:url(/img/ico_13.png) no-repeat center center; background-size:20px 20px;"></a>';
+        ?>
+
+    </div>
+</header>

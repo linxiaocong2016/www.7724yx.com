@@ -1,0 +1,68 @@
+<script>
+$(function(){
+	var unlock=true;
+	$(window).scroll(function(){
+		var winH=$(window).height();
+		var scrH=$(window).scrollTop();
+		var htmH=$(document).height()-100;
+		if(winH+scrH>=htmH){
+			if($("#ajax_idx_more").length<=0)return;
+			var obj=$("#ajax_idx_more");
+			ajaxidxmore(obj);
+		}
+	});
+	function ajaxidxmore(obj){
+		if(!unlock)return;
+		var html0=$(obj).html();
+		$(obj).html("加载中...");
+		//$(obj).unbind("click");
+		var page=$(obj).attr("rel");
+		if(!isNaN(page)){
+			unlock=false;
+			var orderTy='<?php echo $orderTy ?>';
+			var query={"orderTy":orderTy,"page":page};
+			$.post('<?php echo $this->createurl("index/ajaxlist")?>',query,function(data){
+				var top=$(document).scrollTop(); 
+				$("#_list").append(data.html);
+				$(obj).attr("rel",data.page);
+				$(document).scrollTop(top);
+				if(data.page!="end"){
+					unlock=true;
+					//$(obj).bind("click",function(){ajaxidxmore(this);});
+ 					$(obj).html(html0);
+				}else{
+					$(obj).html("已到最后...");
+				}
+			},"json")
+		}
+	}
+})
+</script>
+<!--列表-->
+ <?php
+ 	 $list=$this->getGameList('',$this->lvListPageSize,1,$orderTy);
+ 	 if($list):
+ ?>
+ <div class="public new_public clearfix">
+     <div class="list_one">
+         <dl id="_list">
+         <?php foreach($list as $k=>$v):?>
+         <dt>
+              <a href="<?php echo $this->getDetailUrl($v)?>">
+               <p class="p1"><img src="<?php echo $this->getPic($v['game_logo'])?>"/></p>
+               <p class="p2">
+                 <i><?php echo $v['game_name']?></i>
+                 <em><?php echo $this->getStarImg($v['star_level'])?></em>
+                 <span><?php echo $this->getGameTypeName($v['game_type'],1)?>&nbsp;&nbsp;&nbsp;人气：<?php echo $this->getVisits($v);?></span>
+               </p>
+               <p class="p3"><span>开始玩</span></p>
+              </a>
+         </dt>
+         <?php endforeach;?>
+         </dl>
+       </div>
+ </div>
+ <?php if(count($list)>=$this->lvListPageSize):?>
+ <div id="ajax_idx_more" rel='2' class="new_morelist">加载更多</div>
+ <?php endif;?>
+ <?php endif;?>

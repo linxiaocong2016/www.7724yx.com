@@ -1,0 +1,211 @@
+<link rel="stylesheet" type="text/css" href="/assets/pinglun/css/comment.css" />
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery.cookie/jquery.cookie.js"></script>
+<style>
+	.action_fb_a_img {cursor:pointer}
+	textarea{resize: none;}
+</style>
+<script>
+var unlockpinglun=true;
+var MaxTime=1;
+var Ntime=0;
+var lvgid='<?php echo $this->lv_gid;?>';
+var lvtid='<?php echo $this->lv_tid;?>';
+var lvulogo='<?php echo $this->lv_ulogo;?>';
+var lvpageSize='<?php echo $this->lv_pageSize;?>';
+var lvstar_level=4;
+var MaxTextarea=200;
+$(function(){
+	//回复时间限制
+	function checkTime(){
+		var n = Date.parse(new Date());
+		var g=1000*10;
+		if(Ntime<n){
+			Ntime=n+g;
+			return 1;
+		}else{
+			alert('回复太积极，请休息一会儿！！');
+			return 0;
+		}
+	}
+	  var Wwidth=$('.head').width();
+	  $(".area_one").width(Wwidth-32);
+	  //点击回复
+	  $(".action_hf span").live("click",function(){
+			if($(this).attr("class")=="span_sel"){
+				  $(this).removeClass("span_sel");
+				  $(this).parent().next(".p4").hide();
+			 }else{
+				  $(this).addClass("span_sel");
+				  $(this).parent().next(".p4").show(); 
+			}
+		})
+	
+	//发送
+	function sendContent(content,pid,obj){
+		content=content.replace(/^\n+|\n+$/g,"");
+		var len=content.length
+		if(len>0){
+			for(var i=0;i<len;i++){
+				if(content.charAt(i)!=" ") break; 
+			}
+			content = content.substring(i,content.len); 
+		}		
+		if(content==''){
+			$(obj).val('');
+			alert('回复内容不允许为空');return false;
+		}
+		if(!checkTime())return false;
+		var query={'content':content,'pid':pid,'gid':lvgid,'tid':lvtid,'ulogo':lvulogo,'star_level':lvstar_level};
+		$.post('<?php echo Yii::app()->createUrl("ajax/pinglun/add")?>',query,function(json){
+			$(obj).val('');
+			if(json.msg){
+				alert(json.msg);
+			}else if(json.html&&json.id){
+				var classname="action_li_"+json.id;
+				if($("."+classname).length>0){
+					$("."+classname).html(json.html);
+				}else{
+					var html='<li rel="'+json.id+'" class="action_li_'+json.id+'">'+json.html+'</li>';
+					$("#aciton_ul_list").prepend(html);
+					var count=$("#action_count").html();
+					count=count*1+1;
+					$("#action_count").html(count);
+				}
+				$("."+classname).find(".area_one").width(Wwidth-32);
+			}
+		},'json');
+		
+	}	
+
+	 //上面的回复框
+	$(".action_fb_a").click(function(){
+		var textarea=$(this).parent(".action_fb_a_div").find("textarea");
+		var content=$(textarea).val();
+		sendContent(content,0,textarea);
+	})
+		
+	//下面的回复框
+	$(".action_fb").live("click",function(){
+		var p4=$(this).parent(".p4");
+		var textarea=$(p4).find("textarea")
+		var content=$(textarea).val();
+		var pid=$(this).parents("li").attr("rel");
+		sendContent(content,pid,textarea);
+	})
+	
+	//点击星星
+	$(".action_fb_a_img img").live('click',function(){
+		var t='<img src="/assets/pinglun/img/star_1.png" />';
+		var x='<img src="/assets/pinglun/img/star_2.png" />';
+		var e=$(".action_fb_a_img").find("img").index(this);
+		var str='';
+		for(var i=0;i<=e;i++){
+			str+=t;
+		}
+		for(var i=0;i<4-e;i++){
+			str+=x;
+		}
+		lvstar_level=e+1;
+		$(".action_fb_a_img").html(str);
+	})
+	
+	//加载更多
+	$("#ajax_idx_more").click(function(){
+		ajaxidxmore(this);
+	})
+	function ajaxidxmore(obj){
+		var page=$(obj).attr("rel");
+		if(page=='end')return;
+		var html0=$(obj).html();
+		$(obj).html("加载中...");
+		$(obj).unbind("click");
+		if(!isNaN(page)){
+			var query={'gid':lvgid,'tid':lvtid,"page":page,'pageSize':lvpageSize};
+			$.post('<?php echo Yii::app()->createurl("ajax/pinglun/list")?>',query,function(data){
+				var top=$(document).scrollTop(); 
+				$("#aciton_ul_list").append(data.html);
+				$(obj).attr("rel",data.page);
+				$(document).scrollTop(top);
+				if(data.page!="end"){
+					$(obj).bind("click",function(){ajaxidxmore(this);});
+ 					$(obj).html(html0);
+ 					$(".area_one").width(Wwidth-32);
+				}else{
+					$(obj).html("已到最后...");
+				}
+			},"json")
+		}
+	}
+
+	//点赞
+	$(".action_ding").live('click',function(){
+		var id=$(this).parents("li").attr("rel");
+		if(!id)return false;
+		var idcookename='d7724plt3_'+id;
+		var ids=$.cookie(idcookename);  
+		if(ids)return false;
+		$.cookie(idcookename,1,{ path: '/', expires: 100 });
+		$.post('<?php echo Yii::app()->createUrl('ajax/pinglun/ding')?>',{"id":id},function(){});
+		var i=$(this).find("i");
+		var e=$(i).html();
+		if(!e)e=0;
+		e=e*1+1;
+		$(i).html(e);
+		$(this).attr("class","em_sel");
+		var obj=$(this);
+		setTimeout(function(){$(obj).attr("class","action_ding");},2000);
+	})
+	
+})
+</script>
+<div>
+	   <div class="comment_top clearfix action_fb_a_div">
+          <p><span>您对该游戏的评分：</span>
+          <span class="action_fb_a_img">
+          <img src="/assets/pinglun/img/star_1.png" /><img src="/assets/pinglun/img/star_1.png" /><img src="/assets/pinglun/img/star_1.png" /><img src="/assets/pinglun/img/star_1.png" /><img src="/assets/pinglun/img/star_2.png" />
+          </span>
+          </p>
+          <textarea maxlength="500" placeholder="我来说两句..." class="area_one"></textarea>
+          <input type="button" value="发布" class="release_bt action_fb_a">
+       </div>
+      <div class="tit"><p class="tit_ico game_intro">玩家评论(<span id="action_count"><?php echo $lvCount;?></span>)</p></div>
+      <div class="comment_list">
+          <ul id="aciton_ul_list">
+          	<?php foreach($list as $k=>$v):?>
+          	<li rel="<?php echo $v['id']?>" class="action_li_<?php echo $v['id']?>">
+                  <p class="p1"><img src="<?php echo Pinglunfun::getUserLogo($v['ulogo'],$v['uid'],$v['head_img'])?>" /></p>
+                  <p class="p2">
+                    <span><?php echo $v['username']?></span>
+                    <em><?php echo Pinglunfun::setDateN($v['create_time']);?></em>
+                    <i><?php echo Pinglunfun::setStar($v['star_level']);?></i>
+                  </p>
+                  <p class="p2"><?php echo $v['content']?></p>
+                  
+                  <?php if($v['sec']):?>
+                  <p class="p6"><span></span></p>
+                  <p class="p5">
+                  	<?php foreach($v['sec'] as $k0=>$v0):?>
+                    <span>
+                      <i><?php echo $v0['username']?>：</i><?php echo $v0['content']?>
+                      
+                      <em><?php echo Pinglunfun::setDateN($v0['create_time']);?></em>
+                      
+                    </span>
+                    <?php endforeach;?>
+                  </p>
+                  <?php endif;?>
+                  <p class="p3 action_hf">
+                     <span>回复</span>
+                     <em class="action_ding">点赞(<i><?php echo $v['ding']?></i>)</em>
+                  </p>
+                  <p class="p4 clearfix">
+                    <img src="/assets/pinglun/img/textarea_ico.png">
+                    <textarea maxlength="500" placeholder="回复&nbsp;<?php echo $v['username']?>:" class="area_one" style="height:50px;"></textarea>
+                    <input type="button" value="发布" class="release_bt new_release_bt action_fb">
+                  </p>
+            </li>
+          	<?php endforeach;?>
+          </ul>
+      </div>
+      <div class="morelist" style="border:0"><a href="javascript:void(0);"><p id="ajax_idx_more" rel=2>查看更多</p></a></div>
+</div>

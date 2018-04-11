@@ -1,0 +1,56 @@
+<?php
+
+class Controller extends CController {
+
+    public $layout = '//layouts/column1';
+    public $menu = array();
+    public $breadcrumbs = array();
+
+    public function init() {
+        if($_GET['flag']) {
+            if($_GET['flag'] == 'wifi')
+                Yii::app()->session['flag'] = 5;
+            else
+                Yii::app()->session['flag'] = $_GET['flag'];
+        }
+
+        $this->DefaultLogin();
+    }
+
+    public function behaviors() {
+        return array(
+            'seo' => array(
+                'class' => 'ext.seo.components.SeoControllerBehavior'
+            )
+        );
+    }
+
+    /**
+     * 自动登录，从COOKIE读取数据
+     */
+    public function DefaultLogin() {
+        $lvCookieInfo = UserBaseinfo::model()->getUserCookie();
+        $lvSessionInfo = UserBaseinfo::model()->getLoginInfo();
+        Tools::print_log(array( $lvCookieInfo, $lvSessionInfo ));
+        if($lvCookieInfo && !$lvSessionInfo) {
+            include_once $_SERVER ['DOCUMENT_ROOT'] . "/uc_client/client.php";
+            $user = uc_user_login($lvCookieInfo['username'], $lvCookieInfo['pwd']);
+            Tools::print_log($user);
+            if($user [0] > 0) {
+                $lvSQL = "select nickname from user_baseinfo where uid={$user[0]}";
+                $lvInfo = Yii::app()->db->createCommand($lvSQL)->queryRow();
+                $lvNickName = $lvInfo['nickname'];
+                if(!$lvNickName) {
+                    $lvNickName = UserBaseinfo::model()->setRandomNick($lvCookieInfo['useranme']);
+                }
+
+                $_SESSION ['userinfo'] = array(
+                    "uid" => $user[0],
+                    "username" => $lvCookieInfo['useranme'],
+                    "nickname" =>$lvNickName
+                );
+            }
+        }
+    }
+
+}

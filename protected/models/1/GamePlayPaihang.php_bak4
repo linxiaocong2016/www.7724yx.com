@@ -1,0 +1,176 @@
+<?php
+
+/**
+ * This is the model class for table "game_play_paihang".
+ *
+ * The followings are the available columns in table 'game_play_paihang':
+ * @property integer $id
+ * @property integer $type
+ * @property integer $uid
+ * @property string $username
+ * @property integer $game_id
+ * @property string $game_name
+ * @property string $score
+ * @property integer $grade
+ * @property string $extscore
+ * @property integer $createtime
+ * @property string $ip
+ * @property string $city
+ */
+class GamePlayPaihang extends CActiveRecord {
+
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return GamePlayPaihang the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'game_play_paihang';
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array( 'type, uid, game_id, grade, createtime', 'numerical', 'integerOnly' => true ),
+            array( 'username, game_name', 'length', 'max' => 100 ),
+            array( 'score, extscore', 'length', 'max' => 20 ),
+            array( 'ip, city', 'length', 'max' => 50 ),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array( 'id, type, uid, username, game_id, game_name, score, grade, extscore, createtime, ip, city', 'safe', 'on' => 'search' ),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+        );
+    }
+
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'type' => 'Type',
+            'uid' => 'Uid',
+            'username' => 'Username',
+            'game_id' => 'Game',
+            'game_name' => 'Game Name',
+            'score' => 'Score',
+            'grade' => 'Grade',
+            'extscore' => 'Extscore',
+            'createtime' => 'Createtime',
+            'ip' => 'Ip',
+            'city' => 'City',
+        );
+    }
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('uid', $this->uid);
+        $criteria->compare('username', $this->username, true);
+        $criteria->compare('game_id', $this->game_id);
+        $criteria->compare('game_name', $this->game_name, true);
+        $criteria->compare('score', $this->score, true);
+        $criteria->compare('grade', $this->grade);
+        $criteria->compare('extscore', $this->extscore, true);
+        $criteria->compare('createtime', $this->createtime);
+        $criteria->compare('ip', $this->ip, true);
+        $criteria->compare('city', $this->city, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+    /**
+     * 取得排行数据
+     * @param type $pGameID
+     * @param type $pType
+     * @param type $pPageIndex
+     * @param int $pPageSize
+     * @return type
+     */
+    public function getGamePaiHang($pGameID, $pType = 0, $pPageIndex = 1, $pPageSize = 10) {
+        $pGameID = intval($pGameID);
+        $pType = intval($pType);
+        $lvStartIndex = ($pPageIndex - 1) * $pPageSize;
+        if($lvStartIndex <= 0)
+            $lvStartIndex = 0;
+        if($pPageSize <= 0)
+            $pPageSize = 10;
+        //$lvSQL="SELECT max(score),uid,username,city,createtime FROM `game_play_paihang` group by uid,username ORDER BY `game_play_paihang`.`score` ASC";
+        $lvSQL = "select max(score) score,uid,username,city,createtime,nickname,head_img from (select a.*,b.nickname,b.head_img from game_play_paihang a left join user_baseinfo b on a.uid=b.uid where a.game_id={$pGameID} and a.type={$pType} order by score desc,a.id asc )t group by uid,username order by score desc,id desc limit {$lvStartIndex},{$pPageSize}";
+        //$lvSQL = "select a.*,b.nickname,b.head_img from game_play_paihang a left join user_baseinfo b on a.uid=b.uid where a.game_id={$pGameID} and a.type={$pType} order by score desc,a.id asc  limit {$lvStartIndex},{$pPageSize}"; 
+        $lvList = Yii::app()->db->createCommand($lvSQL)->queryAll();
+        return $lvList;
+    }
+
+    /**
+     * 取得游戏排行
+     * @param type $pScore
+     * @param type $pType
+     * @return type
+     */
+    public function getGamePaiHangScoreIndex($pScore, $pGameID, $pType = 0) {
+        $pGameID = intval($pGameID);
+        $pType = intval($pType);
+        $lvSQL = "SELECT max(score) score,uid FROM  game_play_paihang where game_id={$pGameID} and type={$pType} group by uid order by score desc,id desc limit 100";
+        $lvList = Yii::app()->db->createCommand($lvSQL)->queryAll();
+        Tools::print_log(array( $lvSQL, $lvList ));
+        foreach( $lvList as $key => $value ) {
+            if(intval($pScore) >= intval($value['score']))
+                return $key + 1;
+        }
+        if(count($lvList) < 100)
+            return count($lvList) + 1;
+        return -1;
+    }
+
+    /**
+     * 取得游戏排行
+     * @param type $pGameID
+     * @param type $pType
+     * @return type
+     */
+    public function getGamePaiHangIndex($pUID, $pGameID, $pType = 0) {
+        $pGameID = intval($pGameID);
+        $pType = intval($pType);
+        $lvSQL = "SELECT max(score),uid FROM  game_play_paihang where game_id={$pGameID} and type={$pType} group by uid order by score desc,id desc limit 100";
+        $lvList = Yii::app()->db->createCommand($lvSQL)->queryAll();
+        Tools::print_log(array( $lvSQL, $lvList ));
+        foreach( $lvList as $key => $value ) {
+            if($value['uid'] == $pUID)
+                return $key + 1;
+        }
+        return -1;
+    }
+
+}

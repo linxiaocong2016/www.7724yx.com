@@ -1,0 +1,2636 @@
+@CHARSET "UTF-8"; 
+
+.container {
+	margin-top: 0
+}
+
+.PadContent {
+	background: #f4f4f4
+}
+
+.PadContent .TopBg {
+}
+
+.TopMain {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/PayTop.jpg")
+		center top no-repeat;
+	padding-top: 71px
+}
+
+.MainBox {
+	width: 960px;
+	margin: auto;
+	overflow: hidden
+}
+
+.TopBg .head_img {
+	height: 70px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/payzx.jpg")
+		center top no-repeat
+}
+
+.Left_box {
+	width: 960px;
+	float: left
+}
+
+#paymentform .username_error{
+	color:red;	
+}
+
+.MainBox .m_tit {
+	height: 49px;
+	line-height: 49px;
+	color: #666;
+	font-size: 15px
+}
+
+.MainBox .m_tit .col {
+	color: #f60
+}
+
+.L_menu {
+	width: 170px;
+	float: left;
+	background: #ccdeed;
+	padding-top: 21px;
+	padding-bottom: 21px
+}
+
+.L_menu ul {
+	width: 166px;
+	position: relative;
+	z-index: 1;
+	right: -1px;
+	float: right
+}
+
+.L_menu ul li {
+	width: 166px;
+	height: 41px;
+	margin-bottom: 10px;
+	cursor: pointer
+}
+
+.L_menu ul li a {
+	display: block
+}
+
+.L_menu ul li span {
+	color: #333;
+	line-height: 41px;
+	font-size: 13px;
+	padding: 10px 0 10px 63px
+}
+
+.L_menu ul .on {
+	background: #fff
+}
+
+.L_menu ul .m1 span ,.L_menu ul .m9 span,.L_menu ul .m0 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s1.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m2 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s2.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m3 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s3.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m4 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s4.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m5 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s7.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m6 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s6.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m7 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s8.png")
+		31px center no-repeat
+}
+.L_menu ul .m8 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s9.png")
+		31px center no-repeat
+}
+
+.L_menu ul .m12 span {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/weixin.png")
+		31px center no-repeat
+}
+
+.L_PayPage {
+	width: 778px;
+	background: #fff;
+	border: 1px solid #ddd;
+	float:left;
+	background-color: #fff;
+	color: #686060;
+	padding-bottom: 10px;
+	padding-left:10px;
+}
+
+.L_PayPage .content-title {
+font-size: 15px;
+font-weight: bold;
+margin: 20px 0 15px;
+}
+.L_PayPage ul {
+width:560px;
+}
+.L_PayPage li {
+display: list-item;
+text-align: -webkit-match-parent;
+}
+
+.L_PayPage .first-level h2 {
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 15px;
+}
+.L_PayPage .second-level li {
+margin-bottom: 10px;
+}
+.L_PayPage .account-info {
+margin-top: 15px;
+}
+.L_PayPage .account-info th {
+background-color: #f8f8f8;
+font-weight: bold;
+}
+.L_PayPage .account-info td, .L_PayPage .account-info th {
+border: 1px solid #ddd;
+padding: 4px 10px;
+text-align: center;
+}
+
+.L_PayPage .LP_tit {
+	height: 54px;
+	line-height: 54px;
+	font-size: 15px;
+	color: #666;
+	padding-left:112px;
+}
+
+.L_PayPage .radio_box {
+	height: 24px;
+	line-height: 24px;
+	margin-bottom: 18px;
+	padding-left:92px;
+}
+
+.L_PayPage .r-list-box {
+	height: 24px;
+	line-height: 24px;
+	displcandidateay: block;
+	margin-left: 22px;
+	float: left
+}
+
+.L_PayPage .r-list-box label {
+	color: #666;
+	font-size: 13px
+}
+
+.L_PayPage .r-list-box .on {
+	color: #00a0e9
+}
+
+.selectGorS {
+	width: 770px;
+	height: 45px;
+	position: relative;
+	z-index: 2;
+	margin-bottom: 24px
+}
+
+.selectGorS .a {
+	display: block;
+	width: 252px;
+	float: left;
+	height: 45px;
+	line-height: 42px;
+	text-indent: 39px;
+	color: #175177;
+	font-size: 15px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/s5.png")
+		no-repeat;
+	margin-left:76px;
+}
+
+.selectGorS .a2 {
+	margin-left: 100px
+}
+
+.selectGorS .alert_box {
+	width: 604px;
+	overflow: hidden;
+	position: absolute;
+	z-index: 999;
+	top: 45px;
+	left: 70px;
+}
+
+.selectGorS .ab_top {
+	height: 16px;
+	background:
+		url("../img/g1.png")
+		no-repeat
+}
+
+.selectGorS .ab_tops {
+	background:
+		url("../img/g1_1.png")
+		no-repeat
+}
+
+.selectGorS .ab_item {
+	min-height: 100px;
+	background:
+		url("../img/g2.png")
+		repeat-y;
+	padding: 7px 0 0 0
+}
+
+.selectGorS .ab_bottom {
+	height: 5px;
+	background:
+		url("../img/g3.png")
+		no-repeat
+}
+
+.selectGorS .ab_main_box {
+	width: 503px;
+	margin: auto
+}
+
+.selectGorS .ab_main_box .ab_gz {
+	height: 23px;
+	line-height: 23px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+	position: relative;
+	z-index: 1
+}
+
+.ab_gz .close {
+	display: block;
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	z-index: 2;
+	right: 3px;
+	top: 6px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/close.gif")
+		no-repeat;
+	cursor: pointer
+}
+#server_select_url .currentpage,#server_select_url .firstpage1 {
+	color: white;
+	background: #3098d5;
+	border-color: #3098d5;
+}
+#server_select_url label {
+	display:block;
+	background: #f1f1f1;
+	text-decoration: none;
+	height: 22px;
+	line-height: 22px;
+	padding: 0 6px;
+	margin-right: 4px;
+	color: #3098d5;
+	border: 1px #ddd solid;
+	float:left;
+	cursor:pointer;
+	margin-right:5px;
+	margin-top:5px;
+	padding:0 auto;
+	font-size: 12px;
+	line-height: 22px;
+	text-align:center;
+}
+#server_name_list {
+	border-left: 1px #e7e7e7 solid;
+	border-top: 1px #e7e7e7 solid;
+	border-bottom: 1px #e7e7e7 solid;
+	height: 132px;
+	width: 500px;
+}
+#server_name_list li {
+	width: 79px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px #e7e7e7 solid;
+	margin-bottom: -1px;
+	border-top: 0;
+	border-left: 0;
+	padding: 0 10px;
+	z-index: 2;
+	float: left;
+}
+
+#server_name_list li:hover{
+	background: #f6f6f6;
+	z-index: 1;
+}
+
+#server_name_list li a{
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	float: left;
+	width:100%;
+	text-align:center;
+}
+
+#server_name_list li a:hover{
+	color: #ff5d13;
+}
+
+.selectGorS .ab_main_box .ab_gz_a {
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	float: left;
+	margin-right: 16px
+}
+
+.selectGorS .ab_main_box .ab_gz_a .l_bg {
+	display: block;
+	float: left;
+	width: 3px;
+	height: 22px
+}
+
+.selectGorS .ab_main_box .ab_gz_a .r_bg {
+	display: block;
+	float: left;
+	width: 3px;
+	height: 22px
+}
+
+.selectGorS .ab_main_box .ab_gz_a .l_item {
+	display: block;
+	height: 22px;
+	line-height: 22px;
+	float: left;
+	cursor: pointer;
+	color: #666
+}
+
+.selectGorS .ab_main_box .on .l_bg {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/g4.gif")
+		no-repeat
+}
+
+.selectGorS .ab_main_box .on .r_bg {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/g5.gif")
+		no-repeat
+}
+
+.selectGorS .ab_main_box .on .l_item {
+	color: #fff;
+	background: #00a0e9
+}
+
+.ab_gz .l_item {
+	font-size: 14px
+}
+
+.game_name_box {
+	width: 503px;
+	overflow: hidden;
+	padding-top: 15px
+}
+
+.game_name_list {
+	width: 600px
+}
+
+.game_name_list li {
+	display: inline
+}
+
+.selectGorS .box_width .ab_gz_a {
+	margin: 0
+}
+
+.MainBox .right_box {
+	width: 200px;
+	float: right
+}
+
+.MainBox .right_box .r_box_item1 {
+	width: 198px;
+	border: 1px solid #ddd;
+	padding: 10px 0 10px 0;
+	background: #fff
+}
+
+.MainBox .right_box .r_box1_h {
+	height: 133px;
+	border-bottom: 1px solid #eee;
+	padding: 0 10px 0 10px
+}
+
+.MainBox .right_box .userHead_box {
+	width: 178px;
+	height: 60px;
+	margin-bottom: 14px
+}
+
+.MainBox .right_box .userphoto,.MainBox .right_box .userphoto img {
+	width: 60px;
+	height: 60px
+}
+
+.MainBox .right_box .userphoto {
+	float: left
+}
+
+.MainBox .right_box .userInfo {
+	width: 102px;
+	float: left;
+	margin-left: 10px;
+	padding-top: 10px
+}
+
+.MainBox .right_box label,.MainBox .right_box a {
+	display: block;
+	height: 18px;
+	line-height: 18px
+}
+
+.MainBox .right_box .userInfo a {
+	color: #00a0e9
+}
+
+.MainBox .right_box .i_txt {
+	height: 22px;
+	line-height: 22px;
+	color: #999;
+	padding-left: 28px
+}
+
+.MainBox .right_box .i_txt span {
+	color: #f60
+}
+
+.MainBox .right_box .i_txt1 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/g6.gif") 4px
+		center no-repeat
+}
+
+.MainBox .right_box .i_txt2 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/g7.gif") 4px
+		center no-repeat;
+	position: relative;
+	z-index: 1
+}
+
+.MainBox .right_box .i_txt2 .refresh {
+	width: 30px;
+	height: 13px;
+	position: absolute;
+	z-index: 1;
+	right: 0;
+	top: 2px;
+	color: #00a0e9
+}
+
+.MainBox .right_box .wenti {
+	padding: 0 10px;
+	margin-top: 13px
+}
+
+.MainBox .right_box .wenti_tit {
+	height: 20px;
+	line-height: 20px;
+	color: #666;
+	margin-bottom: 9px
+}
+
+.MainBox .right_box .wenti ul li {
+	padding: 3px 0
+}
+
+.MainBox .right_box .wenti ul li p {
+	display: none;
+	padding: 5px 10px 0 16px
+}
+
+.MainBox .right_box .wenti ul li a {
+	padding-left: 16px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/jiantou.gif")
+		4px center no-repeat;
+	color: #666
+}
+
+.MainBox .right_box .r_box_item2 {
+	background: #fff;
+	width: 200px;
+	height: 143px;
+	margin-top: 10px
+}
+
+.MainBox .right_box .r_box_item2 a {
+	display: block;
+	width: 198px;
+	height: 141px;
+	border: 1px solid #ddd;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/kefu.gif")
+		center no-repeat
+}
+
+.step {
+	width: 550px;
+	height: 60px;
+	margin: 19px auto 20px
+}
+
+.step .s {
+	display: block;
+	width: 250px;
+	height: 60px;
+	float: left
+}
+
+.step .s s {
+	float: left;
+	margin-right: 8px
+}
+
+.step .jt {
+	width: 50px;
+	height: 60px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/jt.gif")
+		center no-repeat
+}
+
+.step .step1,.step .step2 {
+	padding-top: 20px;
+	height: 40px;
+	cursor: pointer;
+	background: #d6d6d6;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		0 -82px no-repeat
+}
+
+.step .blue {
+	background-position: 0 -22px
+}
+
+.step .s label {
+	display: block;
+	width: 163px;
+	height: 22px;
+	margin: 0 0 0 53px;
+	color: #fff;
+	font-size: 14px;
+	font-family: "微软雅黑";
+	cursor: pointer
+}
+
+.step .s .no1,.step .s .no2,.step .s .no3 {
+	display: inline-block;
+	width: 24px;
+	height: 22px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		no-repeat
+}
+
+.step .s .no2 {
+	background-position: -24px 0
+}
+
+.step .s .no3 {
+	background-position: -48px 0
+}
+
+.MoneyBox {
+	width: 550px;
+	overflow: hidden;
+	margin: 0 auto 0
+}
+
+.MoneyBoxItem p {
+	height: 40px;
+	color: #666;
+	font-size: 15px
+}
+
+.pay_money_conn,.pay_bank_conn {
+	width: 548px
+}
+
+.MoneyBoxItem .jf {
+	padding-left: 20px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/gantan.gif")
+		left center no-repeat;
+	color: #07bb0f;
+	height: 24px;
+	line-height: 24px
+}
+
+.MoneyBoxItem .jf_ul {
+	width: 346px;
+	padding-bottom: 44px
+}
+
+.MoneyBoxItem .jf_ul li {
+	height: 30px;
+	color: #666;
+	margin-top: 5px;
+	line-height: 30px
+}
+
+.MoneyBoxItem .jf_ul li input {
+	width: 140px;
+	line-height: 22px;
+	height: 22px;
+	padding: 2px 6px 2px 6px;
+	margin: 0 6px 0 0
+}
+
+.MoneyBoxItem .jf_ul li lable {
+	display: block;
+	height: 30px;
+	width: 66px;
+	float: left
+}
+
+.MoneyBoxItem .jf_ul li span {
+	color: #999;
+	padding-left: 24px
+}
+
+.MoneyBoxItem .jf_ul li .yuanbao {
+	padding-left: 30px;
+	display: inline-block;
+	height: 30px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/yuanbao.gif")
+		left center no-repeat;
+	margin-left: 0
+}
+
+.MoneyBoxItem .jf_ul li .yuanbao label {
+	padding: 0;
+	margin: 0;
+	font-size: 24px;
+	line-height: 30px;
+	color: #fa8700
+}
+
+.MoneyBoxItem .phone_list li {
+	width: 160px;
+	height: 75px;
+	display: block;
+	float: left
+}
+
+.MoneyBoxItem .phone_list li input {
+	position: absolute;
+	z-index: 1;
+	top: -9999px
+}
+
+.MoneyBoxItem .phone_list .middle {
+	margin: 0 24px
+}
+
+.MoneyBoxItem .phone_list li label {
+	width: 160px;
+	height: 75px;
+	display: block
+}
+
+.MoneyBoxItem .phone_list li .li1 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone1.gif")
+		0 -75px no-repeat
+}
+
+.MoneyBoxItem .phone_list li .li2 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone2.gif")
+		0 -75px no-repeat
+}
+
+.MoneyBoxItem .phone_list li .li3 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone3.gif")
+		0 -75px no-repeat
+}
+
+.MoneyBoxItem .phone_list .on .li1 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone1.gif")
+		no-repeat
+}
+
+.MoneyBoxItem .phone_list .on .li2 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone2.gif")
+		no-repeat
+}
+
+.MoneyBoxItem .phone_list .on .li3 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/phone3.gif")
+		no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list li .li1 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka1.jpg") 0
+		-75px no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list li .li2 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka2.jpg") 0
+		-75px no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list li .li3 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka3.jpg") 0
+		-75px no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list li .li4 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka4.jpg") 0
+		-75px no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list li .li5 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka5.jpg") 0
+		-75px no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list .on .li1 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka1.jpg")
+		no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list .on .li2 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka2.jpg")
+		no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list .on .li3 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka3.jpg")
+		no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list .on .li4 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka4.jpg")
+		no-repeat
+}
+
+.MoneyBox2 .MoneyBoxItem .phone_list .on .li5 {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/ka5.jpg")
+		no-repeat
+}
+
+.MoneyBoxItem .error {
+	color: red;
+	font-size: 14px;
+	height: 50px;
+	border-top: 1px solid #eee
+}
+
+.MoneyBoxItem .ipt_phone {
+	height: 28px;
+	line-height: 28px;
+	margin-bottom: 5px
+}
+
+.MoneyBoxItem .ipt_phone span {
+	display: inline-block;
+	width: 75px;
+	height: 28px;
+	text-align: right;
+	padding-right: 2px;
+	font-size: 14px;
+	color: #969696;
+	float: left
+}
+
+.MoneyBoxItem .ipt_box_phone {
+	border: 1px solid #BBB;
+	height: 26px;
+	width: 180px;
+	float: left
+}
+
+.MoneyBoxItem .ipt_box_phone input {
+	display: block;
+	width: 172px;
+	height: 26px;
+	line-height: 26px;
+	padding: 0 4px;
+	border: 0
+}
+
+.p_texte,.p_texte a,.p_texte a:hover {
+	color: #969696
+}
+
+.pay_money_conn li {
+	font-family: 'Microsoft YaHei';
+	font-size: 14px;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	height: 30px;
+	letter-spacing: normal;
+	line-height: 30px;
+	padding: 5px 0;
+	position: relative;
+	vertical-align: top;
+	width: 95px;
+	word-spacing: normal;
+	z-index: 1
+}
+
+.input_chk {
+	margin-right: 5px;
+	vertical-align: -2px
+}
+
+.pay_money_conn ul,.pay_bank_conn ul {
+	width: 504px;
+	margin: 0 auto 15px
+}
+
+.pay_bank_conn ul {
+	padding: 10px 0 0 0;
+	margin-bottom: 0
+}
+
+.pay_money_conn li label,.pay_bank_conn li label {
+	cursor: pointer
+}
+
+.input_txt {
+	border: 1px solid #BBB;
+	height: 17px;
+	line-height: 17px;
+	padding: 5px;
+	vertical-align: middle;
+	width: 123px
+}
+
+.pay_bank_conn li {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	font-size: 14px;
+	height: 38px;
+	letter-spacing: normal;
+	line-height: 38px;
+	margin: 0 10px 21px 0;
+	padding: 1px 0 1px 13px;
+	vertical-align: top;
+	width: 140px;
+	word-spacing: normal;
+	position:
+}
+
+.pay_bank_conn li .pay_money_conn li .txt {
+	display: inline-block;
+	margin: 0 0 0 37px;
+	color: #d3d3d3;
+	font-size: 14px
+}
+
+.pay_money_conn li.lst {
+	width: auto
+}
+
+.pay_bank_conn li.cur {
+	border: 1px solid #9C3;
+	margin-right: 9px;
+	padding: 0 0 0 12px
+}
+
+.pay_bank_conn li .input_chk {
+	margin-right: 12px
+}
+
+.input_chk {
+	vertical-align: -2px
+}
+
+.ico_bank {
+	background: url("http://pages.19youxi.com/web/image/bank.png") no-repeat;
+	display: inline-block;
+	height: 24px;
+	vertical-align: middle;
+	width: 102px
+}
+
+.ICBCB2C {
+	background-position: 0 0
+}
+
+.CMB {
+	background-position: -112px 0
+}
+
+.CCB {
+	background-position: -224px 0
+}
+
+.ABC {
+	background-position: -336px 0
+}
+
+.SPDB {
+	background-position: 0 -34px
+}
+
+.CIB {
+	background-position: -112px -34px
+}
+
+.GDB {
+	background-position: -224px -34px
+}
+
+.SZPAB {
+	background-position: -336px -38px
+}
+
+.CMBC {
+	background-position: 0 -68px
+}
+
+.COMM {
+	background-position: -112px -68px
+}
+
+.CITIC {
+	background-position: -224px -68px
+}
+
+.CEB {
+	background-position: -336px -68px
+}
+
+.HKBEA {
+	background-position: 0 -102px
+}
+
+.BCCB {
+	background-position: -112px -102px
+}
+
+.BOC {
+	background-position: -224px -102px
+}
+
+.CBHB {
+	background-position: -336px -102px
+}
+
+.NJCB {
+	background-position: 0 -136px
+}
+
+.PSBC {
+	background-position: -112px -136px
+}
+
+.PayBtn {
+	width: 180px;
+	height: 42px;
+	margin: 10px auto 30px;
+	border: 0;
+	font-weight: bold;
+	cursor: pointer;
+	line-height: 40px;
+	text-align: center;
+	font-family: "微软雅黑 ";
+	color: #fff;
+	font-size: 14px;
+	display: block;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		0 -185px no-repeat
+}
+
+.PayBtn:hover {
+	background-position: -181px -185px
+}
+
+.WarmPrompt {
+	width: 770px;
+	border-top: 1px dotted #ddd;
+	padding: 12px 0 17px 0;
+	color: red;
+	line-height: 20px
+}
+
+.KFalertWindow {
+	width: 456px;
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	left: 0
+}
+
+.KFalertWindow .top_bg,.KFalertWindow .bottom_bg {
+	width: 456px;
+	overflow: hidden;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t131122.png")
+		no-repeat
+}
+
+.KFalertWindow .top_bg {
+	height: 16px;
+	background-position: 0 0
+}
+
+.KFalertWindow .bottom_bg {
+	height: 27px;
+	background-position: left bottom
+}
+
+.KFalertWindow .item_box {
+	width: 456px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t131132.png")
+		repeat-y
+}
+
+.KFalertWindow .middle {
+	width: 352px;
+	overflow: hidden;
+	margin: auto;
+	padding: 22px 0 22px
+}
+
+.KFalertWindow .item_box h1 {
+	height: 29px;
+	line-height: 29px;
+	color: #666;
+	font-weight: bold
+}
+
+.KFalertWindow .ul1,.social_info_wrap .ul1 {
+	width: 352px;
+	margin-top: 15px
+}
+
+.KFalertWindow .ul1 li,.social_info_wrap .ul1 li {
+	height: 24px;
+	line-height: 24px;
+	color: #666
+}
+
+.KFalertWindow .ul1 li span,.social_info_wrap .ul1 li span {
+	width: 109px;
+	display: block;
+	line-height: 24px;
+	height: 24px;
+	float: left;
+	text-align: right
+}
+
+.KFalertWindow .ul1 li label,.social_info_wrap .ul1 li label {
+	width: 222px;
+	line-height: 24px;
+	margin-left: 10px;
+	float: left
+}
+
+.KFalertWindow .ul1 li span,.social_info_wrap .ul1 li span {
+	width: 109px;
+	display: block;
+	line-height: 24px;
+	height: 24px;
+	float: left;
+	text-align: right
+}
+
+.KFalertWindow .ul1 li .blue,.social_info_wrap .ul1 li .blue {
+	color: #00a0e9
+}
+
+.KFalertWindow .ul1 li .o,.social_info_wrap .ul1 li .o {
+	color: #f60;
+	font-weight: normal
+}
+
+.KFalertWindow .ul1 .yz,.social_info_wrap .ul1 .yz {
+	height: 30px;
+	line-height: 30px;
+	margin: 18px 0 0 0;
+	padding-bottom: 14px
+}
+
+.KFalertWindow .ul1 .yz span,.social_info_wrap .ul1 .yz span {
+	height: 30px;
+	line-height: 30px
+}
+
+.KFalertWindow .ul1 li input,.social_info_wrap .ul1 li input {
+	display: block;
+	height: 28px;
+	width: 188px;
+	line-height: 28px;
+	padding: 0 6px 0 6px;
+	border: 1px solid #c4d0d6
+}
+
+.KFalertWindow .btn_box {
+	width: 290px;
+	height: 38px;
+	margin: 14px auto 0
+}
+
+.KFalertWindow .btn_box a {
+	width: 140px;
+	height: 36px;
+	font-size: 14px;
+	color: #555;
+	text-align: center;
+	line-height: 36px;
+	display: block;
+	float: left;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		0 -230px no-repeat
+}
+
+.KFalertWindow .btn_box .sib {
+	margin-right: 9px
+}
+
+.KFalertWindow .btn_box a:hover {
+	background-position: 0 -266px;
+	color: #fff
+}
+
+.KFalertWindow .close {
+	position: absolute;
+	z-index: 9;
+	top: -7px;
+	right: -5px;
+	cursor: pointer;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/myhome/close.png")
+		no-repeat;
+	width: 44px;
+	height: 44px;
+	display: block
+}
+
+.KFalertWindow .middle .redTxt {
+	height: 52px;
+	font-size: 15px;
+	color: #f60;
+	line-height: 52px;
+	font-weight: bold
+}
+
+.KFalertWindow .middle .p {
+	line-height: 22px;
+	color: #666;
+	position: relative;
+	z-index: 1;
+	margin-bottom: 40px
+}
+
+.KFalertWindow .middle .p a {
+	color: #00a0e9;
+	position: absolute;
+	right: 0
+}
+
+.KFalertWindow .btn_box_2 {
+	width: 380px;
+	height: 38px;
+	padding-bottom: 14px
+}
+
+.KFalertWindow .btn_box_2 .returnHome {
+	width: 81px;
+	height: 36px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		0 -302px no-repeat
+}
+
+.KFalertWindow .btn_box_2 .returnHome:hover {
+	background-position: 0 -338px
+}
+
+.KFalertWindow .middle_content {
+	width: 330px;
+	height: 88px;
+	margin-bottom: 32px
+}
+
+.KFalertWindow .middle_content span {
+	display: block;
+	height: 88px;
+	width: 92px;
+	float: left
+}
+
+.KFalertWindow .middle_content label {
+	display: block;
+	height: 88px;
+	width: 238px;
+	float: left;
+	line-height: 88px;
+	text-align: center;
+	color: #666;
+	font-size: 15px;
+	font-weight: bold
+}
+
+.KFalertWindow .middle_content .ok {
+	background-position: right -88px
+}
+
+.KFalertWindow .middle_content .ok,.KFalertWindow .middle_content .no {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/Pay/t11061509.gif")
+		right 0 no-repeat
+}
+
+.KFalertWindow .middle_content .no {
+	background-position: right -88px
+}
+
+.help-inline {
+	font-size: 13px;
+	color: red
+}
+
+.MainBox .right_box .mar_top {
+	padding-top: 5px
+}
+
+.MainBox .right_box .r_box1_h .login {
+	margin-top: 10px
+}
+
+.MainBox .right_box .r_box1_h .s {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/GameGW/m3.png")
+		no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	color: #FFF;
+	display: block;
+	height: 36px;
+	line-height: 36px;
+	margin-bottom: 7px;
+	text-align: center;
+	width: 171px
+}
+
+.MainBox .right_box .r_box1_h .register {
+	background-position: center bottom;
+	color: #000
+}
+
+.MainBox .right_box .r_box1_h .elseLogin label {
+	display: inline-block
+}
+
+.MainBox .right_box .r_box1_h .elseLogin a {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/elseLoginImg.jpg")
+		no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	display: inline-block;
+	height: 16px;
+	margin-right: 1px;
+	vertical-align: middle;
+	width: 16px
+}
+
+.MainBox .right_box .r_box1_h .elseLogin .qq {
+	background-position: 0 0
+}
+
+.MainBox .right_box .r_box1_h .elseLogin .renren {
+	background-position: -16px 0
+}
+
+.MainBox .right_box .r_box1_h .elseLogin .weibo {
+	background-position: -32px 0
+}
+
+.MainBox .right_box .r_box1_h .elseLogin .qqweibo {
+	background-position: -48px 0
+}
+
+.social_info_wrap {
+	width: 800px;
+	height: auto;
+	margin: 0 auto
+}
+
+.social_info_wrap .logo_wrap {
+	width: 800px;
+	height: 65px;
+	padding-top: 25px
+}
+
+.social_info_wrap .split {
+	width: 100%;
+	height: 1px;
+	border-top: 1px solid #ddd
+}
+
+.social_info_wrap .hr {
+	width: 800px;
+	height: 4px;
+	border-radius: 4px;
+	background: #4e4e4e
+}
+
+.social_info_wrap .copyright {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10px;
+	color: #999;
+	text-align: center;
+	margin-top: 20px
+}
+
+.social_info_wrap .mar {
+	width: 769px;
+	margin-left: 31px
+}
+
+.social_info_wrap .head_txt {
+	height: 133px
+}
+
+.social_info_wrap .dingdan {
+	height: 67px;
+	padding-left: 80px;
+	position: relative;
+	z-index: 1;
+	top: 36px;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/gou.gif")
+		no-repeat
+}
+
+.social_info_wrap .dingdanright {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/gou.jpg")
+		no-repeat
+}
+
+.social_info_wrap .dingdanerror {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/cha.jpg")
+		no-repeat
+}
+
+.social_info_wrap .dingdan span {
+	display: block
+}
+
+.social_info_wrap .dingdan .t {
+	height: 45px;
+	line-height: 45px;
+	font-size: 30px;
+	color: #333
+}
+
+.social_info_wrap .dingdan .s {
+	color: #666;
+	font-size: 14px
+}
+
+.social_info_wrap .info {
+	height: 140px;
+	border-top: 3px solid #54c11a;
+	width: 700px;
+	background: #eefaed;
+	padding-left: 32px
+}
+
+.social_info_wrap .info li span,.social_info_wrap .info li label {
+	font-size: 14px
+}
+
+.social_info_wrap .info ul {
+	margin-top: 10px
+}
+
+.social_info_wrap .btn_sb {
+	height: 36px;
+	margin: 30px 0 41px 0
+}
+
+.social_info_wrap .btn_sb a {
+	float: left;
+	display: inline-block;
+	width: 78px;
+	height: 36px;
+	line-height: 36px;
+	color: #00a0e9;
+	margin-left: 10px
+}
+
+.social_info_wrap .btn_sb .bt {
+	border: 0;
+	width: 102px;
+	height: 36px;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/gogame.gif")
+		no-repeat
+}
+
+.bottom_tip {
+	color: #565656;
+	line-height: 180%;
+	border: 1px #ececec solid;
+	background-color: #fbfbfb;
+	width:537px;
+}
+
+@charset "utf-8";body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53}h1,h2,h3,h4,h5,h6{font-size:100%}address,cite,dfn,em,var{font-style:normal}code,kbd,pre,samp{font-family:courier new,courier,monospace}small{font-size:12px}ul,ol{list-style:none}a{text-decoration:none}a:hover{text-decoration:underline}sup{vertical-align:text-top}sub{vertical-align:text-bottom}legend{color:#000}fieldset,img{border:0}button,input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}body{font-size:12px;font-family:Microsoft YaHei;background:#f4f4f4}a{blr:expression(this.onFocus=this.blur());cursor:pointer}a:focus{outline:0}.none{display:none}.fl{float:left}.clear{clear:both;height:0;font-size:0;line-height:0}textarea{resize:none}*:focus{outline:0}a{color:#333}a:hover{text-decoration:none}.m_layer_b{background:url("http://pages.19youxi.com//web/image/gw_20131029/b1632.gif") no-repeat;display:none;color:#FFF;font-size:14px;font-weight:bold;height:34px;line-height:32px;z-index:5;padding:0 0 0 55px;position:absolute;right:0;text-align:left;text-shadow:0 1px 3px rgba(0,0,0,0.7);width:32px}.container .page{min-width:100px;height:27px;float:right;margin:15px 15px 0 0;width:auto}.container .page li{display:inline-block;width:26px;cursor:pointer;float:left;height:26px;margin-left:4px;background:url("http://pages.19youxi.com/web/image/gw_20131029/page.gif") no-repeat}.container .page .last{background-position:0 -26px}.container .page .last a,.container .page .next a{display:block;height:26px;width:26px}.container .page .next{background-position:0 -52px}.container .page .numb{background-position:0 0;color:#999;line-height:26px;text-align:center;font-family:Arial}.container .page .numb a{display:block}.container .page .lastOn{background-position:-26px -26px}.container .page .nextOn{background-position:-26px -52px}.container .page .numbOn{background-position:-26px 0;color:#666}.container .page .diec{width:24px;height:26px;background-position:right 0}
+
+.w-ftwrap {
+  background: #f4f4f4;
+}
+.w-fnav {
+  background: #f4f4f4;
+  padding: 10px 0;
+}
+.w-fnavbox{
+	width:960px;
+	height:108px;
+	  margin: auto;
+}
+
+
+@CHARSET "UTF-8"; 
+
+#menu {
+	width: 100%;
+	height: 60px;
+	margin-bottom:30px;
+}
+
+#menubox {
+	position:fixed;
+	width: 100%;
+	height: 60px;
+	z-index: 12;
+	background-color:#FFF;
+	margin-top:30px;
+}
+
+#menubox{
+    _position:absolute;
+    _bottom:auto;
+    _top:expression(eval(document.documentElement.scrollTop));}
+*html{
+    background-image:url(about:blank);
+    background-attachment:fixed;}
+
+#menubox .box {
+	width: 960px;
+	height: 60px;
+	margin: auto;
+	position: relative;
+}
+
+#menubox .box .logo {
+	position: relative;
+	z-index: 1;
+	top: 9px
+}
+
+#nav {
+	height: 60px;
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	left: 177px
+}
+
+#nav li, #nav a {
+	display:block;
+	height: 60px;
+	float: left;
+	font-size: 14px;
+	font-family: "微软雅黑";
+	text-align: center;
+}
+
+#nav .linkTxt{
+  display:block;
+  weight:86px;
+  margin-top:22px;
+  font-size: 14px;
+}
+
+#nav a:hover, #nav .on a {
+	background-color: #40adeb;
+	text-decoration: none;
+	color:#FFF;
+}
+
+#nav .n1, #nav .n1 a {
+	width: 86px
+}
+
+#nav .n2, #nav .n2 a {
+	width: 86px
+}
+
+#nav .n3, #nav .n3 a {
+	width: 86px
+}
+
+#nav .n4, #nav .n4 a {
+	width: 86px
+}
+
+#nav .n5, #nav .n5 a {
+	width: 86px
+}
+
+#nav .n6, #nav .n6 a {
+	width: 86px
+}
+
+
+.saveZM {
+	display: block;
+	width: 110px;
+	height: 26px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/gw_nav/safe.gif")
+		no-repeat;
+	position: absolute;
+	z-index: 1;
+	top: 18px;
+	right: 0;
+	cursor: pointer
+}
+
+#menu .on {
+	background-position: 0 bottom
+}
+.mod_header_shadow {
+  left: 0px;
+  width: 100%;
+  background: url("http://pages.19youxi.com/web/image/gw_20131029/mod_header_shadow.png") repeat-x;
+  height: 4px;
+}
+
+
+@CHARSET "UTF-8"; 
+
+#header {
+	height: 29px;
+	width: 100%;
+	background: #fff
+}
+
+#mask {
+	position: fixed;
+	width: 100%;
+	z-index: 99;
+	background: #000;
+	filter: alpha(opacity = 70);
+	-moz-opacity: .7;
+	-khtml-opacity: .7;
+	opacity: .7
+}
+
+#head {
+	height: 32px;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	border-bottom: 1px solid #c7c7c7;
+	_border: 0;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/head/bg.gif")
+		repeat-x;
+	z-index: 99
+}
+
+#head {
+	_position: absolute;
+	_top: expression(eval(document.documentElement.scrollTop))
+}
+
+.h_mian {
+	width: 960px;
+	height: 32px;
+	margin: auto;
+	position: relative
+}
+
+.h_mian .h_font {
+	width: 500px;
+	height: 32px;
+	font-family: "宋体";
+	color: #999;
+	line-height: 32px;
+	float: left
+}
+
+.h_mian .h_font label {
+	margin-right: 6px
+}
+
+.h_mian .h_font span {
+	color: #00a0e9
+}
+
+.head_r_list {
+	width: 190px;
+	height: 25px;
+	float: right;
+	padding-top: 4px
+}
+
+.head_r_list .ls {
+	width: 84px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center
+}
+
+.off .head_r_list {
+	width: 289px
+}
+
+.head_r_list li {
+	float: left
+}
+
+.h_login a:hover {
+	text-decoration: underline
+}
+
+.registerBtn, .h_login {
+	width: 55px;
+	height: 25px
+}
+
+.registerBtn a {
+	display: block;
+	width: 55px;
+	height: 20px;
+	text-indent: -99999px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/head/headRG.gif")
+		no-repeat;
+	position: relative;
+	top: 3px
+}
+
+.registerBtn a:hover {
+	background-position: 0 bottom
+}
+
+.h_login, .exit {
+	width: 32px;
+	height: 25px;
+	padding-left: 10px;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/suo.gif")
+		left center no-repeat;
+	margin: 0 12px 0 12px;
+	line-height: 25px;
+	text-align: center
+}
+
+.h_login a, .exit a {
+	color: #666
+}
+
+.exit {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/exit.gif")
+		left center no-repeat;
+	padding-left: 13px;
+	width: 29px
+}
+
+.head_r_list .split {
+	width: 1px;
+	height: 25px;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/split2.gif")
+		center no-repeat
+}
+
+.head_r_list .tool {
+	width: 62px;
+	height: 25px
+}
+
+.head_r_list .tool span {
+	display: inline-block;
+	width: 14px;
+	height: 13px;
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/head/b1311110928.gif")
+		no-repeat;
+	position: relative;
+	z-index: 1;
+	top: 5px;
+	margin-left: 11px;
+	cursor: pointer
+}
+
+.head_r_list .tool .sc {
+	background-position: 0 -13px
+}
+
+.sel_all_game_list {
+	width: 83px;
+	height: 25px;
+	margin-left: 11px;
+	color: #666;
+	line-height: 25px;
+	text-indent: 12px;
+	cursor: pointer;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/s_img1.gif")
+		65px 10px no-repeat
+}
+
+.head_r_list .h {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/h_game_list.gif")
+		no-repeat;
+	color: #fff;
+	height: 25px
+}
+
+.h_infomation {
+	height: 25px;
+	line-height: 25px;
+	width: 57px;
+	text-indent: 10px;
+	position: relative;
+	z-index: 1
+}
+
+.alertIF {
+	width: 92px;
+	position: absolute;
+	z-index: 2;
+	top: 25px;
+	left: -51px;
+	background: #fff;
+	border: 1px solid #eae5e5;
+	border-top: 0;
+	display: none
+}
+
+.head_r_list .on .alertIF {
+	display: block
+}
+
+.h_infomation .alertIF a {
+	display: block;
+	width: 92px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+	margin: 0
+}
+
+.on .h_infomation span {
+	display: block;
+	width: 15px;
+	font-size: 10px;
+	height: 12px;
+	float: right;
+	color: #ff9600;
+	text-align: center;
+	line-height: 12px;
+	color: #fff;
+	font-family: Tahoma;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/tishi.gif")
+		no-repeat;
+	text-indent: 0;
+	position: relative;
+	z-index: 1;
+	top: -25px;
+	right: -10px
+}
+
+.h_infomation a {
+	color: #666;
+	display: inline-block;
+	text-align: center;
+	width: 32px;
+	text-indent: 0;
+	*margin-left: 10px
+}
+
+.h_infomation .alertIF a {
+	text-align: left
+}
+
+.head_r_list .on a {
+	background: #fff
+}
+
+.h_infomation .alertIF a:hover {
+	background: #e5e5e5
+}
+
+.h_ddl {
+	width: 485px;
+	height: 263px;
+	border: 1px solid #f2f2f2;
+	border-top: 4px solid #0ca3e9;
+	position: absolute;
+	z-index: 2;
+	right: 0;
+	top: 29px;
+	background: #fff;
+	-moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+	-moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4)
+}
+
+.h_ddl table {
+	height: 215px;
+	width: 461px;
+	margin: 5px auto 0
+}
+
+.h_ddl table tr, .h_ddl table td {
+	height: 35px
+}
+
+.h_ddl table td {
+	text-align: left;
+	width: 115px;
+	border-bottom: 1px solid #eae5e5;
+	text-indent: 10px
+}
+
+.h_ddl table td a {
+	color: #000
+}
+
+.h_ddl table td a:hover {
+	text-decoration: underline;
+	color: #00A0E9
+}
+
+.h_ddl .h_mone {
+	display: block;
+	width: 75px;
+	height: 42px;
+	margin: auto;
+	line-height: 42px;
+	text-algin: center;
+	color: #00a0e9
+}
+
+.psw_box, .psw_box2 {
+	height: 34px;
+	width: 257px;
+	overflow: hidden;
+	margin-bottom: 10px
+}
+
+.psw_box2 {
+	width: 259px;
+	cursor: pointer
+}
+
+.psw_box input, .psw_box2 input {
+	_position: relative;
+	_ top: -1px;
+	*position: relative;
+	*top: -1px
+}
+
+#alertWindow, .alertWindow_b {
+	position: fixed;
+	z-index: 999;
+	top: -9999999px;
+	width: 590px;
+	overflow: hidden;
+	border:2px solid #999;
+}
+
+#alertWindow, .alertWindow_b {
+	_position: absolute
+}
+
+.mod-quc-top .cur, .mod-quc-top .login-title-tips, .mod-quc-top .reg-title-tips,
+	.mod-quc-top .username-title-tips, .mod-qiuser-pop .input-bg,
+	.mod-qiuser-pop .input-bg-focus, .mod-qiuser-pop .btn-login,
+	.mod-qiuser-pop .btn-register, .mod-reg-tab, .mod-qiuser-pop .auth-code,
+	.mod-qiuser-pop .msging, .mod-qiuser-pop .verify-code, .mod-qiuser-pop .verify-code-focus,
+	.mod-qiuser-pop .other a, .mod-set-username .submit-setuname-btn {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/b11081517.gif")
+		no-repeat
+}
+
+.iptTs {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 235px;
+	height: 28px;
+	line-height: 28px;
+	color: #ccc;
+	text-indent: 6px;
+	font-family: 'Microsoft YaHei';
+	font-size: 14px
+}
+
+.mod-qiuser-pop .login-error, .mod-qiuser-pop .login-loading,
+	.mod-qiuser-pop .login-success {
+	color: #F00;
+	margin-left: 74px;
+	position: absolute;
+	top: 5px;
+	width: 200px
+}
+
+.mod-qiuser-pop .login-error, .mod-qiuser-pop .login-loading,
+	.mod-qiuser-pop .login-success {
+	font-size: 14px;
+	margin-left: 208px;
+	top: 128px;
+	width: 340px
+}
+
+img, object, select, input, textarea, button {
+	vertical-align: middle
+}
+
+.wan_360layer .wan_360layer_close {
+	display: inline-block;
+	height: 29px;
+	position: absolute;
+	right: 8px;
+	text-align: center;
+	top: 9px;
+	width: 35px
+}
+
+.wan_360layer .wan_360layer_close em {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/t01d1269fe3989a0882.gif")
+		no-repeat scroll 0 0;
+	display: inline-block;
+	height: 14px;
+	width: 14px
+}
+
+.wan_360layer .wan_360layer_close:hover {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/t01b041d3324743948a.gif")
+		repeat-x scroll 0 100%
+}
+
+.mod-qiuser-pop {
+	background: none repeat scroll 0 center;
+	font-family: 'Microsoft YaHei';
+	padding: 42px 0 0;
+	overflow: hidden;
+	_background: #fff
+}
+
+#modLoginWrap {
+	padding-left: 0
+}
+
+.mod-qiuser-pop dl, .mod-qiuser-pop dd {
+	margin: 0;
+	padding: 0
+}
+
+.mod-qiuser-pop .login-wrap dt {
+	display: none
+}
+
+.mod-qiuser-pop .login-wrap dd {
+	height: 47px
+}
+
+.mod-qiuser-pop label {
+	color: #353535;
+	float: left;
+	font-size: 14px;
+	height: 30px;
+	text-align: right;
+	line-height: 30px;
+	padding-right: 15px;
+	width: 185px
+}
+
+.mod-qiuser-pop .input-bg {
+	display: block;
+	float: left;
+	position: relative;
+	background: 0;
+	border: 1px solid #BDBDBD;
+	border-radius: 2px 2px 2px 2px;
+	height: 28px;
+	padding-left: 0;
+	width: 249px;
+	z-index: 999
+}
+
+.mod-qiuser-pop .ipt {
+	border: 0;
+	outline: 0 none;
+	color: #A9A9A9;
+	font: 14px/28px 'Microsoft YaHei';
+	height: 28px;
+	margin: 0;
+	padding: 0 7px;
+	width: 225px;
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	left: 1px;
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/gw_20131029/tm.png")
+		repeat;
+	_background: #fff
+}
+
+.input-bg .ipt_s {
+	width: 228px;
+	padding-left: 7px;
+	line-height: 28px;
+	display: inline-block;
+	color: #A9A9A9
+}
+
+.input-bg .none {
+	display: none
+}
+
+.mod-qiuser-pop .ipt1 {
+	color: #A9A9A9;
+	font: 14px/28px 'Microsoft YaHei';
+	height: 28px;
+	padding: 0 7px;
+	width: 76px
+}
+
+.mod-qiuser-pop .input-bg-focus {
+	background: none repeat scroll 0 center rgba(0, 0, 0, 0);
+	border: 1px solid #3C3;
+	border-radius: 2px 2px 2px 2px;
+	height: 28px;
+	padding-left: 0;
+	position: relative;
+	width: 249px
+}
+
+.mod-qiuser-pop .verify-code-focus, .mod-qiuser-pop .verify-code {
+	background: none repeat scroll 0 center rgba(0, 0, 0, 0);
+	border: 1px solid #3C3;
+	border-radius: 2px 2px 2px 2px;
+	height: 28px;
+	margin-right: 10px;
+	padding-left: 0;
+	width: 87px
+}
+
+.mod-qiuser-pop .login-wrap .rem {
+	height: 47px
+}
+
+.mod-qiuser-pop .login-wrap .find {
+	height: 27px;
+	margin: 24px 0 0
+}
+
+.mod-qiuser-pop .find label {
+	color: #747474;
+	font-family: 'Microsoft YaHei';
+	height: 20px;
+	line-height: normal;
+	font-size: 12px;
+	width: 291px
+}
+
+.mod-qiuser-pop .find a {
+	margin-left: 88px
+}
+
+.mod-qiuser-pop .fac {
+	color: #0087D5
+}
+
+.mod-qiuser-pop .login-wrap .submit {
+	height: 83px
+}
+
+.mod-qiuser-pop .btn-login, .mod-qiuser-pop .btn-login-loading {
+	background:
+		url("http://pages.19youxi.com//web/image/gw_20131029/head/b1311081557.gif")
+		no-repeat scroll 0 0;
+	border: 0 none;
+	height: 44px;
+	margin-left: 200px;
+	margin-top: 15px;
+	width: 160px
+}
+
+.mod-qiuser-pop .btn-login:hover, .mod-qiuser-pop .btn-login-loading:hover
+	{
+	cursor: pointer;
+	background-position: 0 -54px
+}
+
+.mod-qiuser-pop .reg-new-account {
+	display: none
+}
+
+.mod-qiuser-pop .other {
+	border-top: 0 none;
+	color: #747474;
+	margin: 0 0 0 200px;
+	overflow: hidden;
+	padding: 0
+}
+
+.mod-qiuser-pop .other span {
+	float: left;
+	padding: 3px 0 0;
+	font-size: 14px
+}
+
+.mod-qiuser-pop .login-error, .mod-qiuser-pop .login-loading,
+	.mod-qiuser-pop .login-success {
+	font-size: 14px;
+	margin-left: 208px;
+	top: 128px;
+	width: 340px
+}
+
+.mod-qiuser-pop .emptyhint {
+	color: #A9A9A9;
+	font-size: 14px;
+	height: 28px;
+	left: 7px;
+	line-height: 28px;
+	position: absolute;
+	top: 0
+}
+
+.mod-qiuser-pop .tips-phrase {
+	font-size: 14px;
+	margin-left: 208px
+}
+
+.quc-clearfix:after {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	z-index: 1
+}
+
+.login-item .err-tip {
+	display: inline-block;
+	height: 28px;
+	margin-left: 6px;
+	line-height: 28px
+}
+
+.quc-clearfix {
+	clear: both
+}
+
+.mod-qiuser-pop .login-wrap .password {
+	height: 45px
+}
+
+.mod-qiuser-pop .other a {
+	border: 0 none;
+	cursor: pointer;
+	display: inline-block;
+	height: 25px;
+	width: 26px;
+	float: left
+}
+
+.mod-qiuser-pop .other .loginbtn_qq {
+	background-position: -531px -62px
+}
+
+.mod-qiuser-pop .other .loginbtn_rr {
+	background-position: -531px -41px
+}
+
+.mod-qiuser-pop .other .loginbtn_xl {
+	background-position: -531px -20px
+}
+
+.mod-qiuser-pop .other .loginbtn_qwb {
+	background-position: -531px -83px
+}
+
+.mod-qiuser-pop .text-tips {
+	font-size: 14px;
+	line-height: 18px;
+	margin-left: 208px;
+	font-family: 'Microsoft YaHei'
+}
+
+.mod-qiuser-pop .reg-tips-success {
+	color: #999
+}
+
+.mod-qiuser-pop .error, .error {
+	color: #F00;
+	font-family: 'Microsoft YaHei';
+	font-size: 14px;
+	height: 20px
+}
+
+.mod-qiuser-pop .reg-tips-wrong {
+	color: #F00
+}
+
+.mod-qiuser-pop .reg-wrap dd {
+	height: 61px
+}
+
+.mod-qiuser-pop .reg-item {
+	height: 36px
+}
+
+.mod-qiuser-pop .btn-register, .mod-qiuser-pop .btn-register-loading {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/head/b1311081557.gif")
+		no-repeat 0 -216px;
+	border: 0 none;
+	height: 44px;
+	margin: 10px 0 0 200px;
+	width: 160px;
+	cursor: pointer
+}
+
+.mod-qiuser-pop .btn-register:hover, .mod-qiuser-pop .btn-register-loading:hover
+	{
+	background-position: 0 -269px
+}
+
+.mod-qiuser-pop .rules label {
+	color: #747474;
+	font-family: 'Microsoft YaHei';
+	height: 18px;
+	line-height: normal;
+	width: 315px
+}
+
+.mod-qiuser-pop .rules {
+	margin-top: 7px
+}
+
+.icon-wrong {
+	background:
+		url("http://pages.19youxi.com/web/image/gw_20131029/head/t01bb8ba963d4f45578.gif")
+		no-repeat scroll -20px 0;
+	float: left;
+	overflow: hidden;
+	height: 20px;
+	margin: 6px 0 0 6px;
+	width: 20px;
+	display: none
+}
+
+.wan_360layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-family: 'Microsoft YaHei';
+	font-size: 12px
+}
+
+.wan_360layer .wrap_conn {
+	background: #fff;
+	overflow: hidden
+}
+
+.wan_360layer .wrap_conn_bor {
+	position: relative;
+	z-index: 2
+}
+
+.wan_360layer .wan_360layer_close {
+	position: absolute;
+	right: 8px;
+	top: 9px;
+	width: 35px;
+	text-align: center;
+	height: 29px;
+	display: inline-block
+}
+
+.wan_360layer .wan_360layer_close em {
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/head/t01d1269fe3989a0882.gif)
+		no-repeat;
+	width: 14px;
+	height: 14px;
+	display: inline-block
+}
+
+.wan_360layer .wan_360layer_close:hover {
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/head/t01b041d3324743948a.gif)
+		repeat-x 0 100%
+}
+
+.wan_360layer .wrap_top_r, .wan_360layer .wrap_bot_r {
+	background-position: 0 -12px;
+	margin: 0 -14px 0 0;
+	float: right;
+	width: 14px;
+	display: block;
+	_position: absolute;
+	_right: 14px
+}
+
+.wan_360layer .wrap_tt {
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/head/t01c7319c0183546520.gif)
+		repeat-x 0 100%;
+	height: 38px;
+	text-align: left
+}
+
+.wan_360layer .wrap_tt span {
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/head/t019fe52b3d7c6cd405.gif)
+		no-repeat 100% 5px;
+	width: 272px;
+	display: inline-block;
+	height: 38px;
+	line-height: 35px;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	color: #5f5f5f
+}
+
+.wan_360layer .wrap_tt span em {
+	display: block;
+	height: 38px;
+	width: 100%;
+	font-style: normal;
+	font-size: 16px
+}
+
+.wan_360layer .wrap_tt span.cur {
+	color: #00b4ff;
+	cursor: auto
+}
+
+.wan_360layer .wrap_tt span:hover {
+	color: #00b4ff
+}
+
+.wan_360layer .wrap_tt span.cur em {
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/head/t01a1f4e2578ab6d81b.gif)
+		repeat-x 0 100%
+}
+
+.wan_360layer .wrap_conn_bg {
+	background: #fff .wrap_conn_bg .box1{width:386px;
+	height: 357px;
+	margin: 45px auto
+}
+
+.wrap_conn_bg .box1 .box1_item1 {
+	height: 84px;
+	margin-bottom: 32px
+}
+
+.wrap_conn_bg .box1 .box1_item1_img, .wrap_conn_bg .box1 .box1_item1_img img
+	{
+	height: 84px;
+	width: 84px;
+	float: left;
+	overflow: hidden
+}
+
+.wrap_conn_bg .box1 .box1_item1_txt {
+	width: 260px;
+	height: 84px;
+	overflow: hidden;
+	margin-left: 18px;
+	float: left
+}
+
+.wrap_conn_bg .box1 .box1_item1_txt li {
+	height: 28px;
+	line-height: 28px;
+	color: #999;
+	font-size: 14px
+}
+
+.wrap_conn_bg .box1 .box1_item1_txt .ft {
+	font-size: 16px
+}
+
+.wrap_conn_bg .box1 .box1_item1_txt .ft label {
+	font-weight: bold
+}
+
+.wrap_conn_bg .box1 .box1_item1_txt .blue {
+	color: #00a0e9
+}
+
+.wrap_conn_bg .box1 .box1_item2 {
+	height: 194px
+}
+
+.wrap_conn_bg .box1 .box1_item2_ipt {
+	height: 60px;
+	font-size: 14px;
+	color: #333;
+	text-align: right
+}
+
+.box1_item2_ipt .ipt_name {
+	display: block;
+	width: 85px;
+	height: 60px;
+	float: left;
+	margin-right: 18px;
+	line-height: 30px
+}
+
+.box1_item2_ipt .r {
+	display: block;
+	height: 30px;
+	width: 250px;
+	line-height: 30px;
+	float: left;
+	text-align: left
+}
+
+.box1_item2_ipt .r input {
+	display: block;
+	width: 236px;
+	height: 28px;
+	border: 1px solid #bdbdbd;
+	padding: 0 6px
+}
+
+.box1_item2_ipt .hui {
+	color: #999
+}
+
+.wrap_conn_bg .box1 .queding {
+	display: block;
+	width: 160px;
+	height: 45px;
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/myhome/queding.gif)
+		no-repeat;
+	margin: auto
+}
+
+.wrap_conn_bg .box2 {
+	width: 386px;
+	height: 230px;
+	margin: 98px auto
+}
+
+.wrap_conn_bg .box2_item1 {
+	width: 386px;
+	height: 92px;
+	margin-bottom: 60px
+}
+
+.wrap_conn_bg .box2_item1 .box2_img {
+	height: 75px;
+	padding-left: 134px;
+	padding-top: 17px;
+	background:
+		url(http://pages.19youxi.com/web/image/gw_20131029/myhome/gou.jpg)
+		no-repeat;
+	float: left
+}
+
+.wrap_conn_bg .box2_item1 .box2_img p {
+	font-size: 16px;
+	color: #666
+}
+
+.wrap_conn_bg .box2_item1 .box2_img strong {
+	color: #00a0e9
+}
+
+.wrap_conn_bg hr {
+	color: #ddd;
+	margin-bottom: 28px
+}
+
+.wrap_conn_bg .box2_item2 li {
+	height: 20px;
+	line-height: 20px;
+	color: #999
+}
+
+.wrap_conn_bg .box2_item2 li a {
+	color: #00a0e9
+}
+
+#left_gg {
+	position: fixed;
+	z-index: 0;
+	top: 100px;
+	display: none
+}
+
+#right_gg {
+	position: fixed;
+	z-index: 0;
+	top: 100px;
+	display: none
+}
+
+#left_gg {
+	_position: absolute;
+	_left: -309px;
+	_top: expression(eval(document.documentElement.scrollTop))
+}
+
+#right_gg {
+	_position: absolute;
+	_right: -309px;
+	_top: expression(eval(document.documentElement.scrollTop))
+}
+

@@ -1,0 +1,40 @@
+
+/***资料卡***/
+.hx-hover-card {position:absolute;width:400px;z-index:99;background:#fff;border:1px solid #ddd;border-top:2px solid #f60;}
+.hx-hover-card:before {content: '●';position: absolute;right: 5px;top:0;color: #eee;font-size: 20px;text-shadow: 0 0 1px #fff;}
+.hx-hover-card .loading {width:32px;height:32px;}
+.hx-hover-card-content {padding:10px;overflow:hidden;}
+.hx-hover-card-left {float:left;width:62px;text-align:center;}
+.hx-hover-card-left .p1 {margin-bottom:30px;}
+.hx-hover-card-ctt {float:left;width:170px;height:152px;padding:10px;margin:-8px 0 -10px;border-right:1px solid #f8f8f8;position:relative;}
+.hx-hover-card-level {margin-left:-4px;}
+.hx-hover-card-avator {width:62px;height:62px;display: block;overflow:hidden;}
+.hx-hover-card-avator img {}
+.hx-hover-card-name {font-size:14px;line-height:20px;height:20px;}
+.hx-hover-card-name a {color:#0777CB;margin-right:5px;}
+.hx-hover-card-info {color:#aaa;font-size:12px;}
+.hx-hover-card-info a {color:#aaa;}
+.hx-hover-card-signaure {line-height:20px;font-size:12px;height:40px;overflow:hidden;margin-bottom:8px;}
+.hx-hover-card-other {position:absolute;right:-120px;bottom:15px;text-align:center;font-size:12px;}
+.hx-hover-card-other .icon-weixin2 {margin:0;}
+.hx-hover-card-other p {margin:0;}
+.hx-hover-card-other .p-mp-name {margin-bottom:5px;}
+.hx-hover-card-other .p1 {line-height:16px;}
+.p-qrcode {width:100px;height:100px;border:1px solid #eee;position:relative;}
+.p-qrcode:before,.p-qrcode:after {display:block;content:'';border:8px solid transparent;border-bottom:8px solid #fff;position:absolute;left:50%;margin-left:-8px;top:-15px;z-index:2;}
+.p-qrcode:before {z-index:1;border-bottom:8px solid #eee;top:-16px;}
+.hx-hover-card-arrow {position:absolute;border:8px solid transparent;border-bottom:8px solid #f60;top:-16px;left:22px;}
+.hx-hover-card-arrow2 {position:absolute;border:8px solid transparent;border-top:8px solid #ddd;bottom:-16px;left:22px;}
+.hx-hover-card-arrow2:after {position:absolute;border:8px solid transparent;border-top:8px solid #fff;bottom:-7px;left:-8px;z-index:2;content:'';display:block;width:0;}
+.hx-hover-card-right {left:194px;}
+/***资料卡***/
+.hx-hover-card .loading {background:url(../img/loader.gif) no-repeat;}
+.hx-hover-card-avator img {border:1px solid #CCC;}
+.hx-hover-card-signaure {color:#999;}
+/****按钮***/
+.hx-hover-card-left .hx-card-btn {display: block;height: 20px;line-height: 20px;background-color: #f60;color: #ffece0;width:100%;text-align: center;font-size:12px;}
+.dy-btn {cursor:pointer;}
+.hx-hover-card-email span {display: block;margin-left: 20px;line-height: 16px;margin-top: 5px;}
+.hx-hover-card-email i,
+.hx-hover-card-weibo i {float:left;margin-top:1px;}
+.hx-hover-card-weibo a {display:block;margin-left:20px;line-height:16px;margin-top:5px;}

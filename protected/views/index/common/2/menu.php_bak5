@@ -1,0 +1,36 @@
+<!--导航-->
+<?php
+$ac = $this->getAction()->getId();
+$key = 0;
+if($ac == 'new') {
+    $key = 2;
+} elseif($ac == 'top') {
+    $key = 3;
+} elseif($ac == 'zhuanti' || $ac == 'zhuantidetail') {
+    $key = 4;
+} elseif($ac == 'gamecat' || $ac == 'gamecatlist') {
+    if($_GET['alias'])
+        $key = 6;
+    else
+        $key = 5;
+}elseif($ac == 'index') {
+    $key = 1;
+} elseif($ac == 'newslist') {
+    $key = 7;
+}
+ 
+    $_SESSION['choice'] = 1;
+?>
+<nav>
+
+    <ul class="main_nav clearfix">  
+            <li <?php if($key == 1) echo 'class="hover"'; ?>><a href="/">首页</a></li>
+            <li <?php if($key == 6) echo 'class="hover"'; ?>><a href="http://www.7724.com/wy.html?flag=7724dh">网游</a></li>
+            <li <?php if($key == 7) echo 'class="hover"'; ?>><a href="/news.html">资讯</a></li>
+            <li <?php if($key == 4) echo 'class="hover"'; ?>><a href="<?php echo $this->createUrl('index/zhuanti') ?>">专题</a></li>
+            <li <?php if($key == 2) echo 'class="hover"'; ?>><a href="/new.html">游戏库</a></li>
+            
+           
+       
+    </ul>
+</nav>

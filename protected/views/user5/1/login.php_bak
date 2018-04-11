@@ -1,0 +1,28 @@
+<form id="frmLogin" method="post">
+	<!--用户登录-->
+	<div class="public clearfix">
+		<ul class="input_box">
+			<li><span>手机号：</span><input type="text" class="input01" id="mobile"
+				name="mobile" placeholder="请输入手机号码"></li>
+			<li><span>密&nbsp;&nbsp;码：</span><input type="password" id="passwd"
+				name="passwd" class="input01" placeholder="输入密码"></li>
+		</ul>
+	</div>
+	<p class="forget">
+		<a href="<?php echo $this->createUrl("user/findpwd");?>">忘记密码？</a><span
+			class="tishi"><?php echo $msg;?></span>
+	</p>
+	<p class="button_login">
+		<a href="#"
+			onclick="javascript:document.getElementById('frmLogin').submit();">登录</a>
+	</p>
+</form>
+<div class="other_login clearfix">
+	<p class="other_login_tit">
+		<em></em><span>使用社交账号登录</span>
+	</p>
+	<p class="other_login_con">
+		<span class="qq"><a href="<?php echo $this->createUrl("user/loginqq");?>">QQ登录</a></span> <span
+			class="sina"><a href="#">微博登录</a></span>
+	</p>
+</div>

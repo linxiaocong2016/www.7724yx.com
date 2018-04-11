@@ -1,0 +1,18 @@
+  <!--head-->
+<header class="header">
+	<div class="top">  
+	  <script type="text/javascript" src="http://passport.pipaw.com/js/m.fahao.top.js"></script>
+	  <script>
+	    var url=window.location.href;
+	    url = url.replace("http://", "");
+	    getTop("<?php echo Yii::app()->session['uid']?>","top",url );
+	  </script>
+	</div> 
+</header> 
+<!--搜索-->
+<div class="search">
+	<form action="<?php echo $this->createurl('mindex/list')?>" method="get" >
+  		<input type="text" class="search_tx" name="keyword_s" placeholder="请输入游戏名称" />
+  		<input type="submit" class="search_bt" value="" />
+  	</form>
+</div>

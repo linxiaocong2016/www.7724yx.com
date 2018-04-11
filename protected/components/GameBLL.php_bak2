@@ -1,0 +1,62 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of GameBLL
+ *
+ * @author Administrator
+ */
+class GameBLL {
+    const CACHETIME = 36000;
+    /**
+     * 
+     * @param type $f 刷新
+     * @return type
+     */
+    public static function getGameCocosList($f=FALSE) {
+        $key = "GameBLL_getGameCocosList";
+        $data = Yii::app()->memcache->get($key);
+        if(!$data || $f) {
+            $sql = "SELECT id,gid,game_name, backimg, isdownbackimg, isdownbackmusic, gamekey FROM game_cocosplay";
+            $res = Yii::app()->db->createCommand($sql)->queryAll();
+            $data = array();
+            foreach( $res as $v ) {
+                if($v['gid'])
+                    $data[$v['gid']] = $v;
+            }
+            Yii::app()->memcache->set($key, $data, self::CACHETIME);
+        }
+        return $data;
+    }
+    
+    /**
+     * 获取EgretRunTime游戏
+     * @param unknown_type $f	刷新
+     * @return multitype:unknown
+     */
+    public static function getGameEgretRunTimeList($f=FALSE) {
+    	$key = "GameBLL_getGameEgretRunTimeList";
+    	$data = Yii::app()->memcache->get($key);
+    	if(!$data || $f) {
+    		$sql = "SELECT id,gid,gname as game_name ,'' as backimg,'0' as isdownbackimg,
+    				'0' as isdownbackmusic,gameid as gamekey FROM game_egretruntime";
+    		$res = Yii::app()->db->createCommand($sql)->queryAll();
+    		$data = array();
+    		foreach( $res as $v ) {
+    			if($v['gid'])
+    				$data[$v['gid']] = $v;
+    		}
+    		Yii::app()->memcache->set($key, $data, self::CACHETIME);
+    	}
+    	return $data;
+    }
+    
+    
+    
+
+}

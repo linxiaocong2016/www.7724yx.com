@@ -1,0 +1,185 @@
+.jobs-view {
+  display: none;
+}
+
+
+#jobs_section {
+  position: relative;
+  width: 280px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #e8e8e8;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+#jobs {
+  padding: 0 4px;
+  margin-top: 2px;
+}
+
+.jobs_list {
+  position: relative;
+  width: 100%;
+  height: 102px;
+  overflow: hidden;
+  list-style: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+#jobs_promotion {
+  box-shadow: 0 1px 2px #999;
+  border-bottom: 1px solid #999\0;  /* ie 8/9*/
+  *border-bottom: 1px solid #999\0;  /* ie 7*/
+  _border-bottom: 1px solid #999\0;  /* ie 6*/
+}
+
+#jobs_footer {
+  display: block;
+  position: relative;
+  padding-right: 22px;
+  padding-left: 6px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  text-align: right;
+  color: #A9B4B6;
+}
+
+.jobs_item {
+  position: absolute;
+  display: block;
+  width: 278px;
+  height: 100px;
+  top: 0;
+  left: 0;
+  padding: 2px;
+  font-size: 14px;
+  background-color: white;
+  overflow: hidden;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  z-index: 97;
+  
+}
+
+.jobs_item a {
+  text-decoration: none;
+  color: black;
+}
+
+.jobs_item dl, .jobs_item dd, .jobs_item dt {
+  margin: 0;
+}
+
+.jobs_item dl {
+  height: 62px;
+  margin: 1px 0;
+  padding: 4px 8px;
+}
+
+.jobs_item dt {
+  line-height: 34px;
+  font-weight: normal;
+  margin-bottom: 4px;
+}
+
+.jobs_item dd {
+  line-height: 22px;
+}
+
+.jobs_item span {
+  display: inline-block;
+}
+
+.jobs_title {
+  font-size: 16px;
+  color: #429494;
+  max-width: 200px;
+  margin-right: 10px;
+  vertical-align: baseline;
+}
+
+.jobs_company {
+  font-size: 14px;
+  color: #777;
+}
+
+.jobs_salary {
+  position: absolute;
+  right: 24px;
+  font-size: 12px;
+  color: #777;
+  
+}
+
+.jobs_salary em {
+  margin: 0 2px;
+  font-size: 16px;
+  font-style: normal;
+  color: #429494;
+}
+
+.jobs_advantage {
+  font-size: 12px;
+  max-width: 248px;
+  color: #999;
+}
+
+.jobs_buttons {
+  width: 16px;
+  height: 51px;
+  background-color: #999;
+  background-color: rgba(153, 153, 153, 0.8);
+  position: relative;
+  cursor: pointer;
+}
+
+.jobs_buttons:hover {
+  background-color: #777;
+}
+.jobs_buttons i {
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+}
+
+.jobs_up_button i {
+  background: url('../img/jobs_2014_arrows.png') -27px -28px no-repeat;
+}
+
+.jobs_up_button:hover i {
+  background: url('../img/jobs_2014_arrows.png') -27px -4px no-repeat;
+}
+
+
+.jobs_down_button i {
+  background: url('../img/jobs_2014_arrows.png') -3px -28px no-repeat;
+}
+
+.jobs_down_button:hover i {
+  background: url('../img/jobs_2014_arrows.png') -3px -4px no-repeat;
+}
+
+#jobs_footer a {
+  color: #A9B4B6;
+  text-decoration: none;
+}
+
+
+#jobs_control {
+  display: none;
+  position: absolute;
+  height: 102px;
+  bottom: 1px;
+  right: 0px;
+  z-index: 98;
+}
+
+#jobs:hover #jobs_control {
+  display: block;
+}

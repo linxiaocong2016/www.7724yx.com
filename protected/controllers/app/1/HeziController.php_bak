@@ -1,0 +1,74 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of HeziController
+ *
+ * @author Administrator
+ */
+class HeziController extends CController {
+
+    function actions() {
+        parent::actions();
+    }
+
+    public function actionGetindexpic() {
+        $posId = 1;
+        $list = $this->getPositionByCatId($posId, 5);
+
+
+        echo json_encode($list);
+    }
+
+    /**
+     * 精品推荐
+     */
+    public function actionGetindexjptj() {
+        $posId = 3;
+        $list = $this->getPositionByCatIdAndGameInfo($posId, 6);
+        foreach( $list as $key => $value ) {
+            $list[$key]["game_logo"] = "http://image2.pipaw.net/" . $value["game_logo"];
+        }
+        echo json_encode($list);
+    }
+
+    /**
+     * 新游推荐
+     */
+    public function actionGetindexxytj() {
+        $posId = 3;
+        $list = $this->getPositionByCatIdAndGameInfo($posId, 6);
+        foreach( $list as $key => $value ) {
+            $list[$key]["game_logo"] = "http://image2.pipaw.net/" . $value["game_logo"];
+        }
+        echo json_encode($list);
+    }
+
+    //cat_id获得推荐位
+    public function getPositionByCatId($cat_id, $pageSize = 10, $page = 1) {
+        if(!$cat_id)
+            return;
+        $offset = ($page - 1) * $pageSize;
+        $limit = " LIMIT $offset,$pageSize ";
+        $order = " ORDER BY sorts DESC,id DESC ";
+        $sql = "SELECT img,url FROM position WHERE cat_id='$cat_id' $order $limit";
+        return yii::app()->db->createCommand($sql)->queryAll();
+    }
+
+    //cat_id获得推荐位游戏信息
+    public function getPositionByCatIdAndGameInfo($cat_id, $pageSize = 10, $page = 1) {
+        if(!$cat_id)
+            return;
+        $offset = ($page - 1) * $pageSize;
+        $limit = " LIMIT $offset,$pageSize ";
+        $order = " ORDER BY t1.sorts DESC,t1.id DESC ";
+        $sql = "SELECT t1.game_id,t2.game_name,t2.pinyin,t2.game_logo,t2.game_type,t2.rand_visits,t2.star_level,t2.tag,t2.game_url FROM position t1 LEFT JOIN game t2 ON t1.game_id=t2.game_id WHERE t1.cat_id='$cat_id' AND t2.status=3 $order $limit";
+        return yii::app()->db->createCommand($sql)->queryAll();
+    }
+
+}

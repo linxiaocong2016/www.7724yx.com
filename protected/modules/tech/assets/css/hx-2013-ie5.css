@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+body {text-align:center;}
+.side-menu-hx {text-align:left;}
+.side-menu-top,
+.logo {}
+.top {text-align:left;}
+
+.container-hx {}
+.neirong-box .span-img {text-align:center;}
+.neirong table .span-img img {}
+
+	
+	
+.links ul {list-style:none;width:100%;overflow:hidden;}
+.links ul li {display:inline;float:left;margin:0 5px;white-space:nowrap; }
+
+.row-fluid-wrap-hx {float:none;}
+.center-container-hx {margin-left:0;}
+.center-ctr-wrap {width:660px;overflow:hidden;}
+
+.center-ctr-box {margin:0 0 0 30px;}
+
+.idx-toutiao {}
+.idx-toutiao .box-img img {}
+.article-on img {width:350px;}
+
+.side-container-hx {margin:0 30px 0 0;display:inline;}
+.modal {position:absolute;}
+
+.pl-kuang {width:500px;}
+.textarea-bo {}
+.textarea-box .textarea-txt {width:487px;}
+.dropdown-menu {min-width:auto;}
+.neirong table {overflow:hidden;}
+.neirong table .span-img {width:565px;}
+.neirong table .span-img img {max-width:565px!important;width:expression(this.offsetWidth >= 565 ? '565px':'auto');}
+.neirong table p{width:565px;}
+.neirong table img {max-width:565px!important;width:expression(this.offsetWidth >= 565 ? '565px':'auto');}
+
+.pinglun-box {position:relative;height:100%;}
+
+.float-box {text-align:left;}
+.float-box .form-horizontal {padding-bottom:10px;}
+.float-box .form-horizontal :first-child.controls {padding-left:80px;}
+.float-box .form-horizontal .controls {margin-left:0;}
+
+/*
+* 2014.5.6 移除了 padding-left:70px;
+* zisasign
+*/
+.login-kj {overflow:hidden;}
+
+
+.login-kj a {display:block;float:left;}
+
+.individual-center .center-ctr-box {margin-right:0;}
+.opinions-box2 {overflow:hidden;zoom:0;}
+.opinions-box2 .view-box {zoom:0;}
+.tags-nav {overflow:hidden;}
+.tags-nav li {overflow:hidden;float:left;display:inline-block;text-align:center;}
+.nav-tabs li {display:inline-block;}
+.nav-tabs li {padding:5px 10px;}
+.nav-tabs li.active a {color:#fff;}
+.pagination ul {display:block;}
+.pagination li a {width:45px;height:26px;line-height:26px;}
+.pagination li a:hover {background:#999;color:#fff;}
+.pagination li a.noclick {color:#ddd;}
+.pagination li.active a {color:#fff;}
+.tags-all-list li {display:inline;float:left;padding-right:15px;white-space:nowrap;}
+.pinglun-list {zoom:1;}
+
+
+.ad-idx-right img,.app-ad img,.ad-box img {width:100%;}
+.manage-box1 .pos-btn {margin-top:6px;}
+
+.about-nav li {padding:5px 0;}
+.about-nav .nav-tabs li.active a {color:#555;background-color:#fff;}
+/*
+top
+*/
+.top-box .login-box .lgn-user-face img {*margin-top:8px;}
+.top-box .login-box i {*margin-top:12px;}
+.top-box .dropdown-toggle {*margin:0;}
+
+.sponsored-content li {overflow:hidden;width:100%;}
+.sponsored-content li .a-img {float:left;display:block;width:75px;}
+.sponsored-content ul li p.p1 {width:195px;margin-left:0;float:right;}
+

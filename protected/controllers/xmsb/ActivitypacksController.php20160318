@@ -1,0 +1,158 @@
+<?php
+class ActivitypacksController extends LController
+{ 
+	public $lvC;
+	public $layout='admin_right';
+	function filters(){
+		$this->lvC=$this->getId();
+	}
+	
+	public function actionIndex(){
+		$model=new GamePinglun('search');
+		
+		$provider = $model->search();
+		$this->render('index',array(
+				'model'=>$model,
+				'provider'=>$provider
+		));
+	}
+
+	public function actionControll(){
+		$noGContent=array(
+				'0'=>array('title'=>'','url'=>''),'1'=>array('title'=>'','url'=>''),'2'=>array('title'=>'','url'=>'')
+		);
+		
+		$model = new GameInfo;
+		if($_GET['id']){
+			$model=$model->findByPk((int)$_GET['id']);
+		}		
+		if($_POST["GameInfo"]){
+			$model->attributes=$_POST["GameInfo"];
+			if($model->G_content&&$model->G_content!=$noGContent){
+				$model->content=json_encode($model->G_content);
+			}else{
+				$model->content='';
+			}
+			$model->type=1;//背景类型
+			if($model->validate()){
+				//传图
+				yii::import("ext.ImageUpload");
+				$res=ImageUpload::imgUploadAndFarUpload("GameInfo[G_img]", array('farPath'=>'7724/game'));
+				if($res['filename']){
+					$model->img=$res['filename'];
+				}
+			}
+			if($model->save()){				
+				unset($_GET['id']);
+				$url=$this->createUrl("{$this->lvC}/index",$_GET);
+				$this->redirect($url);
+			}
+		}
+		if($model->content){
+			$model->G_content=json_decode($model->content,true);
+		}else{
+			$model->G_content=$noGContent;
+		}		
+		$this->render('controll', array(
+				'model' => $model,
+		));
+	}
+	
+	function actionDelete(){
+		$id=$_GET['id'];		
+		$arr=explode(',', $_GET['id']);
+		$ids='';
+		foreach($arr as $k=>$v)
+		{
+			if((int)$v<=0)continue;
+			$ids.="{$v},";
+		}
+		$id=trim($ids,',');
+		if($id){
+			$model = new GameInfo;
+			$model->deleteAll('id in('.$id.')');
+		}
+		$this->redirect($_SERVER['HTTP_REFERER']);
+	}
+	
+	function actionSendpake(){
+		$return=array('e'=>'0','m'=>'');
+		$id=(int)$_POST['id'];
+		$uid=(int)$_POST['uid'];
+		$lbid=(int)$_POST['lbid'];
+		
+		if($id<=0||$uid<=0||$lbid<=0){
+			$return['m']='参数有误';
+			die(json_encode($return));
+		}
+		
+		//礼包信息
+		$sql="select * from fahao where id='$lbid'";
+		$lb_info=yii::app()->db->createCommand($sql)->queryRow();
+		if(!$lb_info){
+			$return['m']='礼包信息不存在！！！';
+			die(json_encode($return));
+		}
+		
+		//评论信息
+		$sql="select * from game_pinglun where id='$id' and uid='$uid' and tid='10' and pid=0 and status=1";
+		$pinglun_info=yii::app()->db->createCommand($sql)->queryRow();
+		if(!$pinglun_info){
+			$return['m']='评论信息不存在';
+			die(json_encode($return));
+		}
+		
+		//是否领过
+		if($pinglun_info['ishave']==1){
+			$return['m']='该评论已经领过礼包了！！！';
+			die(json_encode($return));
+		}
+		
+		//是否有卡号
+		$table='fahao_card_'.($lbid % 10 );
+		$sql = "SELECT id,card FROM {$table} WHERE get_flag='0' and package_id='{$lbid}' limit 20 ";
+		$cards=yii::app()->db->createCommand($sql)->queryAll();
+		
+		if(!$cards){
+			$return['m']='已经没有礼包咯！！！';
+			die(json_encode($return));
+		}
+		
+		//随机取一个卡
+		$card=array_rand($cards,1);
+		$card=$cards[$card];
+		
+		//发送礼包
+		$lvTime=time();
+		//更新卡信息
+		$sql="update $table set get_flag='1',get_time='$lvTime',get_uid='{$uid}' where id='{$card['id']}' and get_flag='0'";
+		yii::app()->db->createCommand($sql)->query();
+		
+		//更新卡总数
+		$sql = "SELECT 
+		(SELECT count(1) FROM {$table} WHERE get_flag=1 AND package_id='{$lbid}') AS get_num,
+		(SELECT count(1) FROM {$table} WHERE package_id='{$lbid}') AS count_num";
+		$res = yii::app()->db->createCommand($sql)->queryRow();
+		$sql="UPDATE fahao SET get_num='{$res['get_num']}',num_count='{$res['count_num']}' WHERE id='{$lbid}'";
+		yii::app()->db->createCommand($sql)->query();
+		
+		$usercard_table='fahao_user_card_'.($uid % 10 );
+		$columns=array(
+			'package_id'=>$lbid,
+			'card_id'=>$card['id'],
+			'card'=>$card['card'],
+			'get_uid'=>$uid,
+			'get_ip'=>Tools::ip(),
+			'get_time'=>$lvTime,
+			'status'=>1,
+		);
+		yii::app()->db->createCommand()->insert($usercard_table, $columns);
+		
+		//修改评论标记发送
+		$sql="update game_pinglun set ishave=1 where id='$id'";
+		yii::app()->db->createCommand($sql)->query();
+		
+		$return=array('e'=>'1','m'=>"卡号：{$card['card']}--已经发送");
+		die(json_encode($return));
+	}
+}

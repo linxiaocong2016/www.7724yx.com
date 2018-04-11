@@ -1,0 +1,60 @@
+/* 公用 */
+*{margin:0;padding:0;}
+ol,ul,li,dd,dl,dt{list-style:none;}
+*:focus{outline:0;}
+em,i{font-style:normal;}
+img,fieldset{border:0;}
+.clearfix:after{content:".";display:block;clear:both;height:0;overflow:hidden;visibility:hidden;}
+[placeholder]{}::-moz-placeholder{color:#c3c9d4;opacity:1;font-size:14px;}:-ms-input-placeholder{color:#c3c9d4;font-size:14px;}::-webkit-input-placeholder{color:#c3c9d4;font-size:14px;}
+body{background:#fff;}
+a{text-decoration:none;}
+
+/*登陆注册*/
+.opacity_bg{ width:100%; height:100%; position:fixed; background:rgba(0,0,0,0.6); left:0; top:0; z-index:101; display:block;}
+.login_box{width:88%;position:absolute;background:#f7f7f7; z-index:102; margin:0 auto;left:6%; top:10%; display:block;}
+.login_tit{clear:both; width:100%; line-height:40px; height:40px; border-bottom:1px solid #d3d2d2;FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#fcfcfc,endColorStr=dfdfdf); background: -ms-linear-gradient(top, #fcfcfc, #dfdfdf);background:-moz-linear-gradient(top,#fcfcfc,#dfdfdf);background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fcfcfc), to(#dfdfdf)); position:relative;}
+.login_tit span{color:#666; padding-left:14px; font-size:15px;}
+.login_tit em{position:absolute; width:40px; height:40px; top:0; right:0; background:url(../img/login_close.png) no-repeat center center; background-size:14px auto; display:inline-block;}
+.login_con{clear:both; padding:14px; border-top:1px solid #ebeaeb;}
+.login_con li p{background:#fff;border:1px solid #bfc0bb;font-size:14px;color:#c3c9d4;line-height:38px;height:38px; border-radius:3px; margin-bottom:15px; position:relative;}
+.login_con li p span{position:absolute;left:10px;top:0;width:20px;height:38px;}
+.login_con li p.hover{border:1px solid #00a8ff;}
+.login_con li p .span1{background:url(../img/login_icon01.png) no-repeat center center;background-size:18px auto;}
+.login_con li p .span2{background:url(../img/login_icon02.png) no-repeat center center;background-size:18px auto;}
+.login_con li p .span3{background:url(../img/login_icon03.png) no-repeat center center;background-size:18px auto;}
+.input_tx1{width:60%;margin-left:40px;line-height:20px;padding:9px 0 9px 8px;height:20px;display:block;border:0;border-left:1px solid #bfc0bb;color:#333;font-size:14px;}
+.login_errow{font-size:14px; color:#ff6666; background:url(../img/login_warn.png) no-repeat left center; background-size:14px auto; margin-left:45px; padding-left:20px; height:18px; line-height:18px; margin-bottom:15px;}
+.login_con li a.login_button{ border:1px solid #489a2d;FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#75c353,endColorStr=5dab3d); background: -ms-linear-gradient(top, #75c353, #5dab3d);background:-moz-linear-gradient(top,#75c353,#5dab3d);background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#75c353), to(#5dab3d));border-radius:10px; display:block; color:#fff; font-size:15px; font-weight:800; line-height:38px; height:38px; text-align:center; text-decoration:none; margin-bottom:15px;}
+.login_con li a.register_button{ border:1px solid #bfc0bb; background:#fff; border-radius:10px; display:block; color:#3e3f3e; font-size:15px; font-weight:800; line-height:38px; height:38px; text-align:center; text-decoration:none;}
+
+/*排行榜*/
+.rank_header{background:#f5f5f5;height:50px;z-index:10;position:fixed;top:0;left:0;width:100%; border-bottom:1px solid #bc7f10;}
+.rank_header .a1{background:url(../img/back_ico.png)no-repeat left center;background-size:9px auto;font-size:16px;padding-left:15px;line-height:50px;float:left;margin-left:10px;color:#707070;height:50px;}
+.rank_header .a2{float:right;font-size:16px;line-height:28px;height:28px;padding:0 10px;margin-top:10px;color:#2191e7}
+.score_box{width:100%; border-top:1px solid #e9a619;height:80px; margin-top:51px;FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#ffb61b,endColorStr=ffac16); background: -ms-linear-gradient(top, #ffb61b, #ffac16);background:-moz-linear-gradient(top,#ffb61b,#ffac16);background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#ffb61b), to(#ffac16));}
+.score_box_bottom{width:100%; clear:both; background:url(../img/top_bg.png) repeat-x; background-size:10px auto; height:7px; margin-top:-1px;}
+.score_box dl,.ranklist{width:100%; clear:both;}
+.score_box dl dt{float:left; width:65%; position:relative;}
+.score_box dl dt .img1{position:absolute; width:48px; height:48px; left:13px; top:16px;}
+.score_box dl dt .p1{margin:16px 0 0 72px; font-size:12px; font-weight:800; color:#4c4c4c; line-height:16px;}
+.score_box dl dt .p2{margin:0 0 0 72px; color:#c00000; font-size:12px; line-height:16px;}
+.score_box dl dt .p2 em{color:#fff; font-size:14px;}
+.score_box dl dt p.noscore{padding-left:20px; font-size:15px; color:#4c4c4c; line-height:78px;}
+.score_box dl dd{float:right; width:35%;}
+.score_box dl dd a{display:block; width:94px; height:32px; line-height:32px; border:1px solid #489a2d;FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#75c353,endColorStr=5dab3d); background: -ms-linear-gradient(top, #75c353, #5dab3d);background:-moz-linear-gradient(top,#75c353,#5dab3d);background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#75c353), to(#5dab3d)); color:#fff; text-align:center; font-size:14px;box-shadow:0 1px 2px #b87e12; margin:22px 13px 0 0; float:right;border-radius:3px;}
+
+.ranklist li{width:100%; clear:both; padding:10px 0; height:36px; border-bottom:1px solid #d9d9d9;}
+.ranklist li.one{border-bottom:1px solid #ffc900;}
+.ranklist li.one .p1{font-size:12px; background:url(../img/No1.png) no-repeat center center; background-size:28px auto; line-height:30px;}
+.ranklist li.two{border-bottom:1px solid #c3c3c3;}
+.ranklist li.two .p1{font-size:12px; background:url(../img/No2.png) no-repeat center center; background-size:28px auto; color:#595959; line-height:30px;}
+.ranklist li.three{border-bottom:1px solid #ffb27e;}
+.ranklist li.three .p1{font-size:12px; background:url(../img/No3.png) no-repeat center center; background-size:28px auto; color:#a74401; line-height:30px;}
+.ranklist li .p1{width:50px; text-align:center; line-height:36px; height:36px; color:#cc2a1e; font-size:14px; float:left;}
+.ranklist li .p2{width:36px; height:36px; padding:0 12px 0 5px; float:left;}
+.ranklist li .p2 img{width:36px; height:36px;}
+.ranklist li .p3{width:35%; float:left; font-size:14px; font-weight:800; color:#595959; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:36px;}
+.ranklist li .p4{width:25%; float:right; white-space:nowrap; overflow:hidden;text-overflow:ellipsis; line-height:36px; color:#999; font-size:14px; text-align:right; padding-right:20px;}
+.ranklist li .red{color:#ff5a00;}
+.more{width:100%; text-align:center; font-size:14px; color:#595959;}
+.more a{display:block;color:#595959; padding:20px 0;}

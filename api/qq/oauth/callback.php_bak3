@@ -1,0 +1,40 @@
+<?php
+
+//取得用户信息
+require_once("../API/qqConnectAPI.php");
+$qc = new QC();
+$lvToken = $qc->qq_callback();
+$lvOpenID = $qc->get_openid();
+
+//载入YII框架
+define('IN_UC', TRUE);
+define('UC_API', TRUE);
+define('IN_COMSENZ', TRUE);
+session_start();
+header('Content-Type:text/html;charset=utf-8');
+$yii = $_SERVER['DOCUMENT_ROOT'] . '/framework/yii.php';
+$config = $_SERVER['DOCUMENT_ROOT'] . '/protected/config/main.php';
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/protected/controllers/client.php');
+include_once ($yii);
+Yii::createWebApplication($config);
+
+//读取数据库，判断用户存在与否，
+$lvSQL = "select * from user_baseinfo where qqlogin_openid='{$lvOpenID}'";
+$lvInfo = Yii::app()->db->createCommand($lvSQL)->queryRow();
+
+//用户已存在QQ登录信息
+if(intval($lvInfo['uid'])) {
+    Yii::app()->session['qqlogin'] = array( 'token' => $lvToken, 'openid' => $lvOpenID, 'uid' => $lvInfo['uid'] );
+    $lvTime = time();
+    $lvIP = Yii::app()->request->userHostAddress;
+    $lvSQL = " update user_baseinfo set last_date={$lvTime},last_ip={$lvIP},qqlogin_token='{$lvToken}',qqlogin_openid='{$lvOpenID}'  where uid={$lvInfo['uid']} ";
+    Yii::app()->db->createCommand($lvSQL)->execute();
+    //登录
+    header('Location: /user/login', true, 302);
+}
+//用户不存在QQ登录信息
+else {
+    Yii::app()->session['qqlogin'] = array( 'token' => $lvToken, 'openid' => $lvOpenID, 'uid' => 0 );
+    header('Location: /user/loginqq', true, 302);
+}
+echo "ee";

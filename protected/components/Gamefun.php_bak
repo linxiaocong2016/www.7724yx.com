@@ -1,0 +1,118 @@
+<?php 
+class Gamefun {
+	const CACHETIME = 36000;
+	
+	/**
+	 * 全部游戏
+	 * @param string $f
+	 * @return multitype:unknown
+	 */
+	public static function allGame($f=false){
+		$key = "Gamefun_allGame";
+		$data = Yii::app()->memcache->get($key);
+		if(!$data || $f){
+			$sql = "select game_id,game_name from game";
+			$res = Yii::app ()->db->createCommand($sql)->queryAll ();
+			$data = array();
+			foreach ($res as $v){
+				$data[$v['game_id']] = $v['game_name'];
+			}
+			Yii::app()->memcache->set($key,$data,self::CACHETIME);
+		}
+		return $data;
+	}
+	
+	
+	public static function allGameSearchStatus($status=3,$f=false){
+		$key = "Gamefun_allGameSearchStatus".$status;
+		$data = Yii::app()->memcache->get($key);
+		if(!$data || $f){
+			$sql = "select game_id,game_name,game_logo from game where status='$status'";
+			$res = Yii::app ()->db->createCommand($sql)->queryAll ();
+			$data = array();
+			foreach ($res as $v){
+				$data[$v['game_id']] = $v['game_name'];
+			}
+			Yii::app()->memcache->set($key,$data,self::CACHETIME);
+		}
+		return $data;
+	}
+
+	public static function allGameStatus3($f=false){
+		$key = "Gamefun_allGameStatus3";
+		$data = Yii::app()->memcache->get($key);
+		if(!$data || $f){
+			$sql = "select game_id,game_name,game_logo from game where status='3'";
+			$res = Yii::app ()->db->createCommand($sql)->queryAll ();
+			$data = array();
+			foreach ($res as $v){
+				$data[$v['game_id']] = $v;
+			}
+			Yii::app()->memcache->set($key,$data,self::CACHETIME);
+		}
+		return $data;
+	}
+        
+        /**
+         * 取得指定类型的全部游戏
+         * @param type $type
+         * @param type $f
+         * @return type
+         */
+	public static function allGameWithType($type=0,$f=false){
+		$key = "Gamefun_allGameWithType".$type;
+		$data = Yii::app()->memcache->get($key);
+		if(!$data || $f){
+			$sql = "select game_id,game_name,game_logo from game where status=3 and game_type like '%,{$type},%'";
+			$res = Yii::app ()->db->createCommand($sql)->queryAll ();
+			$data = array();
+			foreach ($res as $v){
+				$data[$v['game_id']] = $v;
+			}
+			Yii::app()->memcache->set($key,$data,self::CACHETIME);
+		}
+		return $data;
+	}
+	
+	/**
+	 * 游戏分类
+	 * @param string $f
+	 * @return multitype:unknown
+	 */
+	public static function gameTypes($f=false){
+		$key = "Gamefun_gameTypes_o";
+		$data = Yii::app()->memcache->get($key);
+		if(!$data || $f){
+			$sql = "select * from game_types order by listorder desc";
+			$res = Yii::app ()->db->createCommand($sql)->queryAll ();
+			$data = array();
+			foreach ($res as $v){
+				$data[$v['id']] = $v;
+			}
+			Yii::app()->memcache->set($key,$data,self::CACHETIME);
+		}
+		return $data;
+	}
+	
+	//游戏分类计数
+	public function getGameCatCount($catlist,$f=flase){
+		if(!$catlist)return;
+		$key = "Gamefun_gameTypes_o_count1_";
+		$memcache=Yii::app()->memcache;
+		foreach($catlist as $k=>$v){
+			$id=(int)$v['id'];
+			if($id<=0)continue;
+			$keyId=$key.$id;
+			$data = $memcache->get($keyId);
+			if(!isset($data) || $f){
+				$sql="SELECT count(game_id) as num From game WHERE status=3 AND game_type LIKE '%,$id,%'";
+				$res=Yii::app ()->db->createCommand($sql)->queryRow ();
+				$data=$res['num'];
+				Yii::app()->memcache->set($keyId,$data,self::CACHETIME);
+			}
+			$catlist[$k]['count']=$data*11;
+		}
+		return $catlist;
+	}
+}
+?>

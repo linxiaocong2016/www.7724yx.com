@@ -1,0 +1,34 @@
+<!--导航-->
+<?php
+$ac = $this->getAction()->getId();
+$key = 0;
+if($ac == 'new' || $ac == 'top' || $ac == 'gamecat' || $ac == 'gamecatlist') {
+	 if($_GET['alias'])
+        $key = 6;
+    else
+       $key = 2;
+}  elseif($ac == 'zhuanti' || $ac == 'zhuantidetail') {
+    $key = 4;
+} elseif($ac == 'index') {
+    $key = 1;
+} elseif($ac == 'newslist') {
+    $key = 7;
+}elseif($ac == 'libao') {
+    $key = 3;
+}
+ 
+    $_SESSION['choice'] = 1;
+?>
+<nav>
+
+    <ul class="main_nav clearfix">  
+            <li <?php if($key == 1) echo 'class="hover"'; ?> style="width:19%;"><a href="/" title="手机游戏">首页</a></li>
+            <li <?php if($key == 6) echo 'class="hover"'; ?> style="width:19%;"><a href="http://www.7724.com/wy.html" title="手机页游">网游</a></li>
+            <li <?php if($key == 7) echo 'class="hover"'; ?> style="width:19%;"><a href="/news.html" title="h5游戏资讯">资讯</a></li>
+            <li <?php if($key == 4) echo 'class="hover"'; ?> style="width:19%;"><a href="<?php echo $this->createUrl('index/zhuanti') ?>" title="手机小游戏合集">专题</a></li>
+            <li <?php if($key == 2) echo 'class="hover"'; ?> style="width:19%;"><a href="/new.html" title="h5游戏大全">游戏库</a></li>
+            <li <?php if($key == 3) echo 'class="hover"'; ?> style="width:17%;display:none;"><a href="/libao.html" title="游戏礼包">礼包</a></li>
+           
+       
+    </ul>
+</nav>

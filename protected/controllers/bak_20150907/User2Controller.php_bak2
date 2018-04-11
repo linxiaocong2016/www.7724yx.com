@@ -1,0 +1,168 @@
+<?php
+
+session_start();
+define("ROOT", $_SERVER ['DOCUMENT_ROOT']);
+require_once ROOT . "/protected/components/DBHelper.php";
+
+class User2Controller extends Controller {
+
+    public $layout = 'user';
+    public $Title = "用户中心";
+    public $MenuHtml = '<a href="register" class="modify_paw">注册</a>';
+    public $PageSize = 20;
+    public $lvActivityPageSize=10;
+    
+    /**
+     * 设置登录
+     * @return type
+     */
+    public function filters() {
+        return array(
+            "IsLogin - Loginqq,Loginqq2,Login,FindPwd,Register,Mobilecode,Mobilecode2,Xy,Logout,Feedback"
+        );
+    }
+
+    public function filterIsLogin($filterChain) {
+        if(!isset($_SESSION ['userinfo']) || empty($_SESSION ['userinfo'])) {
+            $this->redirect(Yii::app()->createUrl("/user/login") . "?url=" . Yii::app()->request->hostInfo . Yii::app()->request->Url);
+            exit();
+        }
+        $filterChain->run();
+    }
+
+    public function actionIndex() {
+        $this->pageTitle = "修改密码-7724用户中心";
+        $this->Title = "修改密码";
+        $this->MenuHtml = ""; // '<a href="logout" class="modify_paw">退出</a>';
+        echo __FUNCTION__;
+    }
+    
+    
+    //问题反馈
+    public function actionFeedback(){
+    	$this->pageTitle = "意见反馈-7724小游戏";
+    	Yii::import('ext.Feedbackfun');
+    	if($_POST){
+    		$return=Feedbackfun::add($_POST);
+    		$return=array('sus'=>$return[0],'err'=>$return[1]);
+    		die(json_encode($return));
+    	}
+    	$this->render('feedback');
+    }
+    
+    /******个人中心活动列表******/
+    //获取活动列表数据
+    public function getActivityList($option=array(),$pageSize=10,$page=1){
+    	$lvTime=time();
+    	$uid=(int)$_SESSION ['userinfo']['uid'];
+    	if($uid<=0)return;
+    	$where=" WHERE t1.sid>0 AND t1.uid='$uid' AND t3.status=1 AND t3.create_time<$lvTime";
+    	$offset=($page-1)*$pageSize;
+    	$limit=" LIMIT $offset,$pageSize ";
+    	$order=" ORDER BY t3.end_time DESC";
+    	$sql="SELECT 
+    	t1.createtime,t1.sid,t1.uid,t2.scoreorder,t3.title,t3.start_time,t3.end_time,t3.id
+    	FROM game_play_paihang_huodong t1 Left join game t2 on t1.game_id=t2.game_id left join game_huodong t3 on t1.sid=t3.id $where $order $limit ";
+    	return yii::app()->db->createCommand($sql)->queryAll();
+    }
+    
+    //ajax获得活动列表加载
+    	public function actionAjaxactivitylist(){
+    	$pageSize=$this->lvActivityPageSize;
+    	$page=(int)$_POST["page"];
+    	$retrun=array("html"=>"","page"=>'end');
+    	if($page<=1){
+    			die(json_encode($retrun));
+    	}
+    	$list=$this->getActivityList('',$pageSize,$page);
+    	if($list){
+    	$retrun["html"]=$this->renderPartial("list/_activity",array("list"=>$list,),true);
+    	}
+    	if($pageSize==count($list)){
+    			$retrun["page"]=$page+1;
+    	}
+    	die(json_encode($retrun));
+    	}
+    
+    public function actionActivity(){
+    	$this->pageTitle = "参与的活动-7724用户中心";
+    	$this->render('activity');
+    }
+    	/******个人中心活动列表******/
+	public function actionSign(){
+    	$uid = $_SESSION ['userinfo']['uid'];
+    	if(!$uid)
+    		exit(json_encode(array("result"=>-1, "error" => "请登陆" )));
+    	$coin = mt_rand(2, 10);
+    	$now = time();
+    	$sql = "select create_time from user_sign where uid = $uid";
+    	$res = Yii::app ()->db->createCommand($sql)->queryRow();
+    	if(!$res){
+    		$sql = "insert into user_sign(`uid`,`coin`,`create_time`) values($uid,$coin,$now)";
+    		Yii::app ()->db->createCommand($sql)->execute();
+    		UserBaseinfo::model()->addCoin($coin);
+    		CoinAllLog::model()->log($uid, $coin, '每日签到');
+    		exit(json_encode(array("result"=>1, "error" => "签到成功，获得{$coin}个积分！",'coin'=>$coin )));
+    	}
+    	if(date('Y-m-d',$res['create_time']) == date('Y-m-d'))
+    		exit(json_encode(array("result"=>-1, "error" => "您今天已经签到过了哦" )));
+    	$sql = "update user_sign set create_time = $now where uid = $uid";
+    	Yii::app ()->db->createCommand($sql)->execute();
+    	UserBaseinfo::model()->addCoin($coin);
+    	CoinAllLog::model()->log($uid, $coin, '每日签到');
+    	exit(json_encode(array("result"=>1, "error" => "签到成功，获得{$coin}个积分！",'coin'=>$coin )));
+    }
+    
+    public function actionCoinlog(){
+    	$data = $this->coinAllLog();
+    	
+    	$this->pageTitle = "积分记录-7724用户中心";
+    	$this->Title = "积分记录";
+    	$this->MenuHtml = "";
+    	$this->render('coin_log',array('data'=>$data));
+    }
+    
+    public function actionCoinajax(){
+    	$page = intval($_POST['page']) ? intval($_POST['page']) : 1;
+    	$limit = intval($_POST['limit']) ? intval($_POST['limit']) : 10;
+    	$retrun=array(
+    			"html"=>"",
+    			"page"=>'end',
+    	);
+    	$data = $this->coinAllLog($page,$limit);
+    	if($data)
+    		$retrun["html"]=$this->renderPartial(
+    				"coin_ajax",array(
+    						"data"=>$data,
+    				),true);
+    	if($limit==count($data)){
+    		$retrun["page"]=$page+1;
+    	}
+    	die(json_encode($retrun));
+    }
+    
+    function coinAllLog($page=1,$limit=10){
+    	$uid=intval($_SESSION ['userinfo']['uid']);
+    	$offset = ($page - 1) * $limit;
+    	$sql = "select coin,reason,create_time from coin_all_log where uid = $uid order by create_time desc limit $offset,$limit";
+    	return Yii::app ()->db->createCommand($sql)->queryAll();
+    }
+	
+	
+    public function actionImprove() {
+    	$lvOldUserName = $_POST['oldusername'];
+    	$lvUID = $_POST['uid'];
+    	$lvUserName = $_POST['username'];
+    	$lvPassWD = $_POST['passwd'];
+    	$lvCode= $_POST['code'];
+    	//$lvOrderno= $_POST['orderno'];
+    	    	
+    	$lvURL = "http://i.7724.com/api/improve/oldusername/$lvOldUserName/uid/$lvUID/username/$lvUserName/passwd/$lvPassWD/code/$lvCode";//orderno/$lvOrderno";
+    	
+    	$json_data=Tools::getURLContent($lvURL);
+    	echo $json_data;
+    	
+    	
+    }
+    
+}

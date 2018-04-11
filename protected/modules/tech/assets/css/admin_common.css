@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote {padding:0;margin:0;}
+fieldset,img { border:0;}
+:focus {outline:0;}
+address,caption,cite,code,dfn,em,th,var,optgroup {font-style:normal;font-weight:normal;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;}
+abbr,acronym {border:0;font-variant:normal;}
+input,button,textarea,select,optgroup,option {font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+code,kbd,samp,tt {font-size:100%;}
+input,button,textarea,select {*font-size:100%;}
+body {line-height:1.5;-webkit-text-size-adjust:none;/*For Chrome & Safari Font Size*/}
+ol,ul {list-style:none;}
+caption{text-align:left;}
+sup,sub {font-size:100%;vertical-align:baseline;}
+blockquote,q {quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after {content:'';content:none;}
+.clear:after{clear: both;content:'.';display: block;visibility:hidden;height:0;}
+.clear{zoom:1; clear: both;}
+
+
+/*Global Style--------*/
+
+html,body {height:100%;background:#ffffff;font:12px/22px "Microsoft YaHei","",Arial; color:#626262;}
+a {color:#626262;text-decoration:none;}
+a:hover {color:#cf0000;text-decoration:underline;}
+.toolbar_search{ overflow:hidden; zoom:1; padding:0px 5px 5px 5px}
+.toolbar_search ul li{ float:left; overflow:hidden; margin-right:10px; height:30px; line-height:30px}
+.toolbar_search ul li label{ float:left}
+.tool_con{ float:left; padding-top:2px}
+input,textarea,select{ padding:4px; border:1px solid #CCCCCC; background:url(../images/input-bg.gif) no-repeat}
+
+.toolbar_search .btn{ background:#0495C9; padding:0px; cursor:pointer; display:block; background:url(../images/btn.gif) no-repeat; width:53px; height:24px; line-height:24px; border:0px; color:#FFFFFF}
+select{ padding:2px}
+.tool_con{ padding: 0px 5px}
+.list_table{ border-collapse:collapse; width:98%; margin:0 auto ; margin-top:10px}
+.list_table tr th{ text-align:center; font-weight:bold; color:#0495C9}
+.list_table td{ text-align:center; line-height:19px; height:19px; padding:2px 3px}
+.list_table tr.even{ background-color:#eeeeee}
+.list_table tr.on{ background-color:#e7e5e5}
+.page_tabble{ margin:0 auto;  width:98%;margin-top:20px; overflow:hidden }
+.page_tabble ul.yiiPager{ float:right; zoom:1; font-size:12px; }
+.page_tabble ul.yiiPager li,.page_tabble ul.yiiPager{ line-height:normal;  }
+.page_tabble ul.yiiPager li{ float:left; margin:0px 2px}
+.page_tabble ul.yiiPager li.selected a{ color:#FFFFFF!important}
+.pheight{ height:20px}
+.page_tabble ul.yiiPager li a{ display:block; padding:5px 8px}
+.top_main{ height:10px}
+.daochu{ display:block; width:60px; height:22px; line-height:22px; border:#cccccc 1px  dotted; text-align:center; background:url(../images/xls.gif) 5px 3px no-repeat ; padding-left:20px}
+.daochu:hover{background:url(../images/xls.gif) 5px 3px no-repeat #CF0000; color:#FFFFFF; border:0px}
+.excel_div{ width:200px; height:80px}
+.excel_ext{ margin:10px 0px; background:#eeeeee; padding:0px 3px 5px 3px; border-bottom:#999999 1px dashed}
+.excel_ext_a{ text-align:center}
+.excel_ext_a a{text-decoration:underline; color:#FF0000; font-weight:bold;}
+.excel_ext_a a:hover{ text-decoration:none}
+.shuoming{ width:98%; margin:0 auto; padding:4px; text-align:left; color:#FF0000}
+.tishi_msg{ color:#FF0000; font-weight:bold}
+.page_tabble_msg{ margin:0 auto;  width:98%;margin-top:20px; overflow:hidden; border-top:#CCCCCC 1px dashed}
+.page_tabble_msg td{ text-align:center; padding-top:10px }
+.page_tabble_msg td b{  color:#FF0000; font-size:15px}
+ul.yiiPager .first, ul.yiiPager .last{ display:block!important}

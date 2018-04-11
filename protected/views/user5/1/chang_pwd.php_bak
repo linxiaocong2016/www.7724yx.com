@@ -1,0 +1,19 @@
+
+<!--用户登录-->
+<form id="frmChangePwd" method="post">
+	<div class="public clearfix">
+		<ul class="input_box">
+			<li><span>原密码：</span><input type="password" class="input01"
+				placeholder="请输入原密码" id="pwd1" name="pwd1"></li>
+			<li><span>新密码：</span><input type="password" class="input01"
+				placeholder="请输入新密码" id="pwd2" name="pwd2"></li>
+			<li><span>确认密码：</span><input type="password" class="input01"
+				placeholder="请确认新密码" id="pwd3" name="pwd3"></li>
+		</ul>
+	</div>
+	<p class="button_login">
+		<a href="#"
+			onclick="javascript:document.getElementById('frmChangePwd').submit();">确定修改</a>
+	</p>
+<?php echo $msg;?>
+</form>

@@ -1,0 +1,13 @@
+<?php foreach($list as $k=>$v):?>
+         <dt>
+              <a href="<?php echo $this->getDetailUrl($v)?>">
+               <p class="p1"><img src="<?php echo $this->getPic($v['game_logo'])?>"/></p>
+               <p class="p2">
+                 <i><?php echo $v['game_name']?></i>
+                 <em><?php echo $this->getStarImg($v['star_level'])?></em>
+                 <span><?php echo $this->getGameTypeName($v['game_type'],1)?>&nbsp;&nbsp;&nbsp;人气：<?php echo $this->getVisits($v);?></span>
+               </p>
+               <p class="p3"><span>开始玩</span></p>
+              </a>
+         </dt>
+<?php endforeach;?>

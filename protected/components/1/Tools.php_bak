@@ -1,0 +1,85 @@
+<?php
+
+class Tools {
+
+    // 短信发送
+    public static function sendMsg($mobile, $content) {
+        $msg = Tools::characet($content);
+        $sn = "SDK-WSS-010-07228";
+        $pwd = "d66f36ca";
+        $pwd1 = strtoupper(md5($sn . $pwd));
+        $url = "http://sdk2.entinfo.cn:8061/mdsmssend.ashx";
+        $tmpMsg = "sn=$sn&pwd=$pwd1&mobile=$mobile&content=$msg";
+        $re = Tools::getURLContent($url, $tmpMsg);
+        if($re)
+            return "ok";
+        return $re;
+    }
+
+    // UTF8转换
+    public static function characet($data) {
+        if(!empty($data)) {
+            $fileType = mb_detect_encoding($data, array(
+                'UTF-8',
+                'GBK',
+                'LATIN1',
+                'BIG5'
+            ));
+            if($fileType != 'UTF-8') {
+                $data = mb_convert_encoding($data, 'utf-8', $fileType);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 读取URL响应内容。
+     * curl
+     */
+    public static function getURLContent($pURL, $pPostData = '') {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $pURL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); // 连接超时（秒）
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3); // 执行超时（秒）
+
+        if($pPostData) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $pPostData);
+        }
+
+        $out_put = curl_exec($ch);
+        curl_close($ch);
+
+        return $out_put;
+    }
+
+    public static function redirect($url, $terminate = true, $statusCode = 302) {
+        if(strpos($url, '/') === 0 && strpos($url, '//') !== 0)
+            $url = "http://" . $_SERVER['HTTP_HOST'] . $url;
+        header('Location: ' . $url, true, $statusCode);
+    }
+
+    public static function print_log($pValue) {
+        if($_GET['debug'] == "choice") {
+            var_dump($pValue);
+        }
+    }
+
+    /**
+     * 去掉没用的0
+     * @param type $s
+     * @return type
+     */
+    public static function del0($s) {
+        $s = trim(strval($s));
+        if(preg_match('#^-?\d+?\.0+$#', $s)) {
+            return preg_replace('#^(-?\d+?)\.0+$#', '$1', $s);
+        }
+        if(preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
+            return preg_replace('#^(-?\d+\.[0-9]+?)0+$#', '$1', $s);
+        }
+        return $s;
+    }
+
+}

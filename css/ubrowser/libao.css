@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0; background:#fff; font-family:"微软雅黑";}
+.box{clear:both; width:100%;}
+a,a img{border:none;padding:0; margin:0;}
+.position{font-size:14px; border-bottom:1px solid #d9d9d9; line-height:350%; padding-left:5px; clear:both;}
+.position a{color:#000; text-decoration:none; padding:0px 2.5%;}
+.gamename{clear:both; padding:20px 5.3%;}
+.gamename img{width:90px; height:90px;}
+.gamename b{font-size:18px; line-height:250%;}
+.gamename p{color:#999; font-size:14px;}
+.gamename p span{font-weight:700; color:#e76d00; padding:0px 5px; font-size:16px;}
+.gamelist{clear:both; border-top:3px solid #1985d8;}
+.gamelist table td{border:1px solid #d9d9d9; padding:10px 0px; text-align:center; width:50%; overflow:hidden;}
+.gamelist table td a{display:block; height:60px; overflow:hidden;}
+.gamelist table td img{width:110px; height:60px; overflow:hidden;}
+

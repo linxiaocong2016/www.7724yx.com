@@ -1,0 +1,59 @@
+<!--底部--> 
+ <div class="h5_footer">
+    <div class="general">
+        <br />
+       <p>广州七七游网络科技有限公司 版权所有 | Copyright @ 2015-2020 | 粤ICP备18013779号-1</p>
+          <!--<div class="footer_l">
+          	 <?php $list=Pc_PositionBll::getCommonPosition(12);?>
+          	 <?php if($list):?>
+             <dl>
+             	
+                 <dd>友情链接</dd>
+                 <dt>
+                   <?php foreach ($list as $v):?>
+                   <a target=_blank href="<?php echo $v['url']?>" onclick="positioncount(12)"><?php echo $v['title']?></a>
+                   <?php endforeach;?>
+                 </dt>
+             </dl>
+             <?php endif;?>
+             <div class="footer_search">
+ 				<form action="/search/" target="_blank">
+              		<input type="text" name="keyword" class="f_text" placeholder="输入正确的游戏名称" />
+               		<input type="submit" class="f_bt" value="搜索" />
+               </form>
+             </div>
+             <div class='footer_font'>
+             	<p>广州七七游网络科技有限公司 版权所有 |Copyright @ 2015-2020</p>
+             	<p>电话：020-29827994 （广告勿扰，上班时间：周一至周五9点~19点，法定节假日除外）</p>
+             	<p>地址：厦门市思明区软件园二期观日路18号304单元之二</p>
+             	<p>健康游戏公告: 抵制不良游戏 拒绝盗版游戏 注意自我保护 谨防受骗上当 适度游戏益脑 沉迷游戏伤身 合理安排时间 享受健康生活</p>
+              <p>
+                <a href="http://sq.ccm.gov.cn:80/ccnt/sczr/service/business/emark/toDetail/552e886a47054419a51e3b679482c108"><img src="/img/wlwh.jpg" alt="" width="100px"></a>
+              </p>
+             </div>                     
+          </div>
+          
+          
+         
+         
+         <div class="footer_r">
+            <p class="p1"><img src="/assets/pc/img/20160223145444.png"><span><a target=_blank href='http://app.7724.com'>7724游戏盒下载</a></span></p>
+            <p class="p1"><img src="/assets/pc/img/qrcode_for_gh_f62503ef8e53_258.png"><span>7724微信二维码</span></p>
+            <p class="p2">
+            	<a href="/feedback.html">意见反馈</a>|
+            	<a href="/aboutus.html">关于我们</a>|
+            	<a href="/linkus.html">投诉电话</a>|
+            	<a href="/cooperation.html">游戏合作</a>|
+            	<a href="/pc/about/jh">家长监护</a>
+            	</p>
+            <p class="p3">
+          		  闽ICP备15008081号-2
+                 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=921c2f99c1381082f24b42be36117a7978614ab766fcd691139c64c791d439d5"><img src="http://pub.idqqimg.com/wpa/images/group.png" alt="7724游戏交流群" title="7724游戏交流群" border="0"></a>
+            </p>    
+         </div>-->
+   </div>
+
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+                <img src='/assets/1.png' /><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010602003743" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">粤公网安备 44010602003743号</p></a>
+            </div>
+</div> 

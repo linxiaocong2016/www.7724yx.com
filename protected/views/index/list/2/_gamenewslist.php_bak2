@@ -1,0 +1,14 @@
+
+<?php foreach( $list as $key => $value ) {
+    
+    
+    ?>
+    <li>
+        <a href="/<?php echo $this->getGamePinYin($_GET['gameid']); ?>/<?php echo $value['type'] == "1" ? "news" : "gonglue"; ?>/<?php echo $value['id']; ?>.html" class="a1">
+             
+        <img src="<?php echo $value['image']?$value['image']:"/img/".($type==1?"default_new.jpg":"default_gl.jpg"); ?>">
+        </a>
+        <a href="/<?php echo $this->getGamePinYin($_GET['gameid']); ?>/<?php echo $value['type'] == "1" ? "news" : "gonglue"; ?>/<?php echo $value['id']; ?>.html" class="a2"><?php echo $value['title']; ?></a>
+        <p class="p1"><?php echo date("Y-m-d", $value['createtime']); ?></p>
+    </li>
+<?php } ?>   

@@ -1,0 +1,6 @@
+<?php
+header('Content-Type: text/html; charset=UTF-8');
+
+define( "WB_AKEY" , '3487190089' );
+define( "WB_SKEY" , '3033c61e6c3213e399a5920d02851e62' );
+define( "WB_CALLBACK_URL" ,'http://www.7724.com/weibo/callback.php' );

@@ -1,0 +1,69 @@
+<?php include 'common/header.php';?>
+<?php include 'common/menu.php';?>
+<script>
+$(function(){
+	var unlock=true;
+	$(window).scroll(function(){
+		var winH=$(window).height();
+		var scrH=$(window).scrollTop();
+		var htmH=$(document).height()-100;
+		if(winH+scrH>=htmH){
+			if($("#ajax_idx_more").length<=0)return;
+			var obj=$("#ajax_idx_more");
+			ajaxidxmore(obj);
+		}
+	});
+	function ajaxidxmore(obj){
+		if(!unlock)return;
+		var html0=$(obj).html();
+		$(obj).html("加载中...");
+		var page=$(obj).attr("rel");
+		if(!isNaN(page)){
+			unlock=false;
+			var query={"page":page};
+			$.post('<?php echo $this->createurl("index/ajaxactivitylist")?>',query,function(data){
+				var top=$(document).scrollTop(); 
+				$("#_list").append(data.html);
+				$(obj).attr("rel",data.page);
+				$(document).scrollTop(top);
+				if(data.page!="end"){
+					unlock=true;
+ 					$(obj).html(html0);
+				}else{
+					$(obj).html("已到最后...");
+				}
+			},"json")
+		}
+	}
+})
+</script>
+<?php 
+	$list=$this->getActivityList('',$this->lvActivityPageSize);
+	if($list):
+?>
+ <!--活动-->
+ <ul class="activity_box clearfix" id="_list">
+ <?php 
+ 	foreach($list as $k=>$v):
+ 		$lvTime=time();
+ 		$url=$this->createUrl('index/activitydetail',array("id"=>$v['id']));
+ 		$button="<a href='".$this->getDetailUrl($v['game_id'])."'>我要参赛</a>";
+ 		if($v['end_time']<$lvTime){
+ 			$button="<a href='".$this->getDetailUrl($v['game_id'])."' class='gray'>已经结束</a>";
+ 		}
+ ?>
+  <li>
+   <p class="p1"><a href="<?php echo $url;?>"><img src="<?php echo $this->getPic($v['img'])?>"></a></p>
+   <p class="p2"><a href="<?php echo $url;?>"><?php echo $v['title'];?> </a></p>
+   <p class="p3"><?php echo $button;?></p>
+   <p class="p4"><span class="l">时间：<?php echo date("Y-m-d",$v['start_time']);?> 至 <?php echo date("Y-m-d",$v['end_time']);?></span>
+  				<!--  <span class="r">人数：<?php echo Helper::huodongPnum($v['id'])?></span> -->
+   </p>
+  </li>
+ <?php endforeach;?>
+ </ul>
+ 	<?php if(count($list)>=$this->lvActivityPageSize):?>
+ 	<div id="ajax_idx_more" rel='2' class="new_morelist">加载更多</div>
+	<?php endif;?>
+<?php endif;?>
+<?php include 'common/footer.php';?>

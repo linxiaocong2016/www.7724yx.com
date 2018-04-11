@@ -1,0 +1,40 @@
+时间：2017-09-08 21:43:01
+array (
+  0 => '
+        SELECT CONCAT(\'http://img.7724.com/\',gm.game_logo) AS game_logo,
+            IF(UNIX_TIMESTAMP() BETWEEN fh.start_time AND fh.end_time,
+                IF(fh.get_num < fh.num_count,1,IF(fh.taohao=1,2,3)),
+                IF(fh.start_time>UNIX_TIMESTAMP(),4,3)
+            ) AS get_status,
+            CEIL((fh.num_count-fh.get_num)*100/fh.num_count) AS surplus,
+            fh.id,fh.game_id,fh.game_name,fh.package_name,fh.package_des,fh.start_time,
+            fh.end_time,fh.time_interval,fh.num_count,fh.get_num,fh.public_time
+        FROM fahao fh
+        LEFT JOIN game gm
+        ON fh.game_id=gm.game_id
+        WHERE fh.`online`=1
+         AND fh.game_id =\'1824\'
+         ORDER BY `public_time` DESC
+         LIMIT 0,5 ',
+  1 => 'CDbCommand 无法执行 SQL 语句: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbCommand.php(396): CDbCommand->queryInternal(\'fetchAll\', Array, Array)
+#1 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(14): CDbCommand->queryAll()
+#2 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Giftcommon.php(61): DBHelper::queryAll(\'?        SELECT...\')
+#3 /data/wwwroot/www.7724.cn/protected/modules/pc/views/common/gift_by_game_id.php(7): Giftcommon::getList(Array)
+#4 /data/wwwroot/www.7724.cn/protected/modules/pc/views/game/game_detail.php(171): include(\'/data/wwwroot/w...\')
+#5 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#6 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', Array, true)
+#7 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', Array, true)
+#8 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'game_detail\', Array, true)
+#9 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/GameController.php(389): CController->render(\'game_detail\', Array)
+#10 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): GameController->actionGamedetail()
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#12 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#13 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'gamedetail\')
+#15 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/game/gamedet...\')
+#16 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#17 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#18 {main}',
+)
+*************************************

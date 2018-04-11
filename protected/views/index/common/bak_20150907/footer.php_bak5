@@ -1,0 +1,213 @@
+<link rel="stylesheet" type="text/css" href="/css/7724sdk_logout.css">
+<!--底部导航-->
+   <nav class="bottom_nav">
+       <ul>             
+            <li style="width:19%;"><a href="/" title="手机网页游戏">首页</a></li>
+            <li style="width:19%;"><a href="/wy.html" title="手机页游">网游</a></li>
+            <li style="width:19%;"><a href="/news.html" title="h5手游资讯">资讯</a></li>
+            <li style="width:19%;"><a href="<?php echo $this->createUrl('index/zhuanti')?>" title="在线游戏专题">专题</a></li>
+            <li  style="width:19%;"><a href="/new.html" title="手机游戏大全">游戏库</a></li>
+       </ul>
+   </nav>
+  
+   <!--底部-->
+   <footer class="footer">
+		<div style="clear: both;"></div>
+			<div><?php
+				$url = 'http://' . $_SERVER ['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+				$url = strpos($url,'?url') ? substr($url, strpos($url,'?url')) : '?url=' . urlencode($url);
+				if(!isset($_SESSION ['userinfo']) || empty($_SESSION ['userinfo'])) {
+					echo '<a href="/user/login/'.$url.'">登录</a>&nbsp;|&nbsp;<a href="/user/register/'.$url.'">注册</a>   ';
+				} else {                    
+					$lvTMP = $_SESSION ['userinfo']['nickname'] ? $_SESSION ['userinfo']['nickname'] : $_SESSION ['userinfo']['uid'];
+					//echo '你好，<a href="/user/index">' . $lvTMP . '</a>&nbsp;|&nbsp;<a href="/user/logout">退出</a>   ';
+					echo '你好，<a href="/user/index">' . $lvTMP . '</a>&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="beforeUserLogout()">退出</a>   ';
+				}
+				?></div>
+				 
+	   <p>
+		   <a style="color:#29ABE2;" href="<?php echo $this->createUrl('user2/feedback')?>">意见反馈</a>
+		   <a style="color:#666666;" href="/aboutus.html">关于我们</a>
+		   <a style="color:#666666;" href="/linkus.html">联系我们</a>
+		   <a style="color:red;" href="/cooperation.html"><b>游戏合作</b></a>
+	   </p>
+	   <p>
+			闽ICP备15008081号-2 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=921c2f99c1381082f24b42be36117a7978614ab766fcd691139c64c791d439d5"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="7724游戏交流群" title="7724游戏交流群"></a>
+	   </p>
+	</footer>
+   <!--返回顶部-->
+<div class="backtop">返回顶部</div>
+
+<div id="hideBackgound_content" ></div>
+<!--内容框-->
+<div id="div_content" style="display: none;">
+        <div class="content_box" id="box1">
+            <p class="con_tit">警告</p>
+            <p class="text" style="color: red">您当前的试玩账号没有完善资料，注销登录后会导致试玩游戏账号丢失！是否完善试玩账号？</p>          
+            <p class="button">
+                <a href="javascript:void(0);" onclick="continueLogout()"  class="SW">继续退出</a>
+                <a href="javascript:void(0);" onclick="continuePerfect()" class="LG both">立即完善</a>
+            </p>
+        </div>
+        <div class="content_box" id="box2" style="display: none;">
+            <p class="con_tit">完善账号</p>
+            <ul>
+                <li>
+                    <span class="user" style="margin-top: 0;padding: 0;"></span>
+                    <p><input type="text" id="username" name="username" class="input_1" value="<?php echo $_POST['username']; ?>" placeholder="请输入6位数字和字母"></p>
+                </li>
+                 
+                <li style="display: none;" id="validcode">
+                    <span class="yzm"></span>
+                    <p><input type="text" class="input_2" placeholder="请输入验证码" id="yzm" name="yzm"  value="<?php echo $_POST['yzm']; ?>" ></p>
+                    <em class="send_yzm" id="send_yzm" onclick="getCode();">发送验证码</em>
+                </li> 
+                <li>
+                    <span class="password"></span>
+                    <p><input type="password" id="passwd" name="passwd" class="input_1"  value="<?php echo $_POST['passwd']; ?>" placeholder="请输入6-15位字母或数字"></p>
+                </li>
+            </ul>
+            <p class="tishi" style="display: none"><span></span></p>
+            <p class="button">
+                <a href="javascript:void(0);" onclick="returnBack()" class="SW">返回</a>
+                <a href="javascript:void(0);" onclick="perfectSubmit()" class="LG both">完善提交</a>
+            </p>
+
+
+        </div>
+</div>
+
+<!-- 提示 -->
+<div class="tishi_box" style="display:none;">
+    <div class="title">
+        操作提示
+    </div>    
+        <p id="mes_tishi"></p>
+        <a href="javascript:void(0);" style=" width: 100%;" onclick="location.href = '/user/logout';"  class="sure2">确定</a>
+</div>
+
+<script type="text/javascript">
+	var oldusername;
+	//退出处理
+	function beforeUserLogout(){
+		//判断是否是试玩账号		
+		$.ajax({
+			type : "post",
+			url : '<?php echo $this->createUrl("user2/checkUserRegtype"); ?>',
+			dateType : "json",
+			data:{'uid':'<?php echo $_SESSION ['userinfo']['uid']?>'},
+			success : function(data) {
+				//alert(data);
+				data = JSON.parse(data);
+				
+				if(data.reg_type!=1){
+					//退出
+					continueLogout();
+				}else{
+					oldusername=data.username;
+					//试玩用户
+					//遮罩		
+					$("#hideBackgound_content").addClass("opacity_sdk");
+					//提示内容
+					$("#div_content").show();
+				}
+				
+			}
+		});
+		
+	}
+
+	//继续退出
+	function continueLogout(){
+		window.location.href="/user/logout";
+	}
+
+	//暂不退出
+	function pauseLogout(){
+		//遮罩		
+		$("#hideBackgound_content").removeClass("opacity_sdk");
+		//提示内容
+		$("#div_content").hide();
+	}
+
+	//继续完善
+	function continuePerfect(){
+		$("#box1").hide();
+        $("#box2").show();
+        $("#username").blur();
+	}
+
+	//返回
+	function returnBack(){
+		$("#box1").show();
+        $("#box2").hide();
+                
+	}
+
+	//完善提交
+	function perfectSubmit(){
+		$(".tishi").hide();
+        var lvUsername = $("#username").val();
+        var lvPWD = $("#passwd").val();
+        if (lvUsername == "") {
+            $(".tishi").show();
+            $(".tishi span").text("请输入用户名！");
+        }
+        else if (lvUsername.length < 6)
+        {
+            $(".tishi").show();
+            $(".tishi span").text("用户名长度不得小于6位！");
+        }
+        else if (!funcChina(lvUsername))
+        {
+            $(".tishi").show();
+            $(".tishi span").text("用户名不能含有汉字！");
+        }
+        
+        else if (lvPWD == "" || lvPWD == "输入密码") {
+            $(".tishi").show();
+            $(".tishi span").text("输入密码！");
+        }
+        else if (lvPWD.length < 6)
+        {
+            $(".tishi").show();
+            $(".tishi span").text("密码长度不得小于6位！");
+        }
+        else
+        {
+            var lvUserName = $("#username").val();
+            var lvPasswd = $("#passwd").val();
+            var lvCode=$("#yzm").val();
+            $.post("<?php echo $this->createUrl("user2/improve"); ?>", 
+                    {"oldusername": oldusername, 
+                	"uid": "<?php echo $_SESSION ['userinfo']['uid'] ?>", 
+                     "username": lvUserName, "passwd": lvPasswd, "code": lvCode},
+                   	function (data) { 
+		                data = JSON.parse(data);            
+		                if (data.success == "1") {	
+		                	$('#mes_tishi').text("用户完善成功！用户名："+lvUserName+" ，密码："+lvPasswd); 		                	
+		            		$("#div_content").hide();
+		                	$("#box1").show();
+		                    $("#box2").hide();
+		                	$(".tishi_box").show();
+			                
+		                }else {
+		                    
+		                    $(".tishi").show();
+		                    $(".tishi span").text(data.errmsg);
+		                }
+            });
+        }
+	}
+
+	//过滤汉字
+	function funcChina(str) {
+        if (/.*[\u4e00-\u9fa5]+.*$/.test(str))
+        {
+            //alert("不能含有汉字！");
+            return false;
+        }
+        return true;
+    }
+
+</script>				

@@ -1,0 +1,128 @@
+<?php include 'common/header.php'; ?>
+<?php include 'common/menu.php'; ?>
+<style>
+    /*网游*/
+    .index_tab,.index_tab2{clear:both; margin:10px auto; width:90%;}
+    .index_tab li,.index_tab2 li{float:left; width:33.3%; height:40px; cursor:pointer; position:relative;}
+    .index_tab2 li{width:50%;}
+    .index_tab li p,.index_tab2 li p{display:block; background:#fff; line-height:38px; font-size:16px; text-align:center; border:1px solid #e0e0e0; color:#808080;}
+    .index_tab li .p1,.index_tab2 li .p1{border-radius:4px 0 0 4px;}
+    .index_tab li .p2,.index_tab2 li .p2{border-left:none; border-right:none;}
+    .index_tab li .p3,.index_tab2 li .p3{border-radius:0 4px 4px 0;}
+    .index_tab li em,.index_tab2 li em{position:absolute; bottom:-4px; left:50%; margin-left:-10px; width:10px; height:5px; background:url(/img/arrow.png) no-repeat; background-size:10px 5px; display:none;}
+    .index_tab li.hover em,.index_tab2 li.hover em{display:inline-block;}
+    .index_tab li.hover p,.index_tab2 li.hover p{background:#00b3ff; color:#fff; border:1px solid #00b3ff; font-weight:bold;}
+
+</style>
+
+<?php
+$game_type = $lvCatInfo['id'];
+if($game_type == 49) {
+    ?>
+
+    <ul class="index_tab2 clearfix">
+        <li class="hover" id="one1"><a href="javascript:void(0);"  onClick="setTab('one', 1, 2)"><p class="p1">最新</p><em></em></a></li>
+        <li id="one2"><a href="javascript:void(0);" onClick="setTab('one', 2, 2)"><p class="p3">最热</p><em></em></a></li>
+    </ul>
+
+    <?php
+} else if($game_type != 49) {
+    ?>
+    <div class="category_tab clearfix">
+        <img src="/assets/index/img/category_bg.png">
+        <p><?php echo $lvCatInfo['name'] ?>小游戏</p>
+        <ul>
+            <li class="hover" id="one1" onClick="setTab('one', 1, 2)">最新</li>
+            <li id="one2" onClick="setTab('one', 2, 2)">最热</li>
+        </ul>
+    </div>
+    <?php
+}
+$option = array();
+$option[" game_type LIKE '%,$game_type,%' "] = '';
+$arr = array( "1" => "new", "2" => "top" );
+foreach( $arr as $k0 => $v0 ):
+    ?>
+    <div  id="con_one_<?php echo $k0; ?>" <?php if($k0 > 1) echo " style='display:none'"; ?>>
+        <?php
+        $orderTy = $v0;
+        $list = $this->getGameList($option, $this->lvListPageSize, 1, $orderTy);
+        if($list):
+            ?>
+            <script>
+                $(function () {
+                    var unlock<?php echo $k0; ?> = true;
+                    $(window).scroll(function () {
+                        var winH = $(window).height();
+                        var scrH = $(window).scrollTop();
+                        var htmH = $(document).height() - 100;
+                        if (winH + scrH >= htmH) {
+                            var obj = $("#ajax_idx_more<?php echo $k0; ?>");
+                            if ($(obj).length <= 0)
+                                return;
+                            ajaxidxmore<?php echo $k0; ?>(obj);
+                        }
+                    });
+                    function ajaxidxmore<?php echo $k0; ?>(obj) {
+                        if (!unlock<?php echo $k0; ?>)
+                            return;
+                        var html0 = $(obj).html();
+                        $(obj).html("加载中...");
+                        var page = $(obj).attr("rel");
+                        if (!isNaN(page)) {
+                            unlock<?php echo $k0; ?> = false;
+                            var game_type = '<?php echo $game_type ?>';
+                            var orderTy = '<?php echo $orderTy ?>';
+                            var flag='<?php echo $_GET['flag']?>';
+                            var query = {"orderTy": orderTy, "page": page, "game_type": game_type,"flag":flag};
+                            $.post('<?php echo $this->createurl("index/ajaxlist") ?>', query, function (data) {
+                                var top = $(document).scrollTop();
+                                $("#_list<?php echo $k0; ?>").append(data.html);
+                                $(obj).attr("rel", data.page);
+                                $(document).scrollTop(top);
+                                if (data.page != "end") {
+                                    unlock<?php echo $k0; ?> = true;
+                                    $(obj).html(html0);
+                                } else {
+                                    $(obj).html("已到最后...");
+                                }
+
+                                $("#_list<?php echo $k0; ?>").find("a").each(function(){
+                                     var flag='<?php echo $_REQUEST['flag'];?>';
+                                   	 var href=$(this).attr("href");
+                                   	 if(href.indexOf("flag")==-1)
+                                     	   $(this).attr("href",href+"?flag="+flag);
+                                });
+                                
+                                
+                            }, "json")
+                        }
+                    }
+                })
+            </script>
+            <div class="public new_public clearfix">
+                <div class="list_one">
+                    <dl id="_list<?php echo $k0; ?>">
+                        <?php foreach( $list as $k => $v ): ?>
+                            <dt>
+                            <a href="/<?php echo $v['pinyin'];?>/">
+                                <p class="p1"><img src="<?php echo $this->getPic($v['game_logo']) ?>"/></p>
+                                <p class="p2">
+                                    <i><?php echo $v['game_name'] ?></i>
+                                    <em><?php echo $this->getStarImg($v['star_level']) ?></em>
+                                    <span><?php echo $this->getGameTypeName($v['game_type'], 1) ?>&nbsp;&nbsp;&nbsp;人气：<?php echo $this->getVisits($v); ?></span>
+                                </p>
+                                <p class="p3"><span>开始玩</span></p>
+                            </a>
+                            </dt>
+                        <?php endforeach; ?>
+                    </dl>
+                </div>
+            </div>
+            <?php if(count($list) >= $this->lvListPageSize): ?>
+                <div id="ajax_idx_more<?php echo $k0; ?>" rel='2' class="new_morelist">加载更多</div>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+<?php include 'common/footer.php'; ?>

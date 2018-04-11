@@ -1,0 +1,38 @@
+<!--底部导航-->
+   <nav class="bottom_nav">
+       <ul>
+            <li style="width:19%;"><a href="/">首页</a></li>
+            <li style="width:19%;"><a href="/wy.html">网游</a></li>
+            <li style="width:19%;"><a href="/news.html">资讯</a></li>
+            <li style="width:19%;"><a href="<?php echo $this->createUrl('index/zhuanti')?>">专题</a></li>
+            <li  style="width:19%;"><a href="/new.html">游戏库</a></li>
+       </ul>
+   </nav>
+
+   
+   <!--底部-->
+   <footer class="footer">
+		<div style="clear: both;"></div>
+			<div><?php
+				$url = 'http://' . $_SERVER ['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+				$url = strpos($url,'?url') ? substr($url, strpos($url,'?url')) : '?url=' . urlencode($url);
+				if(!isset($_SESSION ['userinfo']) || empty($_SESSION ['userinfo'])) {
+					echo '<a href="/user/login/'.$url.'">登录</a>&nbsp;|&nbsp;<a href="/user/register/'.$url.'">注册</a>   ';
+				} else {                    
+					$lvTMP = $_SESSION ['userinfo']['nickname'] ? $_SESSION ['userinfo']['nickname'] : $_SESSION ['userinfo']['uid'];
+					echo '你好，<a href="/user/index">' . $lvTMP . '</a>&nbsp;|&nbsp;<a href="/user/logout">退出</a>   ';
+				}
+				?></div>
+				 
+	   <p>
+		   <a style="color:#29ABE2;" href="<?php echo $this->createUrl('user2/feedback')?>">意见反馈</a>
+		   <a style="color:#666666;" href="/aboutus.html">关于我们</a>
+		   <a style="color:#666666;" href="/linkus.html">联系我们</a>
+		   <a style="color:red;" href="/cooperation.html"><b>游戏合作</b></a>
+	   </p>
+	   <p>
+			闽ICP备15008081号-2 <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=921c2f99c1381082f24b42be36117a7978614ab766fcd691139c64c791d439d5"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="7724游戏交流群" title="7724游戏交流群"></a>
+	   </p>
+	</footer>
+   <!--返回顶部-->
+<div class="backtop">返回顶部</div>

@@ -1,0 +1,36 @@
+<?php
+//评论ajax操作
+class ApiController extends Controller{
+	function filters(){
+	}
+	
+	function actionAddsearchname(){
+		$keyword=addslashes(trim($_POST['keyword']));
+		if(isset($keyword)&&$keyword!==''){
+			$model=new SearchLog();
+			$res=$model->findByPk($keyword);
+			if($res){
+				$model=$res;
+			}
+			$model->name=$keyword;
+			$model->num=$model->num+1;
+			$model->save();
+		}
+	}
+	//添加推荐位访问
+	public function actionPositioncount(){
+		$posid=(int)$_POST["posid"];
+		if($posid<=0)return;
+		$ipnum=Helper::ip();
+		$create_time=time();
+		$create_y=date("Y");
+		$create_m=date("Ym");
+		$create_d=date("Ymd");
+		$sql="INSERT INTO position_count(pid,ip,create_time,create_y,create_m,create_d) VALUES('$posid','$ipnum','$create_time','$create_y','$create_m','$create_d')";
+		if(yii::app()->db->createCommand($sql)->query()){
+			echo "TRUE";
+		}else{
+			echo "FLASE";
+		}
+	}
+}

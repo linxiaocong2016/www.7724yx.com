@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta
+            content="width=device-width, initial-scale=1,maximum-scale=1.0,user-scalable=no;"
+            name="viewport" />
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+        <meta http-equiv="Cache-Control" content="max-age=3600" />
+        <title><?php echo $this->pageTitle; ?></title>
+        <link rel="stylesheet" type="text/css" href="/css/7724_per.css" />
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/7724_per.js"></script>
+        <script type="text/javascript" src="/js/commmon.js"></script>      
+    </head>
+
+    <body>
+        <header class="head clearfix">
+            <a href="javascript:history.go(-1);" class="back"></a> <span><?php echo $this->Title; ?></span>
+            <?php echo $this->MenuHtml; ?>
+        </header>
+
+
+        <?php echo $content; ?>
+        <!--底部导航-->
+        <nav class="bottom_nav">
+            <ul>
+                <li style="width: 16%;"><a href="/">首页</a></li>
+                <li style="width: 16%;"><a href="<?php echo $this->createUrl('index/new') ?>">最新</a></li>
+                <li style="width: 16%;"><a href="<?php echo $this->createUrl('index/top') ?>">最热</a></li>
+                <li style="width: 16%;"><a href="<?php echo $this->createUrl('index/zhuanti') ?>">专题</a></li>
+                <li style="width: 16%;"><a href="<?php echo $this->createUrl('index/gamecat') ?>">分类</a></li>
+                <li style="width: 16%;"><a href="http://yx.7724.com/?flag=7724sy">网游</a></li>
+            </ul>
+        </nav>
+        <!--底部-->
+        <footer class="footer">
+            <div style="clear: both;"></div>
+            <div><?php
+                if(!isset($_SESSION ['userinfo']) || empty($_SESSION ['userinfo'])) {
+                    echo '<a style="color:#29abe2;" href="/user/login">登录</a>&nbsp;|&nbsp;<a style="color:#29abe2;"  href="/user/register">注册</a>   ';
+                } else {                    
+                    $lvTMP = $_SESSION ['userinfo']['nickname'] ? $_SESSION ['userinfo']['nickname'] : $_SESSION ['userinfo']['uid'];
+                    echo '你好，<a style="color:#29abe2;" href="/user/login">' . $lvTMP . '</a>&nbsp;|&nbsp;<a style="color:#29abe2;" href="/user/logout">退出</a>   ';
+                }
+                
+              
+                ?></div>
+            <p>
+                资中县育才电脑科技有限公司<a href="/aboutus.html">关于我们</a><a href="/linkus.html">联系我们</a>
+            </p>
+            <p>
+                闽ICP备14003184号-2
+            </p>
+        </footer>
+    </body>
+</html>

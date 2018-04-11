@@ -1,0 +1,15 @@
+<?php include 'common/header.php';?>
+<?php include 'common/menu.php';?>
+<!--分类-->
+<?php if($lvList):?>
+ <div class="category clearfix">
+    <ul>
+    <?php foreach($lvList as $k=>$v):?>
+        <li><a href="<?php echo $this->getGameListUrl($v);?>">
+        <img src="<?php echo $this->getPic($v['pic'])?>" /><p><?php echo $v['name']?><span>
+        <em><?php echo $v['count']?></em>款</span></p></a></li>
+   <?php endforeach;?>
+    </ul>
+ </div>
+ <?php endif;?>
+ <?php include 'common/footer.php';?>

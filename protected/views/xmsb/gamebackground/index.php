@@ -1,0 +1,69 @@
+<?php
+	$lvTime=time();
+	$getArr=$_GET; 
+	$getJson=empty($getArr)?'{}':json_encode($getArr);
+	$gameAllCache=Game::get_cache_admin();
+?>
+<style>
+.admintable{width:99%}
+</style>
+<script>
+var getJson=<?php echo $getJson;?>;
+</script>
+<form method="get" action="<?php echo $this->createUrl("{$this->lvC}/{$this->getAction()->getId()}");?>">
+		<table border="0" class="admintable">
+			<tr>
+				<td>
+					搜索：
+					标题：
+					<input type="text" name="title_s" class="contentinput" value="<?php echo $_GET['title_s']?>" />
+					<input type="submit" value="查询" id="" name="" class="" />
+					<input type="button" value="新增" id="btn_add" name="btn_add" class="" 
+					onclick="self.location='<?php echo $this->createUrl("{$this->lvC}/controll",$getArr)?>'" />
+				</td>
+			</tr>
+		</table>
+		<div style="height: 10px; overflow: hidden;">&nbsp;</div>
+		<table border="1" class="admintable table">
+			<tr>
+				<th><?php echo CHtml::encode($model->getAttributeLabel('id'));?></th>
+				<th><?php echo CHtml::encode($model->getAttributeLabel('game_id'));?></th>
+				<th>游戏名称</th>
+				<th><?php echo CHtml::encode($model->getAttributeLabel('img'));?></th>
+				<th>操作</th>
+			</tr>
+			<?php $Date=$provider->getData();?>
+			<?php if($Date):?>
+				<?php foreach($Date as $k=>$v):?>
+				<tr>
+					<td><?php echo $v->id?></td>
+					<td><?php echo $v->game_id?></td>
+					<td><?php echo $gameAllCache[$v->game_id]['game_name']?></td>
+					<td><?php echo Tools::imgUrl($v->img)?></td>
+					<td>
+					<?php $getArr['id']=$v->id;?>
+						<a href="<?php echo $this->createUrl("{$this->lvC}/controll",$getArr);?>">修改</a>
+						<a href="<?php echo $this->createUrl("{$this->lvC}/delete",$getArr);?>"
+							onclick="javascript:return confirm('确定删除吗？');">删除</a>
+					</td>
+				</tr>
+				<?php endforeach;?>
+			<?php endif;?>
+			<tr>
+				<td colspan="15">
+					<div class="pagin">
+					<?php $this->widget('CLinkPager',array(
+								'firstPageLabel' => '首页',
+								'lastPageLabel' => '末页',
+								'prevPageLabel' => '&lt;&lt;',
+								'nextPageLabel' => '&gt;&gt;',
+								'maxButtonCount'=>12,
+								'pages'=>$provider->getPagination(),
+								)
+							);
+					?> 
+					</div>
+				</td>
+			</tr>
+		</table>
+</form>

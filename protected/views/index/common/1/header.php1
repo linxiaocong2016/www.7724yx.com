@@ -1,0 +1,21 @@
+<header class="head clearfix">
+     <div class="logo"><a href="/"><img src="/assets/index/img/logo.png" alt="7724游戏" title="7724游戏" /></a></div>
+     <div class="search">
+     <form id="search_form_id" action="<?php echo $this->createUrl('index/search');?>"  onSubmit="return searchnamesend()">
+       <?php 
+		$data = Gamefun::allGameSearchStatus(3);
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+				'name'=>'keyword',
+				'source'=>array_values($data),'skin'=>false,
+				'options'=>array('autoFocus'=>'1',
+						'minLength'=>'1',
+				), 'htmlOptions'=>array(
+						'class'=>'search_tx',
+						'placeholder' => '请输入游戏名称'
+				),
+		));
+		?>
+       <input type="submit" class="search_bt" value="" />
+     </form> 
+     </div>
+</header>

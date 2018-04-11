@@ -1,0 +1,130 @@
+<?php include 'common/header.php'; ?>
+<?php include 'common/menu.php'; ?>
+<script type="text/javascript" src="/assets/index/js/iscroll.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var Imglength = $(".detail_img_in img").length;
+        var Imgwidth = $(".detail_img_in li").width();
+        $(".detail_img_in").width(Imgwidth * Imglength + Imglength * 10 + 1);
+        var myScroll;
+        if ($("#wrapper").length > 0) {
+            myScroll = new IScroll('#wrapper', {
+                eventPassthrough: true,
+                scrollX: true,
+                scrollY: true,
+                preventDefault: false,
+                hScrollbar: true,
+                scrollbars: 'custom'
+            });
+        }
+    });
+
+
+    function collectgame() {
+        if ($("#collectgame").text() != "已收藏")
+        {
+            var query = {"gameid": <?php echo $_REQUEST['game_id']; ?>};
+            $.post('<?php echo $this->createurl("index2/Collect") ?>', query, function (data) {
+                if (data == "1")
+                    $("#collectgame").text("已收藏");
+                else if (data == "-1"){
+                    alert("亲！为避免收藏丢失，建议您登陆账号，享受永久收藏哦！");
+                    location.href = "/user/login?url=/online/<?php echo $_REQUEST['game_id']; ?>/";
+                }
+            });
+        }
+        return false;
+    }
+
+</script>
+<div class="public new_public clearfix">
+    <div class="detail_list_one">
+        <dl>
+            <dt>
+            <p class="p1"><img src="<?php echo $this->getPic($lvInfo['game_logo']) ?>" /></p>
+            <p class="p2">
+                <i><?php echo $lvInfo['game_name'] ?></i>
+                <em><?php echo $this->getStarImg($lvInfo['star_level']) ?></em>
+                <span><?php echo $this->getGameTypeName($lvInfo['game_type'], 2) ?><br>人气：<?php echo $this->getVisits($lvInfo); ?></span>
+            </p>
+<?php if(!$this->lvIsMobile): ?>
+                <p class="p3 ewmp3"><a onclick="gameplaycount('<?php echo $lvInfo['game_id'] ?>', '<?php echo $this->getKswUrl($lvInfo) ?>')" >开始游戏</a></p>
+                <p class="p4" style="margin-top: 7px;"><a id="collectgame" href="javascript:void(0);" onclick="collectgame();"><?php echo $lvInfo['hascollect'] ? "已收藏" : "收藏游戏"; ?></a></p>
+                <p class="p5 ewmp5" style="display: block;"><em></em><img src="<?php echo $this->getErwm($lvInfo); ?>"><span>手机扫一扫，马上玩</span></p>
+<?php else: ?>
+                <p class="p3"><a onclick="gameplaycount('<?php echo $lvInfo['game_id'] ?>', '<?php echo $this->getKswUrl($lvInfo) ?>')">开始游戏</a></p>
+                <p class="p4" style="margin-top: 7px;"><a id="collectgame" href="javascript:void(0);" onclick="collectgame();"><?php echo $lvInfo['hascollect'] ? "已收藏" : "收藏游戏"; ?></a></p>
+<?php endif; ?>     
+            </dt>
+        </dl>
+    </div>
+</div>
+
+<div class="public clearfix">
+    <div class="detail_tab">
+        <ul>
+            <li class="hover" id="one1" onClick="setTab('one', 1, 2)"><p class="intro">简介</p></li>
+            <li id="one2" onClick="setTab('one', 2, 2)"><p class="comment">评论</p></li>
+        </ul>
+    </div>
+    <!--简介-->
+    <div class="detail_con" id="con_one_1">
+
+<?php if($lvInfo['game_album'][1]): ?>
+            <div class="detail_img" id="wrapper">
+                <div id="scroller" class="detail_img_in">
+                    <ul>
+                        <?php foreach( $lvInfo['game_album'][1] as $k => $v ): ?>
+                            <li><img src="<?php echo $v; ?>" <?php if($k == 0) echo ' class="img"'; ?> /></li>
+    <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>  
+        <div class="detail">
+            <?php
+            $short_introduce = $lvInfo['short_introduce'];
+            if($short_introduce):
+                ?>
+                <div class="tit"><p class="tit_ico game_intro">游戏说明</p></div>
+                <div class="introd_con"><?php echo $short_introduce; ?></div>
+            <?php endif; ?>
+            <?php
+            $list = $this->getGameTagArr($lvInfo['tag']);
+            if($list):
+                ?>
+                <div class="tit"><p class="tit_ico game_label">游戏标签</p></div>
+                <div class="lable_list">
+                    <?php foreach( $list as $k => $v ): ?>
+                        <a href="<?php echo $this->createUrl('index/taggamelist', array( 'tag_id' => $v['id'] )); ?>"><?php echo $v['name']; ?></a>
+                <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php
+            $list = $this->getRandGameList(8);
+            if($list):
+                ?>
+                <div class="tit"><p class="tit_ico about_game">相关游戏</p></div>
+                <div class="list_four clearfix">
+                    <ul>
+    <?php foreach( $list as $k => $v ): ?>
+                            <li><a href="<?php echo $this->getDetailUrl($v) ?>">
+                                    <img src="<?php echo $this->getPic($v['game_logo']) ?>" /><p>
+                            <?php echo $v['game_name'] ?></p></a></li>
+    <?php endforeach; ?>
+                    </ul>
+                </div>
+<?php endif; ?>
+        </div>
+    </div>
+    <!--评论-->
+    <div class="detail" id="con_one_2" style=" display:none">
+        <?php
+        $widgetArr = array( 'lv_gid' => $lvInfo['game_id'], 'lv_tid' => 3, 'lv_css' => 0 );
+        $this->beginWidget('widgets.PinglunWidget', $widgetArr);
+        $this->endWidget();
+        ?>
+    </div>
+
+</div>
+<?php include 'common/footer.php'; ?>

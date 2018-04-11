@@ -1,0 +1,780 @@
+<?php
+
+
+/**
+ * 网络游戏
+ *
+ * @author Administrator
+ */
+
+session_start();
+
+class NetworkgameController extends Controller {
+	
+	public $layout = 'network_game';
+	public $PageSize = 10;
+	
+	/**
+	 * 网游接入获取用户信息接口
+	 */
+	public function actionGetUserInfo(){
+		$appkey=$_REQUEST['appkey'];
+		$time=$_REQUEST['time'];
+		$uid=$_REQUEST['uid'];
+		$sign=$_REQUEST['sign'];
+		
+		$returnVal=array(
+				'success'=>0,
+				'nickname'=>'',
+				'head_img'=>'',
+		);
+		
+		if($appkey && $time && $uid && $sign){
+			
+			$ck_sign=Tools::getSign(array( "appkey" => $appkey, "time" => $time, "uid" => $uid), 'qqes');
+			
+			if($ck_sign!=$sign){
+				die(json_encode($returnVal));
+			}
+			
+			$returnVal['success']=1;
+			
+			//获取用户信息
+			$sql="select * from user_baseinfo where uid='{$uid}'";
+			$info=DBHelper::queryRow($sql);
+			if($info){
+				if(strpos($info['head_img'], 'http://')!==FALSE){
+					$returnVal['head_img']=$info['head_img'];
+				}else if(empty($info['head_img'])){
+					$returnVal['head_img']="http://www.7724.com/img/default_pic.png";
+				}else{
+					$returnVal['head_img']="http://img.7724.com/".$info['head_img'];
+				}
+				
+				$returnVal['nickname']=$info['nickname'];
+			}
+			
+			die(json_encode($returnVal));
+			
+		}else{
+			die(json_encode($returnVal));
+		}
+	}
+		
+	/**
+	 * 进入游戏相关展示
+	 */
+	public function actionGameshow(){
+		$pinyin=$_REQUEST['pinyin'];//游戏拼音
+		$lvInfo['pinyin']=$pinyin;
+		$this->renderPartial("$pinyin/index",$lvInfo);
+	}
+	
+	/**
+	 * 微信分享通知
+	 */
+	public function actionShareWXNotify(){
+		$qqes_game_id=$_REQUEST['game_id'];//七七游对应游戏id		
+		$share_type=$_REQUEST['share_type'];//分享类型
+		
+		//$msg=array('game_id'=>$qqes_game_id,'share_type'=>$share_type);
+		
+		if($qqes_game_id && $share_type){
+			$uid = isset($_SESSION ['userinfo']['uid'])?$_SESSION ['userinfo']['uid']:null;
+			if($uid){
+				//获取AppKey、通用签名key、分享通知url
+				$sql="select gameguid,secretkey,shareurl from ext_sdk_game where qqesgameid='{$qqes_game_id}'";
+				$sdkGame=DBHelper::uc_queryRow($sql);
+				
+				//$msg['uid']=$uid;
+				//$msg['appkey']=$sdkGame['gameguid'];
+				
+				if($sdkGame && $sdkGame['shareurl']){
+					//获取token
+					$sql="select token from ext_user_token where uid='{$uid}'";
+					$userToken=DBHelper::uc_queryRow($sql);
+					
+					//$msg['token']=$userToken['token'];
+					
+					if($userToken){
+						$time=time();						
+						$lvPostData =array(
+								"appkey" => $sdkGame['gameguid'],
+								"time" => $time,
+								"token" => $userToken['token'],
+								"sharetype" => $share_type, 
+								"success" => 1,
+								"uid"=>$uid,
+						);
+						
+						$lvPostData['sign'] = Tools::getSign($lvPostData, $sdkGame['secretkey']);						
+						Tools::getURLContent($sdkGame['shareurl'], $lvPostData);
+						
+					}	
+					
+				}
+									
+			}
+			
+		}
+		
+		//die(json_encode($msg));
+	}
+	
+		
+	/**
+	 * 用户
+	 */
+	public function actionUserList(){
+		$user = isset($_SESSION ['userinfo'])?$_SESSION ['userinfo']:null;
+		if($user){
+			$uid = isset($user ['uid'])?$user ['uid']:null;
+		}else{
+			$uid=null;
+		}
+		//$log_str="session中的用户id=$uid";
+		if(!$uid){
+			if(isset($_COOKIE['uid'])){
+				$uid=$_COOKIE['uid'];
+				//$log_str="cookie中的用户id=$uid";
+			}
+		}
+		//Tools::write_log($log_str,'test_user_uid.log');
+		
+		
+		$sql = "select * from user_baseinfo where uid=:uid";
+		$info = DBHelper::queryRow($sql, array( ":uid" => $uid ));
+		
+		if(!$info){
+			//Tools::write_log('7724库无用户信息','test_user_uid.log');
+			$sql = "select * from ext_userinfo where uid=:uid";
+			$info = DBHelper::uc_queryRow($sql, array( ":uid" => $uid ));
+			if(!$info){
+				//Tools::write_log('ucenter库无用户信息','test_user_uid.log');
+			}
+		}
+				
+		//查询登录类型reg_type
+		$reg_sql = "select username,reg_type from ext_userinfo where uid=:uid";
+		$regInfo = DBHelper::uc_queryRow($reg_sql, array( ":uid" => $uid ));
+		
+		//一键试玩用户完善时登录 昵称不一样处理
+		if(isset($_SESSION ['userinfo'])){
+			$_SESSION ['userinfo']['nickname']=$info['nickname'];
+		}
+				
+		$_GET['ng_menu_key']=1;
+		$this->render('userlist',array(
+				"info" => $info,
+				'user_reg_type'=>$regInfo['reg_type'],
+				'user_username'=>$regInfo['username']
+		));
+	}
+	
+	/**
+	 * 消息
+	 */
+	public function actionMessageList(){
+		
+		$game_id=$_REQUEST['game_id'];		
+		//获取当前用户接受的推送信息，
+		$uid=isset($_SESSION ['userinfo'][uid])?$_SESSION ['userinfo'][uid]:null;
+		
+		$messageList=null;
+		if($uid){
+			 $messageList=MessagePushBLL::getCurGameMessagePush($uid,$game_id,1,$this->PageSize);
+		}
+		
+		$_GET['ng_menu_key']=2;
+		$this->render('messagelist',
+				array('messageList'=>$messageList		
+		));
+	}
+
+	/**
+	 * ajax获取更多消息
+	 */
+	public function actionAjaxGetMessage(){
+		
+		$page = ( int ) $_POST["page"];
+		$game_id = $_POST["game_id"];
+		$uid=isset($_SESSION ['userinfo'][uid])?$_SESSION ['userinfo'][uid]:null;
+		
+		$retrun = array( "html" => "", "page" => 'end' );
+		if($page <= 1 || !$game_id || !$uid) {
+			die(json_encode($retrun));
+		}
+		$list = MessagePushBLL::getCurGameMessagePush($uid,$game_id,$page,$this->PageSize);
+		
+		if($list) {
+			$retrun["html"] = $this->renderPartial("list/_messagelist", array( "messageList" => $list, ), true);
+			if($this->PageSize == count($list)) {
+				$retrun["page"] = $page + 1;
+			}
+		}
+		
+		die(json_encode($retrun));
+	
+	}
+	
+	/**
+	 * 当前游戏的礼包
+	 */
+	public function actionLibaoList(){
+		$game_id=$_REQUEST['game_id'];		
+		
+		$libaoList=null;
+		if($game_id){
+			$libaoList = LibaoPackageBLL::getLibaoRelate($game_id,$this->PageSize);
+		}
+		
+		$_GET['ng_menu_key']=3;
+		$this->render('libaolist', 
+				array('libaoList'=>$libaoList,						
+		));
+	}
+	
+	
+	/**
+	 * ajax获取更多消息
+	 */
+	public function actionAjaxGetLibao(){
+	
+		$page = ( int ) $_POST["page"];
+		$game_id = $_POST["game_id"];
+		
+		$retrun = array( "html" => "", "page" => 'end' );
+		if($page <= 1 || !$game_id) {
+			die(json_encode($retrun));
+		}
+		$list = LibaoPackageBLL::getLibaoRelate($game_id,$this->PageSize,$page);
+	
+		if($list) {
+			
+			$retrun["html"] = $this->renderPartial("list/_libaolist", array( "libaoList" => $list, ), true);
+			if($this->PageSize == count($list)) {
+				$retrun["page"] = $page + 1;
+			}
+		}
+	
+		die(json_encode($retrun));
+	
+	}
+	
+	
+	/**
+	 * 检查用户是否登录
+	 */
+	public function actionCheckUserExist(){
+		if(!isset($_SESSION ['userinfo']) || empty($_SESSION ['userinfo'])) {
+			die(json_encode(array(
+					'success'=>-1
+			)));
+		}
+		die(json_encode(array(
+				'success'=>1
+		)));
+	}
+	
+	
+	
+	/**
+	 * 获取最新的消息推送
+	 */
+	public function actionGetNewMessagePush(){
+		$game_id=$_POST ['game_id'];//当前游戏id
+		$uid=isset($_SESSION ['userinfo'][uid])?$_SESSION ['userinfo'][uid]:null;
+		if(!$uid){
+			//用户未登录，不推送
+			die(json_encode(array(
+					'success'=>-1,
+					'content'=>'',
+					'direct_url'=>'',
+			)));
+		}
+		$user_mes_t="user_message_push_".($uid % 10);//用户接收信息表
+		
+		//上线的 当前推送时间内，开始日期靠后(最新)的排前面，取20条
+		$now_time=time();
+		$sql="SELECT * FROM `message_push` mp WHERE mp.`online` = '1'
+				AND '{$now_time}' BETWEEN mp.start_time AND mp.end_time
+				ORDER BY mp.start_time DESC,mp.id DESC LIMIT 20";
+		$messageList=DBHelper::queryAll($sql);
+		if($messageList){
+			//比对符合的推送信息
+			foreach ($messageList as $messageInfo){
+				//判断当前用户是否有该推送信息了
+				$check_sql="select id from {$user_mes_t} where user_id='{$uid}'
+					and messagepush_id='{$messageInfo['id']}'";
+				$checkResult=DBHelper::queryRow($check_sql);
+				if($checkResult){
+					continue;
+				}
+				if($messageInfo['push_type']==1){
+					//全部用户
+					$data=array(
+						'messagepush_id'=>$messageInfo['id'],
+						'user_id'=>$uid,
+						'receive_flag'=>1,
+						'receive_time'=>time(),
+					);
+					Helper::sqlInsert($data, $user_mes_t);
+					die(json_encode(array(
+							'success'=>1,
+							'content'=>$messageInfo['content'],
+							'direct_url'=>$messageInfo['direct_url'],
+					)));
+		
+				}else if($messageInfo['push_type']==2){
+					//部分用户，游戏
+					if($game_id && $game_id==$messageInfo['game_id']){
+						$data=array(
+								'messagepush_id'=>$messageInfo['id'],
+								'user_id'=>$uid,
+								'receive_flag'=>1,
+								'receive_time'=>time(),
+						);
+						Helper::sqlInsert($data, $user_mes_t);
+						die(json_encode(array(
+								'success'=>1,
+								'content'=>$messageInfo['content'],
+								'direct_url'=>$messageInfo['direct_url'],
+						)));
+					}
+		
+				}else if($messageInfo['push_type']==3){
+					//部分用户，用户列表
+					//user_list LIKE '%,45645345,%'
+					if(stristr($messageInfo['user_list'],",$uid,")){					
+						$data=array(
+								'messagepush_id'=>$messageInfo['id'],
+								'user_id'=>$uid,
+								'receive_flag'=>1,
+								'receive_time'=>time(),
+						);
+						Helper::sqlInsert($data, $user_mes_t);
+						die(json_encode(array(
+								'success'=>1,
+								'content'=>$messageInfo['content'],
+								'direct_url'=>$messageInfo['direct_url'],
+						)));
+					}	
+		
+				}else{
+					die(json_encode(array(						
+							'success'=>-1,
+							'content'=>'',
+							'direct_url'=>'',
+					)));
+				}
+			}
+	
+		}else{
+			die(json_encode(array(
+					'success'=>-1,
+					'content'=>'',
+					'direct_url'=>'',
+			)));
+		}
+	
+	}
+	
+	//充值完成后会到游戏里 有渠道
+	public function actionQudaoPaybackgame(){
+		$pinyin=$_REQUEST['pinyin'];//游戏拼音
+		$spend_id=$_REQUEST['spend_id'];//消费id
+		$channel_id=$_REQUEST['id'];//渠道id
+	
+		if(!$spend_id){
+			if(!$pinyin){
+				$this->redirect(Yii::app()->homeUrl);
+			}else{
+				//退回到game
+				$this->redirect(Yii::app()->request->hostInfo.'/'.$pinyin.'/game/'.$channel_id);
+			}
+		}
+		//获取游戏拼音  关联7724的game
+		$sql = "SELECT game_id,game_name,game_logo,share_title,share_desc FROM game where pinyin='{$pinyin}'";
+		$lvGameInfo = DBHelper::queryRow($sql);
+	
+		$game_url="http://i.7724.com/user/sdkRechargeBack?pinyin=$pinyin&spend_id=$spend_id&channel=$channel_id";
+		$game_name=$lvGameInfo['game_name']?$lvGameInfo['game_name']:'';
+		//$iframe_height='';
+	
+		
+		//查询渠道为内部或外部
+		$channel_sql="select esm.channel_flag from ext_sdk_channel esc ,ext_sdk_member esm where esc.companyid=esm.id
+			and esc.id='{$channel_id}'";
+		$gameMenInfo=DBHelper::uc_queryRow($channel_sql);		
+
+		$this->renderPartial('playgame',
+				array(
+						'game_url'=>$game_url,
+						'game_name'=>$game_name,
+						//'iframe_height'=>$iframe_height,
+						'game_id'=>$lvGameInfo['game_id'],
+						'gameInfo'=>$lvGameInfo,
+						'channel_flag'=>1,//1----title添加 7724游戏
+						'channel_flag'=>isset($gameMenInfo['channel_flag'])?$gameMenInfo['channel_flag']:1,//1----title添加 7724游戏
+				
+				)
+		);
+	
+	}
+	
+	//充值完成后会到游戏里 无渠道
+	public function actionPaybackgame(){
+		$pinyin=$_REQUEST['pinyin'];//游戏拼音
+		$spend_id=$_REQUEST['spend_id'];//消费id
+		
+		if(!$spend_id){
+			if(!$pinyin){
+				$this->redirect(Yii::app()->homeUrl);
+			}else{
+				//退回到game					
+				$this->redirect(Yii::app()->request->hostInfo.'/'.$pinyin.'/game');
+			}			
+		}
+		//获取游戏拼音  关联7724的game
+		$sql = "SELECT game_id,game_name,game_logo,share_title,share_desc FROM game where pinyin='{$pinyin}'";
+		$lvGameInfo = DBHelper::queryRow($sql);
+		
+		$game_url="http://i.7724.com/user/sdkRechargeBack?pinyin=$pinyin&spend_id=$spend_id";		
+		$game_name=$lvGameInfo['game_name']?$lvGameInfo['game_name']:'';
+		//$iframe_height='';
+		
+		$this->renderPartial('playgame',
+				array(
+						'game_url'=>$game_url,
+						'game_name'=>$game_name,
+						//'iframe_height'=>$iframe_height,
+						'game_id'=>$lvGameInfo['game_id'],
+						'gameInfo'=>$lvGameInfo,
+						'channel_flag'=>1,//1----title添加 7724游戏
+				)
+		);
+				
+	}
+
+   
+	/**
+	 * 非渠道链接 开始玩
+	 */
+	public function actionPlaygame(){
+		
+		
+		$game_url=$_REQUEST['game_url_iframe']?$_REQUEST['game_url_iframe']:null;
+		
+		if($game_url){			
+			$game_url=$_REQUEST['game_url_iframe'];//游戏地址
+			$game_name=$_REQUEST['game_name_iframe'];//游戏名称
+			//$iframe_height=$_REQUEST['game_iframe_height'];//iframe高度
+			$game_id=$_REQUEST['game_id_iframe'];//游戏id			
+
+			if(stristr($game_url,"play.7724.com")){
+				//保存用户最近的游戏记录到cookie中
+				UserInfoBLL::savePlayGameRecord($game_id);
+								
+				//非网游,直接跳转
+				$this->redirect($game_url);
+				die();
+			}else{
+				//网游				
+				//$height_fact=$iframe_height-5;
+						
+
+				$sql="SELECT pinyin,game_id,game_name,game_url,game_logo,share_title,share_desc,
+						enter_show_flag FROM `game` WHERE game_id = '{$game_id}'";
+				$gameInfo=DBHelper::queryRow($sql);
+				
+				//判断是否开启游戏相关展示
+				if($gameInfo['enter_show_flag']==1){					
+					$lvInfo['pinyin']=$gameInfo['pinyin'];
+					$lvInfo['game_url']="/{$gameInfo['pinyin']}/game";
+					$this->renderPartial("{$lvInfo['pinyin']}/index",$lvInfo);
+					die();
+				}
+				
+				$lvData=array(
+							'game_url'=>$game_url,
+							'game_name'=>$game_name,
+							//'iframe_height'=>"height:".($height_fact)."px",
+							'game_id'=>$game_id,
+							'gameInfo'=>$gameInfo,
+							'channel_flag'=>1,//1----title添加 7724游戏
+					);
+					
+				//渠道flag
+				$user_reg_channel_flag=isset($_COOKIE['session_flag0'])?$_COOKIE['session_flag0']:'';
+				if($user_reg_channel_flag){
+					$memberInfo=ExtSdkMemberBLL::getMemberInfoByFlag($user_reg_channel_flag);
+					if($memberInfo){
+						$lvData['tuisong_flag']=$memberInfo['tuisong_flag'];
+						$lvData['channel_flag']=$memberInfo['channel_flag'];
+					}
+				}
+				/*
+				$uid=isset($_SESSION ['userinfo'][uid])?$_SESSION ['userinfo'][uid]:null;
+				if($uid=='248039'){
+					Tools::printData($lvData);
+					die();
+				}
+				*/
+				//保存用户最近的游戏记录到cookie中
+				UserInfoBLL::savePlayGameRecord($game_id);
+				
+				
+			
+				$this->renderPartial('playgame',$lvData);
+				die();
+			}			
+		}
+				
+		//iframe嵌套 链接给被人或者直接地址输入，没有game_url，需获取				
+		$pinyin=$_REQUEST['pinyin'];//游戏拼音
+		
+		$sql="SELECT pinyin,game_id,game_name,game_url,game_logo,share_title,share_desc, 
+			enter_show_flag FROM `game` WHERE pinyin = '{$pinyin}'";
+		$gameInfo=DBHelper::queryRow($sql);	
+		
+		if(!$gameInfo){
+			//无对于拼音的游戏，跳转首页
+			$this->redirect(Yii::app()->homeUrl);
+		}
+		
+		//单机，跳出iframe
+		if(stristr($gameInfo['game_url'],"play.7724.com")){
+			//保存用户最近的游戏记录到cookie中
+			UserInfoBLL::savePlayGameRecord($gameInfo['game_id']);
+		
+			//非网游,直接跳转
+			$this->redirect($gameInfo['game_url']);
+			die();
+		}
+		
+
+		//判断是否开启游戏相关展示
+		$show_play_game=isset($_POST['show_play_game'])?$_POST['show_play_game']:0;
+		if($gameInfo['enter_show_flag']==1 && !$show_play_game){
+			$lvInfo['pinyin']=$gameInfo['pinyin'];
+			$lvInfo['game_url']="/{$gameInfo['pinyin']}/game";
+			$this->renderPartial("{$lvInfo['pinyin']}/index",$lvInfo);
+			die();
+		}
+		
+		$game_url=$this->getGameurl($pinyin,$gameInfo);
+		$game_name=$gameInfo['game_name']?$gameInfo['game_name']:'';
+				
+		/*
+		//处理QQ登录来源的游戏地址
+		$pinyin_game="http://www.7724.com/{$pinyin}/game";
+		if(strpos($game_url, "?") !== FALSE){
+			$game_url = $game_url . "&url_game_referer={$pinyin_game}";
+		}else {
+			$game_url = $game_url . "?url_game_referer={$pinyin_game}";
+		}
+			*/	
+				
+		
+		if($_GET['fc']){
+			$this->renderPartial('test_fc',
+					array(
+							'game_url'=>$game_url,
+							'game_name'=>$game_name,
+							//'iframe_height'=>$iframe_height,
+							'game_id'=>$gameInfo['game_id'],
+							'gameInfo'=>$gameInfo,
+							'channel_flag'=>1,//1----title添加 7724游戏
+					)
+			);
+			
+			die();
+		}
+		
+		
+		if($_GET['fcold']){
+			$this->renderPartial('test_fc_old',
+					array(
+							'game_url'=>$game_url,
+							'game_name'=>$game_name,
+							//'iframe_height'=>$iframe_height,
+							'game_id'=>$gameInfo['game_id'],
+							'gameInfo'=>$gameInfo,
+							'channel_flag'=>1,//1----title添加 7724游戏
+					)
+			);
+			
+			die();
+		}
+		
+		$lvData=array(
+						'game_url'=>$game_url,
+						'game_name'=>$game_name,
+						//'iframe_height'=>$iframe_height,
+						'game_id'=>$gameInfo['game_id'],
+						'gameInfo'=>$gameInfo,
+						'channel_flag'=>1,//1----title添加 7724游戏
+				);
+				
+		//渠道flag
+		$user_reg_channel_flag=isset($_COOKIE['session_flag0'])?$_COOKIE['session_flag0']:'';
+		if($user_reg_channel_flag){
+			$memberInfo=ExtSdkMemberBLL::getMemberInfoByFlag($user_reg_channel_flag);
+			if($memberInfo){
+				$lvData['tuisong_flag']=$memberInfo['tuisong_flag'];
+				$lvData['channel_flag']=$memberInfo['channel_flag'];
+			}
+		}
+		
+		//保存用户最近的游戏记录到cookie中
+		UserInfoBLL::savePlayGameRecord($gameInfo['game_id']);
+		
+		/*
+		$uid=isset($_SESSION ['userinfo'][uid])?$_SESSION ['userinfo'][uid]:null;
+		if($uid=='248039'){
+			Tools::printData($lvData);
+			die();
+		}
+		*/
+		
+		
+		$isMobile=Tools::isMobile();
+		if(!$isMobile){
+			$lvData['gamebackinfo']=GameInfo::gamebackinfo($gameInfo['game_id']);
+		}
+		$lvData['isMobile']=$isMobile;
+		
+		
+		$this->renderPartial('playgame',$lvData);
+		
+	}
+	
+	/**
+	 * 渠道链接 开始玩
+	 */
+	public function actionQudaoPlaygame(){
+		
+		$pinyin=$_REQUEST['pinyin'];//游戏拼音
+		$channel_id=$_REQUEST['id'];//渠道列表id
+				
+		//拼接game_url等		
+		$sql="SELECT esgame.game_id,esgame.game_name,esgame.game_url,esgame.game_logo,esgame.share_title,
+			esgame.enter_show_flag,esgame.pinyin,
+			esgame.share_desc,sg.gameguid AS appkey FROM `7724`.game esgame 
+			left join `ucenter`.ext_sdk_game sg on esgame.game_id = sg.qqesgameid
+			WHERE esgame.pinyin = '{$pinyin}'";
+		
+		$gameInfo=DBHelper::queryRow($sql);
+	
+		if(!$gameInfo){
+			//无对于拼音的游戏，跳转首页
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	
+		//判断是否开启游戏相关展示
+		$show_play_game=isset($_POST['show_play_game'])?$_POST['show_play_game']:0;
+		if($gameInfo['enter_show_flag']==1 && !$show_play_game){
+			$lvInfo['pinyin']=$gameInfo['pinyin'];
+			$lvInfo['game_url']="/{$gameInfo['pinyin']}/game/{$channel_id}";
+			$this->renderPartial("{$lvInfo['pinyin']}/index",$lvInfo);
+			die();
+		}	
+		
+		$game_url="http://i.7724.com/user/qudaologin?appkey={$gameInfo['appkey']}&qqes={$channel_id}";
+				
+		$game_name=$gameInfo['game_name']?$gameInfo['game_name']:'';
+		//$iframe_height='';
+				
+		//查询渠道为内部或外部
+		$channel_sql="select esm.channel_flag,esm.tuisong_flag from ext_sdk_channel esc ,ext_sdk_member esm where esc.companyid=esm.id
+					and esc.id='{$channel_id}'";
+		$gameMenInfo=DBHelper::uc_queryRow($channel_sql);
+		
+		/*
+		//处理QQ登录来源的游戏地址
+		$pinyin_game="http://www.7724.com/{$pinyin}/game/{$channel_id}";
+		if(strpos($game_url, "?") !== FALSE){
+			$game_url = $game_url . "&url_game_referer={$pinyin_game}";
+		}else {
+			$game_url = $game_url . "?url_game_referer={$pinyin_game}";
+		}
+		*/		
+		
+		//保存用户最近的游戏记录到cookie中
+		UserInfoBLL::savePlayGameRecord($gameInfo['game_id']);
+		
+		
+		$isMobile=Tools::isMobile();
+		if(!$isMobile){
+			$gamebackinfo=GameInfo::gamebackinfo($gameInfo['game_id']);
+		}
+		
+		$this->renderPartial('playgame',
+				array(
+						'game_url'=>$game_url,
+						'game_name'=>$game_name,
+						//'iframe_height'=>$iframe_height,
+						'game_id'=>$gameInfo['game_id'],
+						'gameInfo'=>$gameInfo,
+						'channel_flag'=>isset($gameMenInfo['channel_flag'])?$gameMenInfo['channel_flag']:1,//1----title添加 7724游戏
+						'tuisong_flag'=>isset($gameMenInfo['tuisong_flag'])?$gameMenInfo['tuisong_flag']:1,	
+						'isMobile'=>$isMobile,
+						'gamebackinfo'=>$gamebackinfo,
+						
+				)
+		);
+	
+	}
+	
+	
+	/**
+	 * 获取游戏地址
+	 * @param unknown_type $pinyin
+	 * @param unknown_type $gameInfo
+	 * @return Ambigous <string, unknown>|string|unknown
+	 */
+	public function getGameurl($pinyin,$gameInfo) {
+		
+		$lvGameURL = "";
+		if($gameInfo) {
+			$lvGameURL = $gameInfo['game_url'];			
+			if($lvGameURL && strpos($lvGameURL, "http://") !== false) {
+				return $lvGameURL;
+			}
+		}
+		$urlTemp = strtolower($pinyin);
+		if(strpos($urlTemp, "http://www.7724.com") !== false) {
+			return str_replace("http://www.7724.com", "http://play.7724.com", $urlTemp);
+		} elseif(strpos($urlTemp, "http://") === false) {
+			return "http://play.7724.com/olgames/" . $pinyin;
+		}
+		return $pinyin;
+	}
+	
+	/**
+	 * 验签
+	 * @param unknown_type $arr
+	 * @param unknown_type $pKey
+	 */
+	public function getSign($arr = array(), $pKey = "") {
+		unset($arr['sign']);
+		if(!$pKey)
+			die("验签key为空！");
+		ksort($arr);
+		$signStr = "";
+		foreach( $arr as $k => $v ) {
+			$signStr .= "{$k}={$v}&";
+		}
+		return md5($signStr . $pKey);
+	}
+
+	/**
+	 * 获取微信分享的配置数据
+	 * @return string
+	 */
+	public function actionGetWeixinShareConfig(){	
+		$cur_url=$_POST['cur_url'];	
+		echo WeixinBll::actionGetWeixinShareConfig($cur_url);
+	}
+	
+}

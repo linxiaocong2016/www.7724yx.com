@@ -1,0 +1,861 @@
+<?php
+
+class GameController extends LController {
+
+    const CACHETIME = 600;
+
+    public function actions() {
+        return array(
+            'upload' => array(
+                'class' => 'ext.KEditor.Keditorupload'
+            ),
+            'managejson' => array(
+                'class' => 'ext.KEditor.Keditormanage'
+            )
+        );
+    }
+	
+	/**
+     * 及时更新琵琶网对应的入库游戏信息
+     * @param unknown_type $game_model 游戏id
+     */
+    public function gameImportPipawRightnow($game_id){
+    	//return;
+    	//获取游戏信息
+    	$game_sql="select * from game where game_id='{$game_id}'";
+    	$val=DBHelper::queryRow($game_sql);
+    	if($val){
+	    	$pURL="http://wy.pipaw.com/admin/api/Syncgame";    	
+	
+	    	$qq_game=2;
+	    	$state_id=0;
+	    	$soft_url=$val['game_url'];
+	    	
+	    	//判断是否为网游 ,49,
+	    	if(stripos($val['game_type'], ',49,') === false){
+	    		//单机
+	    		$seo_title="游戏名_游戏名在线玩_游戏名小游戏_游戏名网页版_h5在线游戏-琵琶网";
+	    		$seo_keyword="游戏名,游戏名网页版,手机小游戏";
+	    		$seo_description="琵琶网游戏名手机小游戏大全提供游戏名在线玩,游戏名网页版,游戏名攻略,".
+	    				"游戏名攻略,闯关玩法,在线手机小游戏,免下载立即玩小游戏等";
+	    		
+	    	}else{
+	    		//网游
+	    		$qq_game=3;
+	    		$state_id=4;
+	    	
+	    		$seo_title="游戏名-游戏名官网_游戏名攻略_游戏名礼包激活码_在线玩-琵琶网";
+	    		$seo_keyword="游戏名,游戏名官网,游戏名礼包";
+	    		$seo_description="琵琶网游戏名手游官网将为大家免费提供h5网页版，游戏名攻略，".
+	    				"在线玩以及游戏名礼包激活码免费领取！关注琵琶网游戏名专区，获得更多最新攻略资讯！";
+	    		
+	    		$soft_url="http://www.7724.com/{$val['pinyin']}/game/{$val['pipaw_channelid']}";
+	    	}
+	    	 
+	    	if($val['status']!='3'){
+	    		//未上线的
+	    		$soft_url="http://www.7724.com/{$val['pinyin']}";
+	    	}	    	 
+	    	$soft_url.="/?flag=ppw";
+	    	$soft_url_iphone=$soft_url;
+	    	 
+	    	$seo_title=str_replace("游戏名", $val['game_name'], $seo_title);
+	    	$seo_keyword=str_replace("游戏名", $val['game_name'], $seo_keyword);
+	    	$seo_description=str_replace("游戏名", $val['game_name'], $seo_description);
+	    	 
+	    	$data=array(
+	    			'pipaw_id'=>$val['pipaw_id'],//琵琶网对应游戏id,无传0
+	    			'game_name'=>$val['game_name'].$val['pipaw_suffix'],//游戏名
+	    			'pinyin'=>$val['pinyin'].$val['pipaw_suffix'],//拼音
+	    			'pinyin_first_letter'=>$val['pinyin_first_letter'],//首字母
+	    			'qq_game'=>$qq_game,//单机游戏为2   网游游戏为3
+	    			'state_id'=>$state_id,//运营状态，如果是网游游戏必填 5
+	    			'game_logo'=>Tools::getImgURL($val['game_logo']),//游戏logo
+	    			'short_introduce'=>$val['short_introduce'],//游戏简介
+	    			'seo_title'=>$seo_title,
+	    			'seo_keyword'=>$seo_keyword,
+	    			'seo_description'=>$seo_description,
+	    			'soft_url'=>$soft_url,//网游不填
+	    			'soft_url_iphone'=>$soft_url_iphone,//网游不填
+	    			'game_album'=>$val['game_album'],//游戏相册
+	    			'game_tags_str'=>json_encode(array(2)),
+	    	);
+	    	 
+			$result=Tools::getURLContent($pURL,$data);
+	    	$result=json_decode($result,true);
+			
+	    	if($result['errNum']==1){
+	    		//导入成功
+	    		
+	    		//成功	更新pipaw_id
+	    		$upd_sql="update game set pipaw_id='{$result['pipaw_id']}' where game_id='{$val['game_id']}'";
+	    		DBHelper::execute($upd_sql);
+	    	}else if($result['errNum']==-5){
+    				
+    			//游戏或者拼音重名，修改，在导入
+    			$data['game_name']=$val['game_name'].'h5';
+    			$data['pinyin']=$val['pinyin'].'h5';
+    			$resultAgain=Tools::getURLContent($pURL,$data);
+    			$resultAgain=json_decode($resultAgain,true);
+    				
+    			if($resultAgain['errNum']=='1'){
+    				//导入成功
+    				//$import_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    					
+    				//成功	更新pipaw_id ，pipaw_suffix
+    				$upd_sql="update game set pipaw_id='{$resultAgain['pipaw_id']}',pipaw_suffix='h5' where game_id='{$val['game_id']}'";
+    				if(!DBHelper::execute($upd_sql)){
+    					//$updCountErr++;
+    					//$upd_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}else{
+	    				//更新成功游戏信息
+	    				//$upd_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}
+    			}				
+    		}
+    	}
+    }
+    
+
+	/**
+     * 游戏导入琵琶网 多个导入 只导入从未导入过的游戏
+     */
+    public function actionGameimportpipaw(){
+		//return;
+    	$lvInfo=null;
+    	//查询对应的未导入游戏的数 pipaw_id=0;
+    	$sql="select count(1) as countVal from game where pipaw_id=0 ";
+    	$resCount=DBHelper::queryRow($sql);
+    	$lvInfo['countVal']=isset($resCount['countVal'])?$resCount['countVal']:0;
+    	
+    	if($_POST){
+    		//导入
+    		//die('暂不开放');
+			
+    		set_time_limit(0);//不限定执行时间
+    		ini_set('max_execution_time', '0');
+    		
+    		$importCountErr=0;//导入失败
+    		$updCountErr=0;//更新标识失败
+    		
+    		$pURL="http://wy.pipaw.com/admin/api/Syncgame";
+    		
+    		//获取相关游戏信息
+    		$game_sql="select * from game where pipaw_id=0 order by game_id asc limit 20 ";
+    		$gameInfo=DBHelper::queryAll($game_sql);
+    		$upd_success_game="";//更新成功游戏信息
+    		$upd_fail_game="";//更新失败游戏信息
+    		$import_success_game="";//导入成功游戏信息
+    		$import_fail_game="";//导入失败游戏信息
+    		
+    		foreach ($gameInfo as $val){
+    			
+    			$qq_game=2;
+    			$state_id=0;
+    			$soft_url=$val['game_url'];
+    			
+    			//判断是否为网游 ,49,
+    			if(stripos($val['game_type'], ',49,') === false){
+    				//单机
+    				$seo_title="游戏名_游戏名在线玩_游戏名小游戏_游戏名网页版_h5在线游戏-琵琶网";
+    				$seo_keyword="游戏名,游戏名网页版,手机小游戏";
+    				$seo_description="琵琶网游戏名手机小游戏大全提供游戏名在线玩,游戏名网页版,游戏名攻略,".
+    						"游戏名攻略,闯关玩法,在线手机小游戏,免下载立即玩小游戏等";
+    				
+    			}else{
+    				//网游
+    				$qq_game=3;
+    				$state_id=4;
+    			
+    				$seo_title="游戏名-游戏名官网_游戏名攻略_游戏名礼包激活码_在线玩-琵琶网";
+    				$seo_keyword="游戏名,游戏名官网,游戏名礼包";
+    				$seo_description="琵琶网游戏名手游官网将为大家免费提供h5网页版，游戏名攻略，".
+    						"在线玩以及游戏名礼包激活码免费领取！关注琵琶网游戏名专区，获得更多最新攻略资讯！";
+    				
+    				$soft_url="http://www.7724.com/{$val['pinyin']}/game/{$val['pipaw_channelid']}";
+    			}
+    			 
+    			if($val['status']!='3'){
+    				//未上线的
+    				$soft_url="http://www.7724.com/{$val['pinyin']}";
+    			}    			
+    			$soft_url.="/?flag=ppw";	
+    			$soft_url_iphone=$soft_url;  
+				
+    			$seo_title=str_replace("游戏名", $val['game_name'], $seo_title);
+    			$seo_keyword=str_replace("游戏名", $val['game_name'], $seo_keyword);
+    			$seo_description=str_replace("游戏名", $val['game_name'], $seo_description);
+    			
+    			$data=array(
+    					'pipaw_id'=>0,//琵琶网对应游戏id,无传0
+    					'game_name'=>$val['game_name'].$val['pipaw_suffix'],//游戏名
+    					'pinyin'=>$val['pinyin'].$val['pipaw_suffix'],//拼音
+    					'pinyin_first_letter'=>$val['pinyin_first_letter'],//首字母
+    					'qq_game'=>$qq_game,//单机游戏为2   网游游戏为3    					
+    					'state_id'=>$state_id,//运营状态，如果是网游游戏必填 5
+    					'game_logo'=>Tools::getImgURL($val['game_logo']),//游戏logo
+    					'short_introduce'=>$val['short_introduce'],//游戏简介
+    					'seo_title'=>$seo_title,
+    					'seo_keyword'=>$seo_keyword,
+    					'seo_description'=>$seo_description,
+    					'soft_url'=>$soft_url,//网游不填
+    					'soft_url_iphone'=>$soft_url_iphone,//网游不填
+    					'game_album'=>$val['game_album'],//游戏相册
+    					'game_tags_str'=>json_encode(array(2)),
+    			);
+    			
+    			$result=Tools::getURLContent($pURL,$data);
+    			//Tools::printData($result);
+    			//die();
+    			//返回的参数
+    			//json array('errNum'=>xx,'msg'=>xxxx,'pipaw_id'=>xxx);  errNum=1成功，才有pipaw_id ,其他失败
+    			$result=json_decode($result,true);
+    			if($result['errNum']==1){
+    				//导入成功
+    				$import_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    				
+    				//成功	更新pipaw_id
+    				$upd_sql="update game set pipaw_id='{$result['pipaw_id']}' where game_id='{$val['game_id']}'";
+    				if(!DBHelper::execute($upd_sql)){
+    					$updCountErr++;
+    					$upd_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}else{
+    					//更新成功游戏信息
+    					$upd_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}
+    			}else if($result['errNum']==-5){
+    				set_time_limit(0);
+    				
+    				//游戏或者拼音重名，修改，在导入
+    				$data['game_name']=$val['game_name'].'h5';
+    				$data['pinyin']=$val['pinyin'].'h5';
+    				$resultAgain=Tools::getURLContent($pURL,$data);  
+					$resultAgain=json_decode($resultAgain,true);
+					//Tools::printData($resultAgain);
+    				if($resultAgain['errNum']==1){
+    					//导入成功
+    					$import_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    					
+    					//成功	更新pipaw_id
+    					$upd_sql="update game set pipaw_id='{$resultAgain['pipaw_id']}',pipaw_suffix='h5' where game_id='{$val['game_id']}'";
+    					if(!DBHelper::execute($upd_sql)){
+    						$updCountErr++;
+    						$upd_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    					}else{
+	    					//更新成功游戏信息
+	    					$upd_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    					}
+    				}else if($resultAgain['errNum']==-5){
+    					//游戏或者拼音再次重名 不管了
+    					$importCountErr++;
+    					$import_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}else{
+    					//其他失败情况
+    					$importCountErr++;
+    					$import_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    				}      				
+    			}else{
+    				//其他失败情况
+    				$importCountErr++;
+    				$import_fail_game.="[{$val['game_id']}={$val['game_name']}],";
+    			}  
+    			
+    		}
+    		
+    		//查询对应的未导入游戏的数 pipaw_id=0;
+    		$sql="select count(1) as countVal from game where pipaw_id=0 ";
+    		$resCount=DBHelper::queryRow($sql);
+    		$countVal=isset($resCount['countVal'])?$resCount['countVal']:0;
+    		
+    		$lvInfo=array(
+    				'importCountErr'=>$importCountErr,//导入失败的数目
+    				'updCountErr'=>$updCountErr,//更新失败
+    				'countVal'=>$countVal,
+    				'upd_success_game'=>$upd_success_game,
+    				'upd_fail_game'=>$upd_fail_game,
+    				'import_success_game'=>$import_success_game,
+    				'import_fail_game'=>$import_fail_game,
+    		);
+    		
+    		
+    	}
+    	    	
+    	$this->render('game_import_pipaw',$lvInfo);
+    	
+    	
+    }
+    
+
+    
+    public function actionIndex() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('index', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionCreate() {
+        $model = new Game ();
+        if($_POST ['Game']) {
+        	//var_dump($_POST ['Game']);
+        	//die();
+            if($_FILES["Game"]["size"]["game_logo"]) {
+                $source_image = $_FILES["Game"]["tmp_name"]["game_logo"];
+                list($w, $h) = getimagesize($source_image);
+                if($w != 120 || $h != 120)
+                    die("上传失败，logo规格是120*120");
+                if($_FILES["Game"]["size"]["game_logo"] > 10 * 1024)
+                    die("上传失败，logo图片不超过10kb");
+            }
+            $_POST ['Game'] ['star_level'] = $_POST ['Game'] ['star_level'] > 0 ? $_POST ['Game'] ['star_level'] : 40;
+            $_POST ['Game']['game_name'] = trim($_POST ['Game']['game_name']);
+            if($_POST['Game']['game_type'])
+                $_POST['Game']['game_type'] = ',' . implode(',', $_POST['Game']['game_type']) . ',';
+            $_POST['Game']['add_user'] = $this->getUserName();
+            $_POST['Game']['rand_visits'] = $_POST['Game']['rand_visits'] ? $_POST['Game']['rand_visits'] : mt_rand(6000, 8000);
+            $_POST['Game']['time'] = time();
+            //$_POST['Game']['has_paihang'] = intval( str_replace("a","", $_GET['Game']['has_paihang']));
+            $model->attributes = $_POST ['Game'];
+            $upload = CUploadedFile::getInstance($model, 'game_logo');
+            if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                Yii::app()->format->datetimeFormat = 'Ymd';
+                $datefile = Yii::app()->format->formatDatetime(time());
+                $dir = Yii::app()->basePath . "/../data/game_logo/" . $datefile;
+                CFileHelper::copyDirectory($dir, $dir);
+                $filename = md5(uniqid());
+                $uploadfile = $dir . '/' . $filename . '.' . $upload->extensionName;
+                $model->game_logo = $datefile . '/' . $filename . '.' . $upload->extensionName;
+
+                $cn_uploadfile = iconv('utf-8', 'gb2312', $uploadfile);
+            }
+					
+			
+            if($model->save()) {
+                if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                    $upload->saveAs($cn_uploadfile, true);
+                    // 传到远程服务器
+                    $upurl = "http://img.pipaw.net/Uploader.ashx";
+                    $path = "pipaw/logo" . date('/Y/m/d', time());
+                    $msg = Helper::postdata($upurl, array(
+                                "filePath" => urlencode($path),
+                                "ismark" => "0",
+                                "autoName" => "1"
+                                    ), "Filedata", $cn_uploadfile);
+                    $model->game_logo = $path . '/' . $msg;
+                    unlink($cn_uploadfile);
+                }
+								
+                $this->taskLog($model->game_id, $model->status);
+                if($model->tag) {
+                    $tag_ids = $this->tags($model->tag, $model->game_id);
+                    if(is_string($tag_ids)) {
+                        $model->tag = $tag_ids;
+                    }
+                }
+                $model->save();
+
+				//同步琵琶网
+                //$this->gameImportPipawRightnow($model->game_id);
+                
+                Gamefun::allGame(true);
+                $this->redirect(array(
+                    'index',
+                    'status' => 0
+                ));
+            }
+        }
+
+        $this->render('form', array(
+            'model' => $model,
+			'operate_type'=>0,
+        ));
+    }
+
+    public function actionEdit() {
+        $model = Game::model()->findByPk($_GET['id']);
+
+        if($_POST ['Game']) {
+            if($_FILES["Game"]["size"]["game_logo"]) {
+                $source_image = $_FILES["Game"]["tmp_name"]["game_logo"];
+                list($w, $h) = getimagesize($source_image);
+                if($w != 120 || $h != 120)
+                    die("上传失败，logo规格是120*120");
+                if($_FILES["Game"]["size"]["game_logo"] > 10 * 1024)
+                    die("上传失败，logo图片不超过10kb");
+            }
+            $_POST ['Game'] ['star_level'] = $_POST ['Game'] ['star_level'] > 0 ? $_POST ['Game'] ['star_level'] : 40;
+            $_POST ['Game']['game_name'] = trim($_POST ['Game']['game_name']);
+            if($_POST['Game']['game_type'])
+                $_POST['Game']['game_type'] = ',' . implode(',', $_POST['Game']['game_type']) . ',';
+            //$_POST['Game']['has_paihang'] = intval( str_replace("a","", $_GET['Game']['has_paihang']));
+            $_POST ['Game']['update_time'] = time();
+            $model->attributes = $_POST ['Game'];
+            $upload = CUploadedFile::getInstance($model, 'game_logo');
+ 
+            $hezi_img_upload = CUploadedFile::getInstance($model, 'download_hezi_gameimg');
+
+            if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                Yii::app()->format->datetimeFormat = 'Ymd';
+                $datefile = Yii::app()->format->formatDatetime(time());
+                $dir = Yii::app()->basePath . "/../data/game_logo/" . $datefile;
+                
+                  $mvRootPath="/data/wwwroot/img_7724_com/";
+                $path = "pipaw/logo" ;
+                $dir =$mvRootPath.$path. date('/Y/m/d', time());
+                if(!is_dir($mvRootPath.$path.date('/Y', time()))) { 
+                  mkdir($mvRootPath.$path.date('/Y', time()), 0777);
+                }
+                if(!is_dir($mvRootPath.$path.date('/Y/m', time()))) { 
+                  mkdir($mvRootPath.$path.date('/Y/m', time()), 0777);
+                }
+                if(!is_dir($mvRootPath.$path.date('/Y/m/d/', time()))) {                    
+                  mkdir($mvRootPath.$path.date('/Y/m/d/', time()), 0777);
+                }
+                 $path = "pipaw/logo".date('/Y/m/d', time()) ;
+                CFileHelper::copyDirectory($dir, $dir);
+                $filename = md5(uniqid());
+                $uploadfile = $dir . '/' . $filename . '.' . $upload->extensionName;
+                //$model->game_logo = $datefile . '/' . $filename . '.' . $upload->extensionName;
+                 $model->game_logo =$path. '/' . $filename . '.' . $upload->extensionName;
+
+                $cn_uploadfile = iconv('utf-8', 'gb2312', $uploadfile);
+            } elseif($_POST['old_logo'])
+                $model->game_logo = $_POST['old_logo'];
+
+				
+            if(is_object($hezi_img_upload) && get_class($hezi_img_upload) === 'CUploadedFile') {
+            	Yii::app()->format->datetimeFormat = 'Ymd';
+            	$datefile_2 = Yii::app()->format->formatDatetime(time());
+            	$dir_2 = Yii::app()->basePath . "/../data/img_hezi/" . $datefile_2;
+            
+            	$mvRootPath_2="/data/wwwroot/img_7724_com/";
+            	$path_2 = "7724/game_img_hezi" ;
+            	$dir_2 =$mvRootPath_2.$path_2. date('/Y/m/d', time());
+            	if(!is_dir($mvRootPath_2.$path_2.date('/Y', time()))) {
+            		mkdir($mvRootPath_2.$path_2.date('/Y', time()), 0777);
+            	}
+            	if(!is_dir($mvRootPath_2.$path_2.date('/Y/m', time()))) {
+            		mkdir($mvRootPath_2.$path_2.date('/Y/m', time()), 0777);
+            	}
+            	if(!is_dir($mvRootPath_2.$path_2.date('/Y/m/d/', time()))) {
+            		mkdir($mvRootPath_2.$path_2.date('/Y/m/d/', time()), 0777);
+            	}
+            	$path_2 = "7724/game_img_hezi".date('/Y/m/d', time()) ;
+            	CFileHelper::copyDirectory($dir_2, $dir_2);
+            	$filename_2 = md5(uniqid());
+            	$uploadfile_2 = $dir_2 . '/' . $filename_2 . '.' . $hezi_img_upload->extensionName;
+            	//$model->game_logo = $datefile . '/' . $filename . '.' . $upload->extensionName;
+            	$model->download_hezi_gameimg =$path_2. '/' . $filename_2 . '.' . $hezi_img_upload->extensionName;
+            
+            	$cn_uploadfile_2 = iconv('utf-8', 'gb2312', $uploadfile_2);
+            } elseif($_POST['hezi_gameimg_old_logo']){
+            	$model->download_hezi_gameimg = $_POST['hezi_gameimg_old_logo'];
+            }
+
+				
+            if($model->save()) {
+                if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                
+                    $upload->saveAs($cn_uploadfile, true); 
+//                    // 传到远程服务器
+//                    $upurl = "http://img.pipaw.net/Uploader.ashx";
+//                    $path = "pipaw/logo" . date('/Y/m/d', time());
+//                    $msg = Helper::postdata($upurl, array(
+//                                "filePath" => urlencode($path),
+//                                "ismark" => "0",
+//                                "autoName" => "1"
+//                                    ), "Filedata", $cn_uploadfile);
+//                    $model->game_logo = $path . '/' . $msg;
+//                    unlink($cn_uploadfile);
+                }
+				
+				
+                if(is_object($hezi_img_upload) && get_class($hezi_img_upload) === 'CUploadedFile') {                
+                	$hezi_img_upload->saveAs($cn_uploadfile_2, true);                	
+                }
+                
+				
+                if($model->tag) {
+                    $tag_ids = $this->tags($model->tag, $model->game_id);
+                    if(is_string($tag_ids)) {
+                        $model->tag = $tag_ids;
+                    }
+                }
+                $model->save();
+
+				//同步琵琶网,前提，已经入库，就自动更新
+                if($model->pipaw_id>0){
+                	$this->gameImportPipawRightnow($model->game_id);
+                }
+				
+                Gamefun::allGame(true);
+                if($_GET['status'] === '')
+                    $this->redirect(array( 'rank' ));
+                else
+                    $this->redirect(array( 'index', 'status' => $_POST['Game']['status'], 'Game_page' => $_POST['page'] ));
+            }
+        }
+
+
+        $this->render('form', array(
+            'model' => $model,
+			'operate_type'=>1,
+        ));
+    }
+
+	/**
+     * 同步到琵琶网
+     */
+    public function actionPipawUpdate(){
+    	
+    	$game_id=$_REQUEST['game_id'];
+    	//获取游戏信息
+    	$game_sql="select * from game where game_id='{$game_id}'";
+    	$val=DBHelper::queryRow($game_sql);
+    	if($val){
+    		$pURL="http://wy.pipaw.com/admin/api/Syncgame";
+    	
+    		$qq_game=2;
+    		$state_id=0;
+    		$soft_url=$val['game_url'];
+    	
+    		//判断是否为网游 ,49,
+    		if(stripos($val['game_type'], ',49,') === false){
+    			//单机
+    			$seo_title="游戏名_游戏名在线玩_游戏名小游戏_游戏名网页版_h5在线游戏-琵琶网";
+    			$seo_keyword="游戏名,游戏名网页版,手机小游戏";
+    			$seo_description="琵琶网游戏名手机小游戏大全提供游戏名在线玩,游戏名网页版,游戏名攻略,".
+    					"游戏名攻略,闯关玩法,在线手机小游戏,免下载立即玩小游戏等";
+    			 
+    		}else{
+    			//网游
+    			$qq_game=3;
+    			$state_id=4;
+    	
+    			$seo_title="游戏名-游戏名官网_游戏名攻略_游戏名礼包激活码_在线玩-琵琶网";
+    			$seo_keyword="游戏名,游戏名官网,游戏名礼包";
+    			$seo_description="琵琶网游戏名手游官网将为大家免费提供h5网页版，游戏名攻略，".
+    					"在线玩以及游戏名礼包激活码免费领取！关注琵琶网游戏名专区，获得更多最新攻略资讯！";
+    			 
+    			$soft_url="http://www.7724.com/{$val['pinyin']}/game/{$val['pipaw_channelid']}";
+    		}
+    		 
+    		if($val['status']!='3'){
+    			//未上线的
+    			$soft_url="http://www.7724.com/{$val['pinyin']}";
+    		}
+			$soft_url.="/?flag=ppw";
+    		$soft_url_iphone=$soft_url;
+    		//echo $soft_url_iphone.'<br/>';    	
+    		$seo_title=str_replace("游戏名", $val['game_name'], $seo_title);
+    		$seo_keyword=str_replace("游戏名", $val['game_name'], $seo_keyword);
+    		$seo_description=str_replace("游戏名", $val['game_name'], $seo_description);
+    		 
+    		$data=array(
+    				'pipaw_id'=>$val['pipaw_id'],//琵琶网对应游戏id,无传0
+    				'game_name'=>$val['game_name'].$val['pipaw_suffix'],//游戏名
+    				'pinyin'=>$val['pinyin'].$val['pipaw_suffix'],//拼音
+    				'pinyin_first_letter'=>$val['pinyin_first_letter'],//首字母
+    				'qq_game'=>$qq_game,//单机游戏为2   网游游戏为3
+    				'state_id'=>$state_id,//运营状态，如果是网游游戏必填 5
+    				'game_logo'=>Tools::getImgURL($val['game_logo']),//游戏logo
+    				'short_introduce'=>$val['short_introduce'],//游戏简介
+    				'seo_title'=>$seo_title,
+    				'seo_keyword'=>$seo_keyword,
+    				'seo_description'=>$seo_description,
+    				'soft_url'=>$soft_url,//网游不填
+    				'soft_url_iphone'=>$soft_url_iphone,//网游不填
+    				'game_album'=>$val['game_album'],//游戏相册
+    				'game_tags_str'=>json_encode(array(2)),
+    		);
+    		 
+    		$result=Tools::getURLContent($pURL,$data);
+    		$result=json_decode($result,true);
+    		if($result['errNum']==1){
+    			//导入成功
+    			 
+    			//成功	更新pipaw_id
+    			$upd_sql="update game set pipaw_id='{$result['pipaw_id']}' where game_id='{$val['game_id']}'";
+    			DBHelper::execute($upd_sql);
+    			die(json_encode(array('success'=>1)));
+    			
+    		}else if($result['errNum']==-5){
+    	
+    			//游戏或者拼音重名，修改，在导入
+    			$data['game_name']=$val['game_name'].'h5';
+    			$data['pinyin']=$val['pinyin'].'h5';
+    			$resultAgain=Tools::getURLContent($pURL,$data);
+    			$resultAgain=json_decode($resultAgain,true);
+    	
+    			if($resultAgain['errNum']=='1'){
+    				//导入成功
+    				$import_success_game.="[{$val['game_id']}={$val['game_name']}],";
+    					
+    				//成功	更新pipaw_id ，pipaw_suffix
+    				$upd_sql="update game set pipaw_id='{$resultAgain['pipaw_id']}',pipaw_suffix='h5' where game_id='{$val['game_id']}'";
+    				DBHelper::execute($upd_sql);
+    				die(json_encode(array('success'=>1)));
+    			}else{
+    				die(json_encode(array('success'=>-1)));
+    			}
+    		}
+    	}
+    }
+    
+
+    public function actionDel() {
+        $id = intval($_GET['id']);
+        $model = Game::model()->findByPk($id);
+        $model->delete();
+        $sql = "delete from task_log where game_id = " . $id;
+        Yii::app()->db->createCommand($sql)->execute();
+        $this->redirect(array( 'index', 'status' => $_GET['status'] ));
+    }
+
+    public function actionRank() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('index', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionCheck() {
+        if(!$_GET['id'])
+            die('err');
+        if($_GET['msg']) {
+            $m = new GameCheckFailedMsg();
+            $m->game_id = $_GET['id'];
+            $m->msg = $_GET['msg'];
+            $m->save();
+            $this->msgCache(true);
+        }
+        $model = Game::model()->findByPk($_GET['id']);
+        if($_GET['status'] == 1)
+            $model->edit_user = $this->getUserName();
+        elseif($_GET['status'] == 2 || $_GET['status'] == 3)
+            $model->check_user = $this->getUserName();
+        $model->time = time();
+        $model->status = $_GET['status'];
+        $model->save();
+        $this->taskLog($model->game_id, $model->status);
+        echo '<script>history.go(-1)</script>';
+    }
+
+    public function actionSelect() {
+        $model = Game::model()->findByPk($_GET['id']);
+        if($model->edit_user) {
+            die("游戏已被“{$model->edit_user}”领取!");
+        }
+
+        $model->edit_user = $this->getUserName();
+        $model->save();
+        echo '<script>history.go(-1)</script>';
+    }
+
+    public function actionMytask() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('my', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionPinYin() {
+        $py = $_REQUEST ['pinyin'];
+        $game_id = $_REQUEST ['game_id'];
+        if(!$game_id)
+            $sql = "select count(*) nums from game where pinyin='$py'";
+        else
+            $sql = "select count(*) nums from game where pinyin='$py' and game_id!=$game_id";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        echo $result ['nums'];
+        exit();
+    }
+
+    function getCatNames($ids) {
+        $ids = explode(',', trim($ids, ','));
+        $type_cache = Gamefun::gameTypes();
+        $cat = array();
+        foreach( $ids as $v ) {
+            $cat[] = $type_cache[$v]['name'];
+        }
+        return implode(',', $cat);
+    }
+
+    function getCatKV() {
+        $type_cache = Gamefun::gameTypes();
+        foreach( $type_cache as $v ) {
+            $cat[$v['id']] = $v['name'];
+        }
+        return $cat;
+    }
+
+    function getStyle($d = false) {
+        $data = array( 1 => '竖版', 2 => '横版' );
+        if($d)
+            array_unshift($data, '请选择');
+        return $data;
+    }
+
+    function getCountry($d = false) {
+        $data = array( 1 => '国内', 2 => '国外' );
+        if($d)
+            array_unshift($data, '请选择');
+        return $data;
+    }
+
+    function getPaiHang($d = false) {
+        $data = array( "a0" => '无排行', "a1" => '开发中', "a2" => '上线' );
+        if($d)
+            $data = array_merge(array( "a" => "请选择" ), $data);
+
+        return $data;
+    }
+
+    function getPaiHang2() {
+        $data = array( "0" => '无排行', "1" => '开发中', "2" => '上线' );
+        return $data;
+    }
+
+    /**
+     * 分数排序
+     * @return string
+     */
+    function getScoreorder() {
+        $data = array( 0 => '降序分数', 1 => '升序分数' );
+        return $data;
+    }
+
+    function msgCache($f = false) {
+        $key = "GameController_msgCache";
+        $data = Yii::app()->aCache->get($key);
+        if(!$data || $f) {
+            $sql = "select game_id,msg from game_check_failed_msg limit 200";
+            $res = Yii::app()->db->createCommand($sql)->queryAll();
+            $data = array();
+            foreach( $res as $v ) {
+                $data[$v['game_id']] = $v['msg'];
+            }
+            Yii::app()->aCache->set($key, $data, self::CACHETIME);
+        }
+        return $data;
+    }
+
+    function getMsgByGameId($id) {
+        $msgCache = $this->msgCache();
+        if(in_array($id, $msgCache))
+            return $msgCache[$id];
+        else {
+            $sql = "select msg from game_check_failed_msg where game_id = $id";
+            $res = Yii::app()->db->createCommand($sql)->queryRow();
+            return $res['msg'];
+        }
+    }
+
+    function getTag($ids) {
+        if(!$ids)
+            return '';
+        $sql = "select name from game_tag where id in($ids)";
+        $res = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach( $res as $v ) {
+            $str[] = $v['name'];
+        }
+        return join(',', $str);
+    }
+
+    function tags($data, $game_id) {
+        if(!$data && !$game_id)
+            return null;
+        $data = str_replace('，', ',', $data);
+        $data = explode(',', $data);
+        $tag_ids = array();
+
+        foreach( $data as $v ) {
+            if(!$v)
+                continue;
+            $v = trim($v);
+            $sql = "select id from game_tag where name = '$v'";
+            $res = Yii::app()->db->createCommand($sql)->queryRow();
+            if($res) {
+                if(!in_array($res['id'], $tag_ids))
+                    $tag_ids[] = $res['id'];
+                continue;
+            }
+            $tag_model = new GameTag();
+            $tag_model->name = $v;
+            $tag_model->save();
+            if(!in_array($tag_model->id, $tag_ids))
+                $tag_ids[] = $tag_model->id;
+        }
+        //删除该游戏的历史无用标签id
+        $this->delOldTagId($tag_ids, $game_id);
+        return join(',', $tag_ids);
+    }
+
+    function delOldTagId($tag_ids, $game_id) {
+        //删除辅助表game_id   data
+        $sql = "select id,game_id,game_tag_id from game_id_tag where game_id = $game_id";
+        $old_data = Yii::app()->db->createCommand($sql)->queryAll();
+        if($old_data) {
+            $old_ids = array();
+            foreach( $old_data as $v ) {
+                if(!in_array($v['id'], $tag_ids)) {
+                    $model = GameIdTag::model()->findByPk($v['id']);
+                    $model->delete();
+                } else {
+                    $old_ids[] = $v['id'];
+                }
+            }
+            foreach( $tag_ids as $v ) {
+                if(!in_array($v, $old_ids)) {
+                    $model = new GameIdTag();
+                    $model->game_id = $game_id;
+                    $model->game_tag_id = $v;
+                    $model->save();
+                }
+            }
+        } else {
+            foreach( $tag_ids as $v ) {
+                $model = new GameIdTag();
+                $model->game_id = $game_id;
+                $model->game_tag_id = $v;
+                $model->save();
+            }
+        }
+
+        return true;
+    }
+
+    function getUrl($py) {
+        $urlTemp = strtolower($py);
+        if(strpos($urlTemp, "http://www.7724.com") !== false) {
+            return str_replace("http://www.7724.com", "http://play.7724.com", $urlTemp);
+        } elseif(strpos($urlTemp, "http://") === false) {
+            return "http://play.7724.com/olgames/" . $py;
+        }
+        return $py;
+    }
+
+    function getUserName() {
+        return Yii::app()->session ['userInfo']['realname'] ? Yii::app()->session ['userInfo']['realname'] : Yii::app()->session ['userInfo']['username'];
+    }
+
+    function taskLog($game_id, $status) {
+        $model = new TaskLog();
+        $model->game_id = $game_id;
+        $model->status = $status;
+        $model->time = time();
+        $model->user = $this->getUserName();
+        $model->time_d = strtotime(date('Y-m-d'));
+        $model->save();
+        return true;
+    }
+
+
+
+}

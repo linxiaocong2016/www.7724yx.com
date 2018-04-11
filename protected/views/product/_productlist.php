@@ -1,0 +1,17 @@
+ <?php 
+        foreach( $list as $key => $value ) {
+            ?>
+        <li> 
+            <p class="p1"><img src="http://img.7724.com/<?php echo $value['img'];?>"></p>
+            <p class="p2">
+                <span class="span01"><?php echo $value['productname'];?></span>
+                <span class="span02">市场价：<del><?php echo $value['price'];?></del></span>
+                <span class="span02">兑换：<b><?php echo $value['rechargecoin'];?></b>积分 </span>
+            </p>
+            <p class="p3"><?php if($value['surplusnum']){?>
+            <a href="javascript:void(0);" class="ex_button">兑换</a>
+            <?php }else {?>
+            <a href="#" class="empty">没了</a>
+            <?php }?></p>
+        </li>
+        <?php }?>

@@ -1,0 +1,66 @@
+<?php
+
+	session_start();
+
+	$code = $_GET['code'];
+	$state = $_GET['state'];
+	
+	//换成自己的接口信息
+	$appid = 'wxc467e6f6e7f6e2c0';
+	$appsecret = '2720c19fe9bcf5a5ba38f54f0b7fb8e7';
+
+	//使用code获取OpenID
+	$token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$appsecret&code=$code&grant_type=authorization_code";
+	$token = json_decode(file_get_contents($token_url));
+	$openid = $token->openid;
+
+	//获取全局Access Token
+	$access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret";
+	$access_tokens = json_decode(file_get_contents($access_token_url));
+	$access_token = $access_tokens->access_token;
+
+	//使用全局ACCESS_TOKEN获取OpenID的详细信息
+	$result_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openid";
+	//转数组
+	$user_info = json_decode(file_get_contents($result_url),true);
+	
+	$login_version='';
+	$weixin_gameDetailUrl='';
+	
+	if(isset($_SESSION ['weixin_gameDetailUrl']) && isset($_SESSION ['login_version'])){
+		$login_version=$_SESSION ['login_version'];
+		$weixin_gameDetailUrl=$_SESSION ['weixin_gameDetailUrl'];
+		if($weixin_gameDetailUrl!=''){
+			$weixin_gameDetailUrl=urlencode($weixin_gameDetailUrl);
+		}
+	}
+	$user_info['login_version']=$login_version;
+	$user_info['weixin_gameDetailUrl']=$weixin_gameDetailUrl;
+
+	//防止get发送信息太多，json不完全,去除无用信息
+	//unset($user_info['city']);
+	//unset($user_info['province']);
+	//unset($user_info['country']);
+	unset($user_info['privilege']);	
+	unset($user_info['remark']);
+	unset($user_info['groupid']);
+	unset($user_info['subscribe_time']);
+		
+	if(!$user_info['unionid'] || $user_info['unionid']==''){
+		header("location:http://www.7724.com/user/oautherror_1");
+		die();
+	}
+	
+
+	
+	//把$user_info数据以json传输
+	$sendMessage=json_encode($user_info);
+	
+	//设定接收数据地址
+	$pURL = "http://www.7724.com/app/api/WeixinLogin?sendMessage=$sendMessage";
+		
+	header("location:$pURL");
+	exit();
+
+
+?>

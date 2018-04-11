@@ -1,0 +1,243 @@
+<script type="text/javascript">
+    function validPY(obj)
+    {
+        var game_id = '<?php echo $model->game_id; ?>';
+
+        var val = obj.value;
+        $.post("<?php echo $this->createUrl("xmsb/game/pinyin") ?>?rnd=", {"pinyin": val, "game_id": game_id}, function (data) {
+            if (data == 1)
+                $("#msg").html("<font color='red'>拼音存在重复的游戏</font>");
+            else
+                $("#msg").html("拼音可以使用");
+
+        });
+    }
+</script>
+
+
+
+<?php
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'game-form',
+    'enableAjaxValidation' => false,
+    'htmlOptions' => array(
+        'enctype' => 'multipart/form-data'
+    )
+        ));
+?>
+<?php echo $form->errorSummary($model); ?>
+<table border="1" class="admintable">
+    <?php
+    if($_GET['status'] === '')
+        $_GET['status'] = 3;
+    ?>
+    
+    <input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
+    <?php if(!$model->isNewRecord) { ?>
+        <input type="hidden" name="Game[time]" value="<?php echo $model->time; ?>"/>
+    <?php } ?>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'game_name'); ?></td>
+        <td><?php echo $form->textField($model, 'game_name', array( 'size' => 60, 'maxlength' => 100 )); ?></td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'pinyin'); ?></td>
+        <td><?php echo $form->textField($model, 'pinyin', array( 'size' => 60, 'maxlength' => 255, "onkeyup" => "validPY(this)" )); ?></td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'pinyin_first_letter'); ?></td>
+        <td><?php echo $form->textField($model, 'pinyin_first_letter', array( 'size' => 1, 'maxlength' => 1 )); ?></td>
+    </tr> 
+    <tr>
+        <td><?php echo $form->labelEx($model, 'game_url'); ?></td>
+        <td><?php echo $form->textField($model, 'game_url', array('size' => 60 )); ?></td>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'game_type'); ?></td>
+        <td>
+            <?php
+            if($model->isNewRecord)
+                echo $form->checkBoxList($model, 'game_type', $this->getCatKV(), array( 'separator' => '&nbsp;&nbsp;|', 'template' => '{label} {input}' ));
+            else
+                echo Helper::Checkboxs($model->game_type, $this->getCatKV(), 'Game[game_type]', '&nbsp;&nbsp;|');
+            ?>
+        </td>
+    </tr>
+    
+    <tr>
+        <td><?php echo $form->labelEx($model, 'short_introduce'); ?></td>
+        <td>
+            <?php
+            $this->widget('ext.KEditor.KEditor', array(
+                'model' => $model,
+                'name' => 'short_introduce',
+                'properties' => array(
+                    'uploadJson' => $this->createUrl('xmsb/game/upload'),
+                    'fileManagerJson' => $this->createUrl('xmsb/game/manageJson'),
+                    'newlineTag' => 'br',
+                    'allowFileManager' => true,
+                    'afterCreate' => "js:function() {  
+									K('#ChapterForm_all_len').val(this.count());  
+									K('#ChapterForm_word_len').val(this.count('text'));  
+									}",
+                    'afterChange' => "js:function() {  
+									K('#ChapterForm_all_len').val(this.count());  
+									K('#ChapterForm_word_len').val(this.count('text'));  
+									}"
+                ),
+                'textareaOptions' => array(
+                    'style' => 'width:60%;height:300px;'
+                )
+            ));
+            ?>
+        </td>
+    </tr>
+    <tr>
+        <td> <?php echo $form->labelEx($model, 'game_logo'); ?></td>
+        <td>
+            <?php echo CHtml::activeFileField($model, 'game_logo'); ?>
+            <?php if(!$model->isNewRecord): ?>
+                <?php echo CHtml::image('http://img.7724.com/' . $model->game_logo, ''); ?>
+                <input type="hidden" name="old_logo" value="<?php echo $model->game_logo ?>"/>
+            <?php endif; ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'star_level'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'star_level', array( 'size' => 11, 'maxlength' => 11 )); ?>45分四星半，50分满5星
+        </td>
+    </tr>
+
+       <tr>
+        <td><?php echo $form->labelEx($model, 'scoreorder'); ?></td>
+        <td>
+            <?php echo CHtml::activeRadioButtonList($model, 'scoreorder', $this->getScoreorder(), array( 'separator' => '&nbsp;&nbsp;' )); ?>&nbsp;&nbsp;&nbsp;(分数从高到低为降序，反之升序)
+        </td>
+    </tr>
+                        
+    <tr>
+        <td><?php echo $form->labelEx($model, 'scoreunit'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'scoreunit', array( 'size' => 20, 'maxlength' => 50 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'scoreformat'); ?></td>
+        <td><span style="color: red;">(技术员维护)</span>
+            <?php echo $form->textField($model, 'scoreformat', array( 'size' => 100, 'maxlength' => 200 )); ?>(ex:$value=$this->getScale($pScore,'秒|分|小时',60);)
+        </td>
+    </tr>
+
+    <tr>
+        <td><?php echo $form->labelEx($model, 'source'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'source', array( 'size' => 80, 'maxlength' => 255 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'tag'); ?></td>
+        <td>
+            <?php echo Helper::getInputText("Game[tag]", $this->getTag($model->tag)); ?>
+        </td>
+    </tr>
+    
+    <tr>
+        <td><?php echo $form->labelEx($model, 'style'); ?></td>
+        <td>
+            <?php echo CHtml::activeRadioButtonList($model, 'style', $this->getStyle(), array( 'separator' => '&nbsp;&nbsp;' )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'country'); ?></td>
+        <td>
+            <?php echo CHtml::activeRadioButtonList($model, 'country', $this->getCountry(), array( 'separator' => '&nbsp;&nbsp;' )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'has_paihang'); ?></td>
+        <td>
+            <?php echo CHtml::activeRadioButtonList($model, 'has_paihang', $this->getPaiHang2(), array( 'separator' => '&nbsp;&nbsp;' )); ?>
+        </td>
+    </tr>
+    
+	<tr>
+        <td>游戏状态：</td>
+        <td>
+            <?php echo CHtml::activeRadioButtonList($model, 'status', array('新增','已改','未通过','已上线','下线'), array( 'separator' => '&nbsp;&nbsp;' )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'rand_visits'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'rand_visits', array( 'size' => 11, 'maxlength' => 11 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'game_visits'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'game_visits', array( 'size' => 11, 'maxlength' => 11 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'weight'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'weight', array( 'size' => 11, 'maxlength' => 11 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'game_album'); ?></td>
+        <td>
+            <?php
+            $this->widget('ext.KEditor.KEditor', array(
+                'model' => $model,
+                'name' => 'game_album',
+                'properties' => array(
+                    'uploadJson' => $this->createUrl('xmsb/game/upload'),
+                    'fileManagerJson' => $this->createUrl('xmsb/game/manageJson'),
+                    'newlineTag' => 'br',
+                    'allowFileManager' => true,
+                    'afterCreate' => "js:function() {  
+									K('#ChapterForm_all_len').val(this.count());  
+									K('#ChapterForm_word_len').val(this.count('text'));  
+									}",
+                    'afterChange' => "js:function() {  
+									K('#ChapterForm_all_len').val(this.count());  
+									K('#ChapterForm_word_len').val(this.count('text'));  
+									}"
+                ),
+                'textareaOptions' => array(
+                    'style' => 'width:60%;height:300px;'
+                )
+            ));
+            ?>
+        </td>
+    </tr>
+    
+    <tr>
+        <td><?php echo $form->labelEx($model, 'seo_title'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'seo_title', array( 'size' => 60, 'maxlength' => 255 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'seo_keyword'); ?></td>
+        <td>
+            <?php echo $form->textField($model, 'seo_keyword', array( 'size' => 11, 'maxlength' => 11 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $form->labelEx($model, 'seo_description'); ?></td>
+        <td>
+            <?php echo CHtml::activeTextArea($model, 'seo_description', array( 'rows' => 5, 'cols' => 60 )); ?>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <?php echo CHtml::submitButton($model->isNewRecord ? '新增' : '修改'); ?>
+            <input type="button" value="返回" onclick="window.history.go(-1);" />
+        </td>
+    </tr>
+</table>
+<div style="height: 10px; overflow: hidden;">&nbsp;</div>
+<?php $this->endWidget(); ?>

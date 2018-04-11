@@ -1,0 +1,147 @@
+<?php
+
+class Controller extends CController {
+
+    public $layout = '//layouts/column1';
+    public $menu = array();
+    public $breadcrumbs = array();
+
+    public function init() {
+		//保存渠道flag
+        if($_GET['flag']) {
+            if($_GET['flag'] == 'wifi')
+                Yii::app()->session['flag'] = 5;
+            else
+                Yii::app()->session['flag'] = $_GET['flag'];
+        }
+
+        $flag = $_GET['flag'];
+        if($flag) {
+            if($flag == 'wifi')
+                $flag = 5;
+
+            yii::app()->session['session_flag0'] = $flag;
+			
+            $cookie = new CHttpCookie('session_flag0', $flag);
+            $cookie->expire = time() + 3600 * 24 * 30;//一个月
+            $cookie->domain = '7724.com';
+            Yii::app()->request->cookies['session_flag0'] = $cookie;
+			
+        }
+        if($_SERVER['HTTP_REFERER']) {
+            yii::app()->session['session_flag1'] = $_SERVER['HTTP_REFERER'];
+
+            $cookie = new CHttpCookie('session_flag1', $_SERVER['HTTP_REFERER']);
+            $cookie->expire = time() + 3600 * 24 * 30;//一个月
+            $cookie->domain = '7724.com';
+            Yii::app()->request->cookies['session_flag1'] = $cookie;
+        }
+
+
+
+
+
+        $this->DefaultLogin();
+    }
+
+    public function behaviors() {
+        return array(
+            'seo' => array(
+                'class' => 'ext.seo.components.SeoControllerBehavior'
+            )
+        );
+    }
+
+    /**
+     * 自动登录，从COOKIE读取数据
+     */
+    public function DefaultLogin() {
+
+
+//     	        if($_SERVER['HTTP_HOST']=="pp.7724.com")
+//     		        {
+//     		              $_SESSION ['userinfo'] = array(
+//     		                    "uid" =>33,
+//     		                    "username" => "13696963905",
+//     		                    "nickname" =>"超人不会飞"
+//     		                );
+//     		            return;
+//     		        }
+
+        include_once $_SERVER ['DOCUMENT_ROOT'] . "/uc_client/client.php";
+        if($_REQUEST['opentype'] == "7724") {
+            setcookie("youxihe", $_REQUEST['opentype'], time() + 3600 * 24 * 30 * 100, "/", ".7724.com");
+        }
+        
+        if($_COOKIE['youxihe'])
+        {
+            if(strpos( $_SERVER['REQUEST_URI'],"user/login")!==FALSE)
+            {
+                exit( '  <script type="text/javascript" > 
+                    jsobj.login();  
+            </script>');
+            }
+        }
+        
+        if($_REQUEST['opentype'] == "7724" && $_REQUEST['sign']) {
+            //Tools::write_log($_REQUEST);
+            $username = $_REQUEST['username'];
+            $uid = $_REQUEST['uid'];
+            $lvTime = $_REQUEST['time'];
+            $lvSign = $_REQUEST['sign'];
+
+            $lvSignB = md5("xmsb20150409{$lvTime}{$uid}{$username}");
+            //Tools::write_log("{$lvSign}__{$lvSignB}");
+            if($lvSign == $lvSignB) {
+
+                $user = uc_get_user($username);
+
+                if($user [0] > 0) {
+                    //同步用户信息
+                    $lvInfo = UserBaseinfo::model()->syncUserInfo($username);
+                    UserBaseinfo::model()->delUserCookie();
+                    UserBaseinfo::model()->setUserCookie($user[0], $username, '');
+
+                    $lvSQL = "select nickname from user_baseinfo where uid={$user[0]}";
+                    $lvInfo = Yii::app()->db->createCommand($lvSQL)->queryRow();
+                    $lvNickName = $lvInfo['nickname'];
+                    if(!$lvNickName) {
+                        $lvNickName = UserBaseinfo::model()->setRandomNick($username);
+                    }
+
+                    $_SESSION ['userinfo'] = array(
+                        "uid" => $user[0],
+                        "username" => $username,
+                        "nickname" => $lvNickName
+                    );
+                    $this->redirect("http://www.7724.com/");
+                }
+            } else if($lvSign)
+                exit("验签失败!" . 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        }
+
+        $lvCookieInfo = UserBaseinfo::model()->getUserCookie();
+        $lvSessionInfo = UserBaseinfo::model()->getLoginInfo();
+        Tools::print_log(array( $lvCookieInfo, $lvSessionInfo ));
+        if($lvCookieInfo && !$lvSessionInfo) {
+            //$user = uc_user_login($lvCookieInfo['username'], $lvCookieInfo['pwd']);
+            $user = uc_get_user($lvCookieInfo['username']);
+            // Tools::print_log($user);
+            if($user [0] > 0) {
+                $lvSQL = "select nickname from user_baseinfo where uid={$user[0]}";
+                $lvInfo = Yii::app()->db->createCommand($lvSQL)->queryRow();
+                $lvNickName = $lvInfo['nickname'];
+                if(!$lvNickName) {
+                    $lvNickName = UserBaseinfo::model()->setRandomNick($lvCookieInfo['username']);
+                }
+
+                $_SESSION ['userinfo'] = array(
+                    "uid" => $user[0],
+                    "username" => $lvCookieInfo['username'],
+                    "nickname" => $lvNickName
+                );
+            }
+        }
+    }
+
+}

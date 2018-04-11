@@ -1,0 +1,418 @@
+<?php
+
+/**
+ * Description of actionconfig
+ *
+ * @author choice
+ */
+class ApiController extends CController {
+
+    function actions() {
+        echo 'aaa';
+        die();
+        parent::actions();
+    }
+
+    public $key = 'Xw315#@$sdfG#W346FD^$^efgERTYawerxDwtaXC';
+
+    /**
+     * 游霸浏览器版本
+     */
+    public function actionVersion() {
+        $lvKey = 'ubrowser:indexController::version';
+        $lvKeyName = $lvKey;
+        $lvCache = null; // Cache::get($lvKeyName);
+// 版本号
+        if(!$lvCache && $lvCache == "") {
+            $webConfigInfo = DBHelper::queryRow("select * from app_config where id=1");
+            $lvCache = $webConfigInfo;
+//Cache::set($lvKeyName, $lvCache);
+        }
+
+// apk下载地址
+        $url = "http://down3.pipaw.net/7724/7724_{$lvCache['app_version']}.apk";
+        $return = array(
+            'appVersionCode' => $lvCache ['version_code'],
+            'appUrl' => $url,
+            'content' => $lvCache ['description']
+        );
+        die(json_encode($return));
+    }
+
+    /**
+     * 登录-1:用户不存在，或者被删除
+     * -2:密码错
+     * -3:安全提问错
+     */
+    public function actionlogin() {
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password'];
+        $usernick = '';
+        if(!$username) {
+            $result = array(
+                'success' => '-4',
+                'msg' => '用户名不允许为空'
+            );
+            echo json_encode($result);
+            die();
+        }
+        if(!$password) {
+            $result = array(
+                'success' => '-5',
+                'msg' => '密码不允许为空'
+            );
+            echo json_encode($result);
+            die();
+        }
+        include_once 'uc_client/client.php';
+        $user = uc_user_login($username, $password);
+        $user = $user[0];
+        if($user < 0) {
+            if($user == - 1) {
+                $result ['msg'] = '用户不存在，或者被删除';
+            } elseif($user == - 2) {
+                $result ['msg'] = '密码错误';
+            } elseif($user == - 3) {
+                $result ['msg'] = '安全问题回答不正确';
+            }
+            $result ['success'] = "{$user}";
+        } else {
+            $result ['success'] = "{$user}";
+            $result ['uid'] = $user;
+            $result ['msg'] = "登录成功";
+            $result ['uuid'] = md5($user . time());
+//同步用户信息
+            $lvInfo = UserBaseinfo::model()->syncUserInfo($username, TRUE);
+//更新数据
+            if($lvInfo) {
+                $lvTMPArr = array();
+                $sql = " update user_baseinfo set last_date=:last_date,last_ip=:last_ip where uid=:uid ";
+                $lvTMPArr = array( ":last_date" => time(), ":uid" => $pUID, ":last_ip" => Yii::app()->request->userHostAddress );
+
+                DBHelper::execute($sql, $lvTMPArr);
+            }
+
+//记录登录日志
+            $sql = " insert into login_log(uid,username,create_time,ip) values(:uid,:username,:create_time,:ip) ";
+            DBHelper::execute($sql, array(
+                ":uid" => $pUID,
+                ":username" => $username,
+                ":create_time" => time(),
+                ":ip" => Yii::app()->request->userHostAddress
+            ));
+        }
+
+        echo json_encode($result);
+    }
+
+    /**
+     * 第三方登录
+     * @return \ExtUserinfoApilogin
+     */
+    public function actionThirdlogin() {
+        $lvType = intval($_REQUEST['type']);
+        $lvOpenID = $_REQUEST['openid'];
+        $lvToken = $_REQUEST['token'];
+        $lvNick = $_REQUEST['nick'];
+        $lvHeadImg = $_REQUEST['headimg'];
+        $lvApiLogin = DBHelper::uc_queryRow("select * from ext_userinfo_apilogin where logintype={$lvType} and openid=:openid", array( ":openid" => $lvOpenID ));
+        $lvUserInfo = array();
+        if(!$lvApiLogin) {
+            require_once $_SERVER['DOCUMENT_ROOT'] . "/uc_client/client.php";
+            $lvTmpUserName = $pType . 'a' . rand(1000, 9999) . substr(time(), 2);
+            $username = $lvTmpUserName; // $_POST ['mobile']; 
+            $passwd = substr($lvTmpUserName, 3, 6); //  $_POST ['passwd']; 
+            $user = uc_user_register($username, $passwd, $username . "@apilogin.com");
+
+            $msg = array(
+                "-1" => "用户名不合法",
+                "-2" => "包含不允许注册的词语",
+                "-3" => "用户名已经存在",
+                "-4" => "Email 格式有误",
+                "-5" => "Email 不允许注册",
+                "-6" => "该 Email 已经被注册"
+            );
+
+            if($user > 0) {
+                $lvUserInfo = UserBaseinfo::model()->syncUserInfo($username, TRUE, $username, $lvHeadImg);
+                $lvTime = time();
+                $lvIP = Tools::ip();
+                $sql = "INSERT INTO ext_userinfo_apilogin (uid, logintype, openid, token, nickname, extvalue, createtime, ip, headimg	)VALUES( {$user}, {$lvType}, :openid, :token, :nickname,  {$lvTime}, '{$lvIP}', :headimg)";
+                DBHelper::uc_execute($sql, array( ":openid" => $lvOpenID, ":token" => $lvToken, ":nickname" => $lvNick, ":headimg" => $lvHeadImg ));
+            } else {
+                $errmsg = $msg[$user];
+                $data = array( "errcode" => $user, "errmsg" => $errmsg );
+                echo json_encode($data);
+            }
+        }
+
+        if(!$lvUserInfo) {
+            $lvUserInfo=  UserBaseinfo::model()->findByPk($lvApiLogin['uid']);
+        }
+        echo json_encode(array( "uid" => $lvUserInfo['uid'], "username" => $lvUserInfo['username'] ));
+       
+    }
+
+    public function actionregister() {
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password'];
+        $invite_phone = $_REQUEST['invite_phone'];
+        $usernick = $_REQUEST['usernick'];
+        $code = $_REQUEST['code'];
+        if(!$username) {
+            $result = array(
+                'success' => '-4',
+                'msg' => '用户名不允许为空'
+            );
+            echo json_encode($result);
+            die();
+        }
+        if(!$code) {
+            $result = array(
+                'success' => '-8',
+                'msg' => '请输入手机验证码'
+            );
+            echo json_encode($result);
+            die();
+        } else {
+//验证手机验证码 
+            $time = time();
+            $sql = "select count(*) nums from message_log where mobile=:mobile and create_time+30*60>$time";
+            $count = DBHelper::queryRow($sql, array( ":mobile" => $username ));
+            if($re && $code == $re [0] ['codevalue']) {
+//$msg = "验证成功"; // 验证成功
+                $status = 1;
+            } else {
+                $result = array(
+                    'success' => '-9',
+                    'msg' => '验证码错误'
+                );
+                echo json_encode($result);
+                die();
+            }
+        }
+
+
+        if(!$password) {
+            $result = array(
+                'success' => '-5',
+                'msg' => '密码不允许为空'
+            );
+            echo json_encode($result);
+            die();
+        }
+        if(!$usernick) {
+            $result = array(
+                'success' => '-7',
+                'msg' => '昵称不能为空'
+            );
+            echo json_encode($result);
+            die();
+        }
+        include_once 'uc_client/client.php';
+        $user = uc_user_register($username, $password, $username . "@youxihe.com");
+        if($user <= 0) {
+            $uid = $result ['success'] = $user;
+            if($uid == - 1) {
+                $result ['msg'] = '用户名不合法';
+            } elseif($uid == - 2) {
+                $result ['msg'] = '包含要允许注册的词语';
+            } elseif($uid == - 3) {
+                $result ['msg'] = '用户名已经存在';
+            } elseif($uid == - 4) {
+                $result ['msg'] = '邮箱格式有误';
+            } elseif($uid == - 5) {
+                $result ['msg'] = '邮箱不允许注册';
+            } elseif($uid == - 6) {
+                $result ['msg'] = '该邮箱已经被注册';
+            } else {
+                $result ['msg'] = '未定义';
+            }
+        } else {
+            $uid = $result ['uid'] = $result ['success'] = $user;
+            $lvUserInfo = UserBaseinfo::model()->syncUserInfo($username, TRUE);
+            $result = array(
+                'success' => $lvUserInfo['uid'],
+                'uid' => $lvUserInfo['uid'],
+                'username' => $username,
+                'nickname' => $lvUserInfo['nickname']
+            );
+            echo json_encode($lvUserInfo);
+        }
+    }
+
+    /**
+     * 获取手机验证码
+     */
+    public function actiongetmobilecode_old() {
+        $phone = intval($_REQUEST['phone']);
+        include_once 'uc_client/client.php';
+        if($data = uc_get_user($phone)) {
+            list($uid, $username, $email) = $data;
+            $result = array(
+                'success' => 0,
+                'code' => "",
+                'msg' => "该手机已被注册"
+            );
+            echo json_encode($result);
+            exit();
+        }
+
+        $re = DBHelper::queryAll("select * from message_log where 1=1 and mobile={$phone} order by id desc limit 1");
+        if($re && $re[0]['cexptime'] > time()) {
+            $code = $re[0]['ccode'];
+            $data = array(
+                'cdateline' => time(),
+            );
+        } else {
+            $randStr = str_shuffle('1234567890');
+            $code = substr($randStr, 0, 6);
+            if($re) {
+                $data = array(
+                    'ccode' => $code,
+                    'cdateline' => time(),
+                    'cexptime' => time() + 1800
+                );
+            } else {
+                $data = array(
+                    'ctype' => '1',
+                    'cmobile' => $phone,
+                    'cexptime' => time() + 1800,
+                    'cdateline' => time(),
+                    'ccode' => $code
+                );
+            }
+        }
+        $content = "尊敬的游霸用户，您正在进行手机注册操作，验证码：" . $code . "。请保密并确认本人操作。 回复TD退订【游霸助手】";
+        $return = Common::sendmessage($phone, $content);
+        if($return == "ok") {
+
+//	$model = new ubrowser_sms_codeBLL ();
+//$re = $model->select ( '*', " and cmobile=$phone and ctype=1 " );
+            if($re) {
+                $model->updateByID($re [0] ['pkid'], $data);
+            } else {
+                $model->insert($data);
+            }
+            $result = array(
+                'success' => 1,
+                'code' => $code,
+                'msg' => '发送成功'
+            );
+        } else
+            $result = array(
+                'success' => 0,
+                'code' => "",
+                'msg' => '发送失败'
+            );
+        echo json_encode($result);
+    }
+
+    /**
+     * 取得注册短信验证码
+     */
+    public function actiongetmobilecode() {
+        $mobile = intval($_REQUEST ['mobile']);
+        if(empty($mobile)) {
+            echo json_encode(array(
+                "errcode" => - 3,
+                "msg" => "请输入手机号码"
+            ));
+            exit();
+        }
+
+        include_once 'uc_client/client.php';
+        if($data = uc_get_user($phone)) {
+            echo json_encode(array(
+                "errcode" => - 1,
+                "msg" => "手机号码已经被注册！"
+            ));
+            exit();
+        }
+        $content = rand('100000', '999999');
+        $codevalue = $content;
+        $time = time();
+        $sql = "select count(*) nums from message_log where mobile=:mobile and create_time+30*60>$time";
+        $count = DBHelper::queryRow($sql, array( ":mobile" => $mobile ));
+
+        if(intval($count ['nums']) > 0) {
+            echo json_encode(array(
+                "errcode" => - 1,
+                "msg" => "您已经发送验证码，30分钟内有效请勿重复发送。"
+            ));
+            exit();
+        } else {
+            $content = "7724用户验证码：" . $content . ",请在30分钟内使用【舜邦网络】";
+            $ip = Tools::ip();
+            $flag = Tools::sendMsg($mobile, $content);
+
+            $sql = " insert into message_log(mobile,code,ip,create_time,send_flag,codevalue) 
+					             values(:mobile,:code,:ip,:create_time,:send_flag,:codevalue) ";
+
+            DBHelper::execute($sql, array(
+                ":mobile" => $mobile,
+                ":code" => $content,
+                ":ip" => $ip,
+                ":create_time" => time(),
+                ":send_flag" => $flag,
+                ":codevalue" => $codevalue
+            ));
+
+            if($flag == "ok")
+                echo json_encode(array(
+                    "errcode" => 0,
+                    "msg" => "验证码已成功发送，请及时使用！"
+                ));
+            else
+                echo json_encode(array(
+                    "errcode" => - 2,
+                    "msg" => "发送失败"
+                ));
+            exit();
+        }
+    }
+
+    public function login($pUID, $mobile) {
+        Yii::app()->session ['uid'] = $pUID;
+
+//同步用户信息
+        $lvInfo = UserBaseinfo::model()->syncUserInfo($mobile, TRUE);
+//确定昵称存在
+        $lvNickName = $lvInfo['nickname'];
+        if(!$lvNickName) {
+            $lvNickName = UserBaseinfo::model()->setRandomNick($mobile);
+        }
+
+        $_SESSION ['userinfo'] = array(
+            "uid" => $pUID,
+            "username" => $mobile,
+            "nickname" => $lvNickName
+        );
+
+//更新数据
+        if($lvInfo) {
+            $lvTMPArr = array();
+            $sql = " update user_baseinfo set last_date=:last_date,last_ip=:last_ip where uid=:uid ";
+            $lvTMPArr = array( ":last_date" => time(), ":uid" => $pUID, ":last_ip" => Yii::app()->request->userHostAddress );
+
+            DBHelper::execute($sql, $lvTMPArr);
+        }
+
+//记录登录日志
+        $sql = " insert into login_log(uid,username,create_time,ip) values(:uid,:username,:create_time,:ip) ";
+        DBHelper::execute($sql, array(
+            ":uid" => $pUID,
+            ":username" => $mobile,
+            ":create_time" => time(),
+            ":ip" => Yii::app()->request->userHostAddress
+        ));
+        Yii::app()->session['qqlogin'] = null; //置空QQ登录信息
+        if($_GET["url"] && rtrim(urldecode($_GET["url"]), '/') != 'http://www.7724.com/user/login')
+            $this->redirect(urldecode($_GET["url"]));
+        else
+            $this->redirect("/user/index");
+
+        exit();
+    }
+
+}

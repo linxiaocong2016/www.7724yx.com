@@ -1,0 +1,64 @@
+ 
+
+ 
+.public{ background:#fff; width:100%;border-top:1px solid #cccccc;border-bottom:1px solid #cccccc; margin-bottom:10px}
+.new_public{ margin-top:10px}
+.tit{ border-bottom:1px solid #e6e6e6; height:37px; line-height:37px; width:100%; font-size:15px; color:#737373; position:relative;}
+.tit .tit_ico{ border-bottom:3px solid #00b3ff; position:absolute; left:0;top:0; line-height:35px; padding:0 15px 0 30px }
+.tit .today_best{background:url(../img/ico_1.png) no-repeat 6% center; background-size:20px auto;}
+.tit .edit_recommend{background:url(../img/ico_2.png) no-repeat 6% center; background-size:20px auto;}
+.tit .new_game{background:url(../img/ico_3.png) no-repeat 6% center; background-size:19px auto;}
+.tit .hot_subject{background:url(../img/ico_4.png) no-repeat 6% center; background-size:19px auto;}
+.tit .more_play{background:url(../img/ico_5.png) no-repeat 6% center; background-size:19px auto;}
+.tit .game_classify{background:url(../img/ico_6.png) no-repeat 6% center; background-size:19px auto;}
+.tit .hot_search{background:url(../img/ico_7.png) no-repeat 6% center; background-size:19px auto;}
+.tit .game_intro{background:url(../img/ico_8.png) no-repeat 6% center; background-size:19px auto;}
+.tit .game_label{background:url(../img/ico_9.png) no-repeat 6% center; background-size:19px auto;}
+.tit .about_game{background:url(../img/ico_10.png) no-repeat 6% center; background-size:19px auto;}
+
+.morelist{ clear:both; border-top:1px solid #e6e6e6; text-align:center; font-size:14px; color:#999; line-height:35px; height:35px;}
+.morelist a{ display:block;font-size:14px; color:#999;}
+.morelist p{ display:inline-block; background:url(../img/add_1.png) no-repeat left 45%; background-size:13px auto; padding-left:18px}
+.new_morelist{clear:both;text-align:center; font-size:14px; color:#999; padding:5px 0 10px 0}
+
+ 
+/*详细页*/
+ 
+ 
+
+.detail{ margin:0 10px;}
+ 
+
+.comment_top{ font-size:15px; color:#666;}
+.comment_top img{ width:14px; vertical-align:inherit}
+.comment_top p{ line-height:30px; padding:10px 0 5px 0 } 
+.area_one{ background:#f2f2f2; height:80px; border:1px solid #e0e0e0; border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;-webkit-border-radius:5px; font-size:12px; color:#a0a0a0; padding:5px;}
+.release_bt{background: #ff8800;color:#fff;display: block;font-size:14px;height:32px;line-height:32px;text-align: center;width:61px; border-radius:6px; -webkit-border-radius:6px; -moz-border-radius:6px;-o-border-radius:6px; border:0; float:right; margin:10px 0 0 0; cursor:pointer}
+
+.tit span{ color:#ec0000}
+
+.comment_list li{ position:relative; border-bottom:1px dashed #d6d6d6; padding:10px 0}
+.comment_list li .p1{ position:absolute;left:0;top:13px;}
+.comment_list li .p1 img{ width:40px; height:40px; border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;-webkit-border-radius:50%;}
+.comment_list li .p2{ margin-left:50px; margin-bottom:5px; font-size:12px; color:#666; line-height:20px;}
+.comment_list li .p2 span{ font-size:13px; color:#00b3ff; margin-right:15px;}
+.comment_list li .p2 em{ font-size:13px; color:#bfbfbf}
+.comment_list li .p2 i{ float:right;}
+.comment_list li .p2 i img{ width:14px;vertical-align:inherit}
+
+.comment_list li .p3{ margin-left:50px; font-size:13px; color:#a7a7a7; line-height:20px; text-align:right}
+.comment_list li .p3 span{ display:inline-block; background:url(../img/reply.png) no-repeat left center; background-size:14px auto; padding-left:16px;color:#a7a7a7; cursor:pointer; margin-right:6px;}
+.comment_list li .p3 span.span_sel{ display:inline-block; background:url(../img/reply_sel.png) no-repeat left center; background-size:14px auto;color:#00b3ff;}
+.comment_list li .p3 em{ display:inline-block; background:url(../img/praise.png) no-repeat left 24%; background-size:14px auto; padding-left:16px;color:#a7a7a7;cursor:pointer}
+.comment_list li .p3 em.em_sel{ display:inline-block; background:url(../img/praise_sel.png) no-repeat left 24%;background-size:14px auto;color:#ec0000;}
+
+.comment_list li .p4{font-size:13px; color:#a7a7a7; line-height:20px; text-align:right; position:relative; margin-top:15px; display:none}
+.comment_list li .p4 img{ position:absolute; top:-14px;right:93px; width:23px;}
+.comment_list li .p5{ margin-left:50px; font-size:12px; color:#666;border-top:1px solid #d6d6d6; margin-top:5px; padding:5px 0}
+.comment_list li .p5 span{ display:block; padding:5px 0}
+.comment_list li .p5 span i{color:#00b3ff;}
+.comment_list li .p5 span em{color:#bfbfbf; float:right}
+
+
+
+ 

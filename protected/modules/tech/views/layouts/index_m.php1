@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1,maximum-scale=1.0,user-scalable=no;" name="viewport"/>  
+<title><?php echo CHtml::encode($this->pageTitle['title']); ?></title>
+<meta name="keywords" content="<?php echo CHtml::encode($this->pageTitle['keyword']); ?>"/>
+<meta name="description" content="<?php echo CHtml::encode($this->pageTitle['descript']); ?>"/>
+<link href="/assets/techm/css/qianzhan.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/assets/techm/js/jquery.js"></script>
+<script type="text/javascript" src="/assets/techm/js/public.js"></script>
+</head>
+<body>
+<?php echo $content; ?>
+
+
+<?php /* 
+?>
+<p style="display:none;">
+	<script src="http://s6.cnzz.com/stat.php?id=5764311&web_id=5764311" language="JavaScript"></script>    
+	<script src="http://s6.cnzz.com/stat.php?id=5749076&web_id=5749076" language="JavaScript"></script> 
+	<script src="http://s95.cnzz.com/stat.php?id=1254030836&web_id=1254030836" language="JavaScript"></script>
+	<script src="http://s95.cnzz.com/stat.php?id=1254157707&web_id=1254157707" language="JavaScript"></script>
+</p>
+<?php */
+?>
+
+
+
+</body>
+</html>

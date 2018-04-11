@@ -1,0 +1,416 @@
+<?php
+
+class GameController extends LController {
+
+    const CACHETIME = 600;
+
+    public function actions() {
+        return array(
+            'upload' => array(
+                'class' => 'ext.KEditor.Keditorupload'
+            ),
+            'managejson' => array(
+                'class' => 'ext.KEditor.Keditormanage'
+            )
+        );
+    }
+
+    public function actionIndex() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('index', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionCreate() {
+        $model = new Game ();
+        if($_POST ['Game']) {
+            if($_FILES["Game"]["size"]["game_logo"]) {
+                $source_image = $_FILES["Game"]["tmp_name"]["game_logo"];
+                list($w, $h) = getimagesize($source_image);
+                if($w != 120 || $h != 120)
+                    die("上传失败，logo规格是120*120");
+                if($_FILES["Game"]["size"]["game_logo"] > 10 * 1024)
+                    die("上传失败，logo图片不超过10kb");
+            }
+            $_POST ['Game'] ['star_level'] = $_POST ['Game'] ['star_level'] > 0 ? $_POST ['Game'] ['star_level'] : 40;
+            $_POST ['Game']['game_name'] = trim($_POST ['Game']['game_name']);
+            if($_POST['Game']['game_type'])
+                $_POST['Game']['game_type'] = ',' . implode(',', $_POST['Game']['game_type']) . ',';
+            $_POST['Game']['add_user'] = $this->getUserName();
+            $_POST['Game']['rand_visits'] = $_POST['Game']['rand_visits'] ? $_POST['Game']['rand_visits'] : mt_rand(6000, 8000);
+            $_POST['Game']['time'] = time();
+            //$_POST['Game']['has_paihang'] = intval( str_replace("a","", $_GET['Game']['has_paihang']));
+            $model->attributes = $_POST ['Game'];
+            $upload = CUploadedFile::getInstance($model, 'game_logo');
+            if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                Yii::app()->format->datetimeFormat = 'Ymd';
+                $datefile = Yii::app()->format->formatDatetime(time());
+                $dir = Yii::app()->basePath . "/../data/game_logo/" . $datefile;
+                CFileHelper::copyDirectory($dir, $dir);
+                $filename = md5(uniqid());
+                $uploadfile = $dir . '/' . $filename . '.' . $upload->extensionName;
+                $model->game_logo = $datefile . '/' . $filename . '.' . $upload->extensionName;
+
+                $cn_uploadfile = iconv('utf-8', 'gb2312', $uploadfile);
+            }
+            if($model->save()) {
+                if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                    $upload->saveAs($cn_uploadfile, true);
+                    // 传到远程服务器
+                    $upurl = "http://img.pipaw.net/Uploader.ashx";
+                    $path = "pipaw/logo" . date('/Y/m/d', time());
+                    $msg = Helper::postdata($upurl, array(
+                                "filePath" => urlencode($path),
+                                "ismark" => "0",
+                                "autoName" => "1"
+                                    ), "Filedata", $cn_uploadfile);
+                    $model->game_logo = $path . '/' . $msg;
+                    unlink($cn_uploadfile);
+                }
+                $this->taskLog($model->game_id, $model->status);
+                if($model->tag) {
+                    $tag_ids = $this->tags($model->tag, $model->game_id);
+                    if(is_string($tag_ids)) {
+                        $model->tag = $tag_ids;
+                    }
+                }
+                $model->save();
+
+                Gamefun::allGame(true);
+                $this->redirect(array(
+                    'index',
+                    'status' => 0
+                ));
+            }
+        }
+
+        $this->render('form', array(
+            'model' => $model,
+        ));
+    }
+
+    public function actionEdit() {
+        $model = Game::model()->findByPk($_GET['id']);
+
+        if($_POST ['Game']) {
+            if($_FILES["Game"]["size"]["game_logo"]) {
+                $source_image = $_FILES["Game"]["tmp_name"]["game_logo"];
+                list($w, $h) = getimagesize($source_image);
+                if($w != 120 || $h != 120)
+                    die("上传失败，logo规格是120*120");
+                if($_FILES["Game"]["size"]["game_logo"] > 10 * 1024)
+                    die("上传失败，logo图片不超过10kb");
+            }
+            $_POST ['Game'] ['star_level'] = $_POST ['Game'] ['star_level'] > 0 ? $_POST ['Game'] ['star_level'] : 40;
+            $_POST ['Game']['game_name'] = trim($_POST ['Game']['game_name']);
+            if($_POST['Game']['game_type'])
+                $_POST['Game']['game_type'] = ',' . implode(',', $_POST['Game']['game_type']) . ',';
+            //$_POST['Game']['has_paihang'] = intval( str_replace("a","", $_GET['Game']['has_paihang']));
+            $_POST ['Game']['update_time'] = time();
+            $model->attributes = $_POST ['Game'];
+            $upload = CUploadedFile::getInstance($model, 'game_logo');
+
+            if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                Yii::app()->format->datetimeFormat = 'Ymd';
+                $datefile = Yii::app()->format->formatDatetime(time());
+                $dir = Yii::app()->basePath . "/../data/game_logo/" . $datefile;
+                CFileHelper::copyDirectory($dir, $dir);
+                $filename = md5(uniqid());
+                $uploadfile = $dir . '/' . $filename . '.' . $upload->extensionName;
+                $model->game_logo = $datefile . '/' . $filename . '.' . $upload->extensionName;
+
+                $cn_uploadfile = iconv('utf-8', 'gb2312', $uploadfile);
+            } elseif($_POST['old_logo'])
+                $model->game_logo = $_POST['old_logo'];
+
+            if($model->save()) {
+                if(is_object($upload) && get_class($upload) === 'CUploadedFile') {
+                    $upload->saveAs($cn_uploadfile, true);
+                    // 传到远程服务器
+                    $upurl = "http://img.pipaw.net/Uploader.ashx";
+                    $path = "pipaw/logo" . date('/Y/m/d', time());
+                    $msg = Helper::postdata($upurl, array(
+                                "filePath" => urlencode($path),
+                                "ismark" => "0",
+                                "autoName" => "1"
+                                    ), "Filedata", $cn_uploadfile);
+                    $model->game_logo = $path . '/' . $msg;
+                    unlink($cn_uploadfile);
+                }
+                if($model->tag) {
+                    $tag_ids = $this->tags($model->tag, $model->game_id);
+                    if(is_string($tag_ids)) {
+                        $model->tag = $tag_ids;
+                    }
+                }
+                $model->save();
+
+                Gamefun::allGame(true);
+                if($_GET['status'] === '')
+                    $this->redirect(array( 'rank' ));
+                else
+                    $this->redirect(array( 'index', 'status' => $_POST['Game']['status'], 'Game_page' => $_POST['page'] ));
+            }
+        }
+        
+        
+        $this->render('form', array(
+            'model' => $model,
+        ));
+    }
+
+    public function actionDel() {
+        $id = intval($_GET['id']);
+        $model = Game::model()->findByPk($id);
+        $model->delete();
+        $sql = "delete from task_log where game_id = " . $id;
+        Yii::app()->db->createCommand($sql)->execute();
+        $this->redirect(array( 'index', 'status' => $_GET['status'] ));
+    }
+
+    public function actionRank() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('index', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionCheck() {
+        if(!$_GET['id'])
+            die('err');
+        if($_GET['msg']) {
+            $m = new GameCheckFailedMsg();
+            $m->game_id = $_GET['id'];
+            $m->msg = $_GET['msg'];
+            $m->save();
+            $this->msgCache(true);
+        }
+        $model = Game::model()->findByPk($_GET['id']);
+        if($_GET['status'] == 1)
+            $model->edit_user = $this->getUserName();
+        elseif($_GET['status'] == 2 || $_GET['status'] == 3)
+            $model->check_user = $this->getUserName();
+        $model->time = time();
+        $model->status = $_GET['status'];
+        $model->save();
+        $this->taskLog($model->game_id, $model->status);
+        echo '<script>history.go(-1)</script>';
+    }
+
+    public function actionSelect() {
+        $model = Game::model()->findByPk($_GET['id']);
+        if($model->edit_user) {
+            die("游戏已被“{$model->edit_user}”领取!");
+        }
+
+        $model->edit_user = $this->getUserName();
+        $model->save();
+        echo '<script>history.go(-1)</script>';
+    }
+
+    public function actionMytask() {
+        $model = new Game ();
+        $provider = $model->search();
+        $this->render('my', array(
+            'model' => $model,
+            'provider' => $provider,
+        ));
+    }
+
+    public function actionPinYin() {
+        $py = $_REQUEST ['pinyin'];
+        $game_id = $_REQUEST ['game_id'];
+        if(!$game_id)
+            $sql = "select count(*) nums from game where pinyin='$py'";
+        else
+            $sql = "select count(*) nums from game where pinyin='$py' and game_id!=$game_id";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        echo $result ['nums'];
+        exit();
+    }
+
+    function getCatNames($ids) {
+        $ids = explode(',', trim($ids, ','));
+        $type_cache = Gamefun::gameTypes();
+        $cat = array();
+        foreach( $ids as $v ) {
+            $cat[] = $type_cache[$v]['name'];
+        }
+        return implode(',', $cat);
+    }
+
+    function getCatKV() {
+        $type_cache = Gamefun::gameTypes();
+        foreach( $type_cache as $v ) {
+            $cat[$v['id']] = $v['name'];
+        }
+        return $cat;
+    }
+
+    function getStyle($d = false) {
+        $data = array( 1 => '竖版', 2 => '横版' );
+        if($d)
+            array_unshift($data, '请选择');
+        return $data;
+    }
+
+    function getCountry($d = false) {
+        $data = array( 1 => '国内', 2 => '国外' );
+        if($d)
+            array_unshift($data, '请选择');
+        return $data;
+    }
+
+    function getPaiHang($d = false) {
+        $data = array( "a0" => '无排行', "a1" => '开发中', "a2" => '上线' );
+        if($d)
+            $data = array_merge(array( "a" => "请选择" ), $data);
+
+        return $data;
+    }
+
+    function getPaiHang2() {
+        $data = array( "0" => '无排行', "1" => '开发中', "2" => '上线' );
+        return $data;
+    }
+
+    /**
+     * 分数排序
+     * @return string
+     */
+    function getScoreorder() {
+        $data = array( 0 => '降序分数', 1 => '升序分数' );        
+        return $data;
+    }
+
+    function msgCache($f = false) {
+        $key = "GameController_msgCache";
+        $data = Yii::app()->aCache->get($key);
+        if(!$data || $f) {
+            $sql = "select game_id,msg from game_check_failed_msg limit 200";
+            $res = Yii::app()->db->createCommand($sql)->queryAll();
+            $data = array();
+            foreach( $res as $v ) {
+                $data[$v['game_id']] = $v['msg'];
+            }
+            Yii::app()->aCache->set($key, $data, self::CACHETIME);
+        }
+        return $data;
+    }
+
+    function getMsgByGameId($id) {
+        $msgCache = $this->msgCache();
+        if(in_array($id, $msgCache))
+            return $msgCache[$id];
+        else {
+            $sql = "select msg from game_check_failed_msg where game_id = $id";
+            $res = Yii::app()->db->createCommand($sql)->queryRow();
+            return $res['msg'];
+        }
+    }
+
+    function getTag($ids) {
+        if(!$ids)
+            return '';
+        $sql = "select name from game_tag where id in($ids)";
+        $res = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach( $res as $v ) {
+            $str[] = $v['name'];
+        }
+        return join(',', $str);
+    }
+
+    function tags($data, $game_id) {
+        if(!$data && !$game_id)
+            return null;
+        $data = str_replace('，', ',', $data);
+        $data = explode(',', $data);
+        $tag_ids = array();
+
+        foreach( $data as $v ) {
+            if(!$v)
+                continue;
+            $v = trim($v);
+            $sql = "select id from game_tag where name = '$v'";
+            $res = Yii::app()->db->createCommand($sql)->queryRow();
+            if($res) {
+                if(!in_array($res['id'], $tag_ids))
+                    $tag_ids[] = $res['id'];
+                continue;
+            }
+            $tag_model = new GameTag();
+            $tag_model->name = $v;
+            $tag_model->save();
+            if(!in_array($tag_model->id, $tag_ids))
+                $tag_ids[] = $tag_model->id;
+        }
+        //删除该游戏的历史无用标签id
+        $this->delOldTagId($tag_ids, $game_id);
+        return join(',', $tag_ids);
+    }
+
+    function delOldTagId($tag_ids, $game_id) {
+        //删除辅助表game_id   data
+        $sql = "select id,game_id,game_tag_id from game_id_tag where game_id = $game_id";
+        $old_data = Yii::app()->db->createCommand($sql)->queryAll();
+        if($old_data) {
+            $old_ids = array();
+            foreach( $old_data as $v ) {
+                if(!in_array($v['id'], $tag_ids)) {
+                    $model = GameIdTag::model()->findByPk($v['id']);
+                    $model->delete();
+                } else {
+                    $old_ids[] = $v['id'];
+                }
+            }
+            foreach( $tag_ids as $v ) {
+                if(!in_array($v, $old_ids)) {
+                    $model = new GameIdTag();
+                    $model->game_id = $game_id;
+                    $model->game_tag_id = $v;
+                    $model->save();
+                }
+            }
+        } else {
+            foreach( $tag_ids as $v ) {
+                $model = new GameIdTag();
+                $model->game_id = $game_id;
+                $model->game_tag_id = $v;
+                $model->save();
+            }
+        }
+
+        return true;
+    }
+
+    function getUrl($py) {
+        $urlTemp = strtolower($py);
+        if(strpos($urlTemp, "http://www.7724.com") !== false) {
+            return str_replace("http://www.7724.com", "http://play.7724.com", $urlTemp);
+        } elseif(strpos($urlTemp, "http://") === false) {
+            return "http://play.7724.com/olgames/" . $py;
+        }
+        return $py;
+    }
+
+    function getUserName() {
+        return Yii::app()->session ['userInfo']['realname'] ? Yii::app()->session ['userInfo']['realname'] : Yii::app()->session ['userInfo']['username'];
+    }
+
+    function taskLog($game_id, $status) {
+        $model = new TaskLog();
+        $model->game_id = $game_id;
+        $model->status = $status;
+        $model->time = time();
+        $model->user = $this->getUserName();
+        $model->time_d = strtotime(date('Y-m-d'));
+        $model->save();
+        return true;
+    }
+
+}

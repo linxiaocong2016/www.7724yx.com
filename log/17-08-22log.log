@@ -1,0 +1,368 @@
+时间：2017-08-22 14:17:11
+array (
+  0 => 'SELECT t1.game_id,t2.*,\'\' as type_names
+		FROM position t1 LEFT JOIN game t2 ON t1.game_id=t2.game_id
+		WHERE t1.cat_id=\'3\' AND t2.status=3 
+		and t1.game_id not in(2202,2831,2548,2765,2218,2763,2417,1853,983,214,119,1588,1782)
+		 ORDER BY t1.sorts DESC,t1.id DESC  
+		 LIMIT 0,12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT t1.game_...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(45): DBHelper::queryAll(\'SELECT t1.game_...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(80): Pc_PositionBll::getRecommendGame(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:12
+array (
+  0 => 'SELECT * FROM game_types ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(129): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(48): Pc_GameBll::getAllType(1)
+#8 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(80): Pc_PositionBll::getRecommendGame(12)
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#10 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#13 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#14 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#17 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#19 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#20 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#21 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#22 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:12
+array (
+  0 => 'SELECT \'1\' as dj_flag,gm.game_id,gm.pinyin,gm.game_logo,gm.game_name, 
+					gm.status,gm.game_url,
+					gm.star_level,gm.game_visits,gm.rand_visits,gm.game_type ,\'\' as type_names 
+					FROM game_play_record gpr , game gm WHERE gpr.game_id=gm.game_id 
+					order by gpr.order_desc desc,gpr.create_time desc limit 12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT \'1\' as d...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_UserBll.php(135): DBHelper::queryAll(\'SELECT \'1\' as d...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(124): Pc_UserBll::getUserPlayRecord(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:12
+array (
+  0 => 'SELECT * FROM game_types ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(129): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_UserBll.php(167): Pc_GameBll::getAllType(1)
+#8 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(124): Pc_UserBll::getUserPlayRecord(12)
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#10 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#13 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#14 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#17 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#19 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#20 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#21 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#22 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:12
+array (
+  0 => 'SELECT * FROM game  WHERE status=3 
+				and game_id not in(2202,2831,2548,2765,2218,2763,2417,1853,983,214,119,1588,1782)
+				  order by time DESC ,game_id DESC   LIMIT 12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(103): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(219): Pc_GameBll::getNewGames(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:12
+array (
+  0 => 'SELECT atl.id,atl.type,atl.title,atl.descript,atl.gameid,g.pinyin 
+			FROM position pt inner join article atl on pt.game_id=atl.id
+			left join game g on atl.gameid=g.game_id WHERE pt.cat_id=\'13\' 
+			and pt.status=\'1\' and atl.status>=1  ORDER BY pt.sorts DESC,pt.id DESC   LIMIT 2 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT atl.id,a...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(73): DBHelper::queryAll(\'SELECT atl.id,a...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(256): Pc_PositionBll::getRecommendArticle(13, 2)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT t1.game_id,t2.*,\'\' as type_names
+		FROM position t1 LEFT JOIN game t2 ON t1.game_id=t2.game_id
+		WHERE t1.cat_id=\'3\' AND t2.status=3 
+		and t1.game_id not in(2202,2831,2548,2765,2218,2763,2417,1853,983,214,119,1588,1782)
+		 ORDER BY t1.sorts DESC,t1.id DESC  
+		 LIMIT 0,12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT t1.game_...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(45): DBHelper::queryAll(\'SELECT t1.game_...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(80): Pc_PositionBll::getRecommendGame(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT * FROM game_types ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(129): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(48): Pc_GameBll::getAllType(1)
+#8 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(80): Pc_PositionBll::getRecommendGame(12)
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#10 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#13 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#14 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#17 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#19 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#20 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#21 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#22 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT \'1\' as dj_flag,gm.game_id,gm.pinyin,gm.game_logo,gm.game_name, 
+					gm.status,gm.game_url,
+					gm.star_level,gm.game_visits,gm.rand_visits,gm.game_type ,\'\' as type_names 
+					FROM game_play_record gpr , game gm WHERE gpr.game_id=gm.game_id 
+					order by gpr.order_desc desc,gpr.create_time desc limit 12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT \'1\' as d...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_UserBll.php(135): DBHelper::queryAll(\'SELECT \'1\' as d...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(124): Pc_UserBll::getUserPlayRecord(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT * FROM game_types ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(129): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_UserBll.php(167): Pc_GameBll::getAllType(1)
+#8 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(124): Pc_UserBll::getUserPlayRecord(12)
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#10 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#13 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#14 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#17 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#19 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#20 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#21 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#22 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT * FROM game  WHERE status=3 
+				and game_id not in(2202,2831,2548,2765,2218,2763,2417,1853,983,214,119,1588,1782)
+				  order by time DESC ,game_id DESC   LIMIT 12 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT * FROM g...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_GameBll.php(103): DBHelper::queryAll(\'SELECT * FROM g...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(219): Pc_GameBll::getNewGames(12)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************
+时间：2017-08-22 14:17:18
+array (
+  0 => 'SELECT atl.id,atl.type,atl.title,atl.descript,atl.gameid,g.pinyin 
+			FROM position pt inner join article atl on pt.game_id=atl.id
+			left join game g on atl.gameid=g.game_id WHERE pt.cat_id=\'13\' 
+			and pt.status=\'1\' and atl.status>=1  ORDER BY pt.sorts DESC,pt.id DESC   LIMIT 2 ',
+  1 => 'CDbConnection failed to open the DB connection.',
+  2 => '#0 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(347): CDbConnection->open()
+#1 /data/wwwroot/www.7724.cn/framework/db/CDbConnection.php(325): CDbConnection->setActive(true)
+#2 /data/wwwroot/www.7724.cn/framework/base/CModule.php(394): CDbConnection->init()
+#3 /data/wwwroot/www.7724.cn/framework/base/CModule.php(103): CModule->getComponent(\'db\')
+#4 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(39): CModule->__get(\'db\')
+#5 /data/wwwroot/www.7724.cn/protected/components/DBHelper.php(13): DBHelper::bindParam(\'SELECT atl.id,a...\', Array)
+#6 /data/wwwroot/www.7724.cn/protected/modules/pc/components/Pc_PositionBll.php(73): DBHelper::queryAll(\'SELECT atl.id,a...\')
+#7 /data/wwwroot/www.7724.cn/protected/modules/pc/views/index/index.php(256): Pc_PositionBll::getRecommendArticle(13, 2)
+#8 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(126): require(\'/data/wwwroot/w...\')
+#9 /data/wwwroot/www.7724.cn/framework/web/CBaseController.php(95): CBaseController->renderInternal(\'/data/wwwroot/w...\', NULL, true)
+#10 /data/wwwroot/www.7724.cn/framework/web/CController.php(869): CBaseController->renderFile(\'/data/wwwroot/w...\', NULL, true)
+#11 /data/wwwroot/www.7724.cn/framework/web/CController.php(782): CController->renderPartial(\'index\', NULL, true)
+#12 /data/wwwroot/www.7724.cn/protected/modules/pc/controllers/IndexController.php(16): CController->render(\'index\')
+#13 /data/wwwroot/www.7724.cn/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#14 /data/wwwroot/www.7724.cn/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /data/wwwroot/www.7724.cn/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#16 /data/wwwroot/www.7724.cn/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#17 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(282): CController->run(\'index\')
+#18 /data/wwwroot/www.7724.cn/framework/web/CWebApplication.php(141): CWebApplication->runController(\'pc/index/index\')
+#19 /data/wwwroot/www.7724.cn/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#20 /data/wwwroot/www.7724.cn/index.php(46): CApplication->run()
+#21 {main}',
+)
+*************************************

@@ -1,0 +1,67 @@
+ <div class="general">
+    <!--面包屑-->
+    <div class="h5_local">
+       <em class="local_home">当前位置：</em>
+       <a href="###">首页</a><span>&gt;</span> 
+       <a href="###">游戏库</a><span>&gt;</span>
+       <a href="###">全名宫斗</a><span>&gt;</span>
+       <em>新闻</em>
+    </div>
+  
+     
+    <!--左边列表-->
+    <div class="h5_left">
+        
+         <?php include dirname(__FILE__)."/../common/game_info.php";?>
+          
+        <div class="g_n_list"> 
+             <div class="h5_tit"><p>游戏新闻列表</p></div>
+             <div class="subject_list news_pic">
+               
+                <dl>
+                <?php 
+                	foreach($lvList as $k=>$v):
+                		$url=Urlfunction::getArticleUrl($lvGameInfo['pinyin'], $v['type'], $v['id']);
+                ?>
+                   <dd>
+                       <div class="p1"><a href="<?php echo $url;?>"><img src="<?php echo Urlfunction::getArticleImg($v['image'], $v['type'])?>"></a></div>
+                       <div class="p2">
+                       	  <p><a href="<?php echo $url;?>"><?php echo $v['title']; ?></a></p>
+                          <span><?php echo $v['descript']?><a href="<?php echo $url;?>">[查看全文]</a></span>
+                          <em><?php echo date("Y-m-d H:i:s", $v['publictime']); ?></em>
+                       </div>
+                   </dd>
+                <?php endforeach;?>
+
+               </dl>
+                <!--页码-->
+                <div class="newyiiPager" >
+                     <?php  $this->widget('CLinkPager',array(
+               					'header'=>"共{$pageCount}页：",
+								'firstPageLabel' => '首页',
+								'lastPageLabel' => '末页',
+								'prevPageLabel' => '上一页',
+								'nextPageLabel' => '下一页',
+								'maxButtonCount'=>6,
+								'pages'=>$pages,
+								)
+							);
+					?>                
+                </div>
+            </div>
+        </div>      
+         
+          
+         
+         
+    </div>
+    <!--右边-->
+     <div class="h5_right">
+       <div class="download_box"><a href="#"><img src="temp/xz.jpg"></a></div>
+        <?php include dirname(__FILE__)."/../common/rand_game.php";?>
+		<?php include dirname(__FILE__)."/../common/hot_art_1_type.php";?>
+		<?php include dirname(__FILE__)."/../common/hot_game.php";?>
+     </div>
+    
+ </div> 
+  

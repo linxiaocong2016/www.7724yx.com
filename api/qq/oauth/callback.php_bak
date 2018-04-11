@@ -1,0 +1,173 @@
+<?php
+require_once("../API/qqConnectAPI.php");
+$qc = new QC();
+echo $qc->qq_callback();
+echo "<br/>";
+echo $qc->get_openid();
+
+exit();
+
+define('IN_UC', TRUE);
+define('UC_API', TRUE);
+define('IN_COMSENZ', TRUE);
+session_start();
+header('Content-Type:text/html;charset=utf-8');
+
+$yii = $_SERVER['DOCUMENT_ROOT'] . '/framework/yii.php';
+$config = $_SERVER['DOCUMENT_ROOT'] . '/protected/config/main.php';
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/protected/controllers/client.php');
+include_once ($yii);
+Yii::createWebApplication($config);
+
+require_once ("../API/qqConnectAPI.php");
+$qc = new QC();
+$acs = $qc -> qq_callback();
+
+$openid = $qc -> get_openid();
+$qc = new QC($acs, $openid);
+$ret = $qc -> get_user_info();
+
+echo "tokenid:{$acs}";
+echo "<br>";
+echo "openid:{$openid}";
+print_r($ret);
+
+exit();
+$username = trim($ret['nickname']);
+$headimg = $ret['figureurl_qq_1'];
+
+$backurl = $_SESSION['qqbackurl'];
+$sql = "select * from ext_userinfo where openid='" . $openid . "'";
+$rs = Yii::app() -> db -> createCommand($sql) -> queryRow();
+
+if ($rs) {
+	$_SESSION['userinfo']['uid'] = $rs['uid'];
+	echo uc_user_synlogin($_SESSION['userinfo']['uid']);
+
+	$user = uc_get_user($_SESSION['userinfo']['uid'], 1);
+	$_SESSION['userinfo']['username'] = $user[1];
+
+	$onlineip = PipawCommunication::ip();
+
+	$agent = $_SERVER['HTTP_USER_AGENT'];
+
+	$devices = PipawCommunication::determineplatform($agent);
+	$browsers = PipawCommunication::determinebrowser($agent);
+
+	$loginfo = new UserLoginfo();
+	$loginfo -> app_user_id = 0;
+
+	$loginfo -> username = $_SESSION['userinfo']['username'];
+	$loginfo -> uid = $_SESSION['userinfo']['uid'];
+	$loginfo -> createtime = time();
+	$loginfo -> gid = 0;
+	$loginfo -> event_type = "QqPassportLogin";
+	$loginfo -> app_user_id = 0;
+	$loginfo -> channelid = 1;
+	$loginfo -> ip = $onlineip;
+	$loginfo -> devices = $devices;
+	$loginfo -> browsers = $browsers;
+	$loginfo -> save();
+	unset($_SESSION['qqbackurl']);
+	echo "<script>setTimeout(\"window.location.href='" . $backurl . "'\",1000);</script>";
+
+} else {
+	$_SESSION['login_type']='QQ';
+	$_SESSION['qq_user']=$ret;
+	$_SESSION['qq_user']['openid']=$openid ;
+	
+	echo "<script>window.location.href='/user/uidbind'</script>";
+	
+	/*
+	if (!empty($_SESSION['userinfo']['uid'])) {
+		//绑定
+		$sql = "select * from ext_userinfo where uid='" . $_SESSION['userinfo']['uid'] . "'";
+		$rs = Yii::app() -> db -> createCommand($sql) -> queryRow();
+		if ($rs) {
+			$sql = "update `ext_userinfo` set openid='" . $openid . "' where uid='" . $_SESSION['userinfo']['uid'] . "'";
+			Yii::app() -> db -> createCommand($sql) -> query();
+			//echo "绑定成功";
+			unset($_SESSION['qqbackurl']);
+			echo "<script>setTimeout(\"window.location.href='" . $backurl . "'\",2000);</script>";
+		} else {
+			$sql = "insert into ext_userinfo (uid,headimg,openid) values ('" . $_SESSION['userinfo']['uid'] . "','" . $headimg . "','" . $openid . "')";
+			$res = Yii::app() -> db -> createCommand($sql) -> query();
+			//echo "绑定成功";
+			unset($_SESSION['qqbackurl']);
+			echo "<script>setTimeout(\"window.location.href='" . $backurl . "'\",2000);</script>";
+		}
+	} else {
+
+		$onlineip = PipawCommunication::ip();
+
+		$sql = "select  count(*) as c from ppucenter_members where regip='$onlineip' and unix_timestamp()-regdate<=3600";
+		$res = Yii::app() -> db -> createCommand($sql) -> queryRow();
+
+		if ($res[c] > 0) {
+			unset($_SESSION['qqbackurl']);
+			echo "<script  charset='utf8'>alert('同一个ip一小时内只允许注册一个帐号！');location.href='" . $_SESSION['qqbackurl'] . "'</script>";
+			exit();
+		}
+
+		$sql = "select * from ppucenter_members where username='" . $username . "'";
+		$result = Yii::app() -> db -> createCommand($sql) -> queryRow();
+
+		if ($result || strlen($username) < 6) {
+			$username = "pipaw_" . rand(100, 999) . substr(time(), 6, 11);
+
+		} else {
+			$username = $username;
+		}
+
+		$password1 = rand(100000, 999999);
+		//自动创建六位数密码
+		$email = rand(100000, 999999) . "@passport.com";
+		//自动创建邮箱
+		$userid = uc_user_register($username, $password1, $email);
+
+		if ($userid > 0) {
+
+			//插入weibo token
+
+			$sql = "insert into ext_userinfo (uid,headimg,openid) values ('" . $userid . "','" . $headimg . "','" . $openid . "')";
+			$res = Yii::app() -> db -> createCommand($sql) -> query();
+
+			//登录
+			$sql = "select * from ext_userinfo where openid='" . $openid . "'";
+			$rs = Yii::app() -> db -> createCommand($sql) -> queryRow();
+
+			if ($rs) {
+				$_SESSION['userinfo']['uid'] = $rs['uid'];
+				echo uc_user_synlogin($_SESSION['userinfo']['uid']);
+
+				$user = uc_get_user($_SESSION['userinfo']['uid'], 1);
+				$_SESSION['userinfo']['username'] = $user[1];
+				$onlineip = PipawCommunication::ip();
+
+				$agent = $_SERVER['HTTP_USER_AGENT'];
+
+				$devices = PipawCommunication::determineplatform($agent);
+				$browsers = PipawCommunication::determinebrowser($agent);
+
+				$loginfo = new UserLoginfo();
+				$loginfo -> app_user_id = 0;
+
+				$loginfo -> username = $_SESSION['userinfo']['username'];
+				$loginfo -> uid = $_SESSION['userinfo']['uid'];
+				$loginfo -> createtime = time();
+				$loginfo -> gid = 0;
+				$loginfo -> event_type = "WebPassportLogin";
+				$loginfo -> app_user_id = 0;
+				$loginfo -> channelid = 1;
+				$loginfo -> ip = $onlineip;
+				$loginfo -> devices = $devices;
+				$loginfo -> browsers = $browsers;
+				$loginfo -> save();
+
+				unset($_SESSION['qqbackurl']);
+				echo "<script>setTimeout(\"window.location.href='" . $backurl . "'\",2000);</script>";
+			}
+
+		}
+	}*/
+}

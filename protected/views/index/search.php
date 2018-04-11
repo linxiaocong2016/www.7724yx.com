@@ -1,0 +1,151 @@
+<?php
+$lvHuodongGameArr=HuodongFun::huodongGameArr();
+?>
+
+<header class="head clearfix">
+     <div class="back"><a href="javascript:history.go(-1)">返回</a></div>
+     <div class="search new_search">
+     <form id="search_form_id" action="<?php echo $this->createUrl('index/search');?>" onSubmit="return searchnamesend()">
+       <?php 
+		$data = Gamefun::allGameSearchStatus(3);
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+				'name'=>'keyword',
+				'source'=>array_values($data),'skin'=>false,
+				'options'=>array('autoFocus'=>'1',
+						'minLength'=>'1',
+				), 'htmlOptions'=>array(
+						'class'=>'search_tx new_search_tx',
+						'placeholder' => '请输入游戏名称'
+				),
+		));
+		?>
+       <input type="submit" class="search_bt" value="" />
+      </form>
+     </div>
+</header>
+<!--列表-->
+<?php if(isset($_GET['keyword'])&&$_GET['keyword']!==''):?>
+ <div class="public new_public clearfix">
+     <div class="search_local"><p>您搜索的“<span><?php echo $_GET['keyword'];?></span>”结果如下：</p> </div>
+     <?php if(!$lvList):
+    
+     ?>
+     <div class="no_result">
+          <img src="/assets/index/img/bad.png" />
+          <p>没有找到相关的游戏，试试搜索其他的<br/>或是看看大家都在搜什么吧！</p>
+       </div>
+     <?php else:?>
+		<script>
+		$(function(){
+			var unlock=true;
+			$(window).scroll(function(){
+				var winH=$(window).height();
+				var scrH=$(window).scrollTop();
+				var htmH=$(document).height()-100;
+				if(winH+scrH>=htmH){
+					if($("#ajax_idx_more").length<=0)return;
+					var obj=$("#ajax_idx_more");
+					ajaxidxmore(obj);
+				}
+			});
+			function ajaxidxmore(obj){
+				if(!unlock)return;
+				var html0=$(obj).html();
+				$(obj).html("加载中...");
+				var page=$(obj).attr("rel");
+				if(!isNaN(page)){
+					unlock=false;
+					var game_name='<?php echo $_GET['keyword']?>';
+					var query={"game_name":game_name,"page":page};
+					$.post('<?php echo $this->createurl("index/ajaxlist")?>',query,function(data){
+						var top=$(document).scrollTop(); 
+						$("#_list").append(data.html);
+						$(obj).attr("rel",data.page);
+						$(document).scrollTop(top);
+						if(data.page!="end"){
+							unlock=true;
+		 					$(obj).html(html0);
+						}else{
+							$(obj).html("已到最后...");
+						}
+					},"json")
+				}
+			}
+		})
+		</script>     
+     <div class="list_one">
+         <dl id="_list">
+         <?php foreach($lvList as $k=>$v):?>
+             <dt>
+              <a href="/<?php echo $v['pinyin'];?>/">
+               <p class="p1"><img src="<?php echo $this->getPic($v['game_logo'])?>"/></p>
+               <p class="p2">
+                 <i>
+                 	<b class="game_name"><?php echo $v['game_name']?></b>
+                 	<?php if($lvHuodongGameArr[$v['game_id']]):?>
+                 	<b class="bq">活动中</b>
+                 	<?php endif;?>
+                 </i>
+                 <em><?php echo $this->getStarImg($v['star_level'])?></em>
+                 <span><?php echo $this->getGameTypeName($v['game_type'],1)?>&nbsp;&nbsp;&nbsp;人气：<?php echo $this->getVisits($v);?></span>
+               </p>
+               <p class="p3"><span>开始玩</span></p>
+              </a>
+            </dt>
+          <?php endforeach;?>
+         </dl>
+       </div>
+      <?php endif;?>
+</div>
+<?php if($lvList&&count($lvList)>=$this->lvListPageSize):?>
+<div id="ajax_idx_more" rel='2' class="new_morelist">加载更多</div>
+<?php endif;?>
+<?php endif;?>
+
+<!--推荐游戏-->
+<?php 
+	if(!isset($_GET['keyword'])||$_GET['keyword']===''):
+	$posId=5;
+	$list=$this->getPositionByCatIdAndGameInfo($posId,4);
+	if($list):
+?>
+<div class="public new_public clearfix">
+    <div class="tit"><p class="tit_ico edit_recommend">推荐游戏</p></div> 
+    <div class="list_four clearfix">
+         <ul>
+         <?php foreach($list as $k=>$v):?>
+             <li><a href="<?php echo $this->getDetailUrl($v)?>" onclick="positioncount(<?php echo $posId;?>)">
+             <img src="<?php echo $this->getPic($v['game_logo'])?>" />
+             <p><?php echo $v['game_name']?></p></a></li>
+         <?php endforeach;?>
+         </ul>
+    </div> 
+</div>
+<?php endif;?>
+<?php endif;?>
+
+<!--搜索热词-->
+<?php 
+	if(!$lvList):
+	$posId=6;
+	$list=$this->getPositionByCatId($posId,8);
+	if($list):
+?>
+ <div class="public  clearfix">
+    <div class="tit"><p class="tit_ico hot_search">搜索热词</p></div> 
+    <div class="hot_link">
+    <?php 
+    	$i=1;
+    	foreach($list as $k=>$v):
+    ?>
+        <a href="<?php echo $this->createUrl('index/search',array('keyword'=>$v['title']));?>" 
+        class="a<?php echo $i;?>" onclick="positioncount(<?php echo $posId;?>)"><?php echo $v['title'];?></a>
+    <?php 
+    	$i++;
+    	if($i>7)$i=1;
+    	endforeach;
+    ?>
+    </div> 
+</div>
+<?php endif;?>
+<?php endif;?>

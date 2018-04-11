@@ -1,0 +1,213 @@
+@charset "utf-8";
+/*弹窗*/
+.opacity_bg {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background: rgba(0, 0, 0, 0.5);
+	left: 0;
+	top: 0;
+	z-index: 101;
+	display: none;
+}
+
+.box_shiwan {
+	width: 80%;
+	position: fixed;
+	background: #fff;
+	z-index: 1000;
+	margin: 0 auto;
+	left: 10%;
+	top: 20%;
+	display: none;
+}
+
+.box_shiwan .title {
+	line-height: 36px;
+	height: 36px;
+	color: #666;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 12px;
+	padding-left: 10px;
+	position: relative;
+}
+
+.box_shiwan .title .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 36px;
+	height: 36px;
+	background: url(../img/close.png) no-repeat center;
+	background-size: 18px 18px;
+	cursor: pointer;
+}
+
+.box_shiwan p {
+	margin: 30px 0;
+	width: 100%;
+	text-align: center;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+.box_shiwan .sure, .box_shiwan .sure2, .box_shiwan .cancel {
+	width: 100%;
+	float: left;
+	border-top: 1px solid #e5e5e5;
+	text-align: center;
+	color: #267ada;
+	font-size: 14px;
+	line-height: 40px;
+	height: 40px;
+}
+
+.box_shiwan .sure:hover, .box_shiwan .sure2:hover, .box_shiwan .cancel:hover
+	{
+	background: #f0f0f0;
+}
+
+.box_shiwan .sure2, .box_shiwan .cancel {
+	width: 50%;
+}
+
+.box_shiwan .cancel em {
+	border-right: 1px solid #e5e5e5;
+	float: right;
+	height: 40px;
+}
+
+.other_box_shiwan {
+	width: 80%;
+	position: fixed;
+	background: #fff;
+	z-index: 1000;
+	margin: 0 auto;
+	left: 10%;
+	top: 20%;
+	display: none;
+}
+
+.other_box_shiwan .title {
+	line-height: 36px;
+	height: 36px;
+	color: #666;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 12px;
+	padding-left: 10px;
+	position: relative;
+}
+
+.other_box_shiwan .title .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 36px;
+	height: 36px;
+	background: url(../img/close.png) no-repeat center;
+	background-size: 18px 18px;
+	cursor: pointer;
+}
+
+.other_box_shiwan p {
+	margin: 30px 0;
+	width: 100%;
+	text-align: center;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+.other_box_shiwan .sure, .other_box_shiwan .sure2, .other_box_shiwan .cancel
+	{
+	width: 100%;
+	float: left;
+	border-top: 1px solid #e5e5e5;
+	text-align: center;
+	color: #267ada;
+	font-size: 14px;
+	line-height: 40px;
+	height: 40px;
+}
+
+.other_box_shiwan .sure:hover, .other_box_shiwan .sure2:hover,
+	.other_box_shiwan .cancel:hover {
+	background: #f0f0f0;
+}
+
+.other_box_shiwan .sure2, .other_box_shiwan .cancel {
+	width: 50%;
+}
+
+.other_box_shiwan .cancel em {
+	border-right: 1px solid #e5e5e5;
+	float: right;
+	height: 40px;
+}
+
+/*其他提示*/
+.no_ope_tishi_div {
+	width: 80%;
+	position: fixed;
+	background: #fff;
+	z-index: 1000;
+	margin: 0 auto;
+	left: 10%;
+	top: 20%;
+	display: none;
+}
+
+.no_ope_tishi_div .title {
+	line-height: 36px;
+	height: 36px;
+	color: #666;
+	border-bottom: 1px solid #e5e5e5;
+	font-size: 12px;
+	padding-left: 10px;
+	position: relative;
+}
+
+.no_ope_tishi_div .title .close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 36px;
+	height: 36px;
+	background: url(../img/close.png) no-repeat center;
+	background-size: 18px 18px;
+	cursor: pointer;
+}
+
+.no_ope_tishi_div p {
+	margin: 30px 0;
+	width: 100%;
+	text-align: center;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+.no_ope_tishi_div .sure, .no_ope_tishi_div .sure2, .no_ope_tishi_div .cancel
+	{
+	width: 100%;
+	float: left;
+	border-top: 1px solid #e5e5e5;
+	text-align: center;
+	color: #267ada;
+	font-size: 14px;
+	line-height: 40px;
+	height: 40px;
+}
+
+.no_ope_tishi_div .sure:hover, .no_ope_tishi_div .sure2:hover,
+	.no_ope_tishi_div .cancel:hover {
+	background: #f0f0f0;
+}
+
+.no_ope_tishi_div .sure2, .no_ope_tishi_div .cancel {
+	width: 50%;
+}
+
+.no_ope_tishi_div .cancel em {
+	border-right: 1px solid #e5e5e5;
+	float: right;
+	height: 40px;
+}

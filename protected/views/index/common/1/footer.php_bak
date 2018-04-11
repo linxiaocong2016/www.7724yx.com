@@ -1,0 +1,22 @@
+<!--底部导航-->
+   <nav class="bottom_nav">
+       <ul>
+            <li><a href="/">首页</a></li>
+            <li><a href="<?php echo $this->createUrl('index/new')?>">最新</a></li>
+            <li><a href="<?php echo $this->createUrl('index/top')?>">排行</a></li>
+            <li><a href="<?php echo $this->createUrl('index/zhuanti')?>">专题</a></li>
+            <li><a href="<?php echo $this->createUrl('index/gamecat')?>">分类</a></li>
+            <li><a href="http://yx.7724.com/?flag=772400">网游</a></li>
+       </ul>
+   </nav>
+   <!--底部-->
+   <footer class="footer">
+       <p>
+       	苏州汇科易贸易有限公司<a href="/aboutus.html">关于我们</a><a href="/linkus.html">联系我们</a>
+       </p>
+       <p>
+       		闽ICP备14003184号-2
+       </p>
+   </footer>
+   <!--返回顶部-->
+<div class="backtop">返回顶部</div>

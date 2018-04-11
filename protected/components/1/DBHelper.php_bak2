@@ -1,0 +1,63 @@
+<?php
+/**
+ * 扩展Yii::app()->db->createCommand($sql)，加入参数快速绑定
+ *
+ * @author Administrator
+ */
+class DBHelper {
+    //put your code here
+    public static function queryAll($sql, $params = array()) {
+        $cmd = DbHelper::bindParam($sql, $params);
+        return $cmd->queryAll();
+    }
+
+    public static function queryRow($sql, $params = array()) {
+        $cmd = DbHelper::bindParam($sql, $params);
+        return $cmd->queryRow();
+    }
+
+    public static function execute($sql, $params = array()) {
+        $cmd = DbHelper::bindParam($sql, $params);
+        return $cmd->execute();
+    }
+
+    private static function bindParam($sql, $params = array()) {
+        $cmd = Yii::app()->db->createCommand($sql);
+
+        foreach( $params as $k => $v )
+            $cmd->bindValue($k, $v);
+
+        return $cmd;
+    }
+    
+    /**
+     * UCenter
+     * @param type $sql
+     * @param type $params
+     * @return type
+     */
+     public static function uc_queryAll($sql, $params = array()) {
+        $cmd = DbHelper::uc_bindParam($sql, $params);
+        return $cmd->queryAll();
+    }
+
+    public static function uc_queryRow($sql, $params = array()) {
+        $cmd = DbHelper::uc_bindParam($sql, $params);
+        return $cmd->queryRow();
+    }
+
+    public static function uc_execute($sql, $params = array()) {
+        $cmd = DbHelper::uc_bindParam($sql, $params);
+        return $cmd->execute();
+    }
+
+    private static function uc_bindParam($sql, $params = array()) {
+        $cmd = Yii::app()->ucdb->createCommand($sql);
+
+        foreach( $params as $k => $v )
+            $cmd->bindValue($k, $v);
+
+        return $cmd;
+    }
+}
+       

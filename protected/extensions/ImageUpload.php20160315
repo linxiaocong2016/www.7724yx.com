@@ -1,0 +1,162 @@
+<?php 
+class ImageUpload{
+	
+	/**
+	 * 上传同步进行
+	 * @param unknown $fileTagName
+	 * @param unknown $config
+	 * @return Ambigous <multitype:string, multitype:string Ambigous <string> number >|Ambigous <multitype:Ambigous, multitype:Ambigous <string> string number >
+	 */
+	public static function imgUploadAndFarUpload($fileTagName,$config){
+		$res=self::imgUpload($fileTagName,$config);
+		if($res['filename']){
+			if(!$config['farPath'])$config['farPath']='7724';
+			return self::imgFarUpload($res['filename'],$config);
+		}else{
+			return $res;
+		}
+	}
+	
+	/**
+	 * 图片上传本地服务器
+	 * @param unknown $fileTagName
+	 * @param unknown $configParams
+	 * @throws Exception
+	 * @return multitype:Ambigous <string> string number
+	 */
+	
+	public static function imgUpload($fileTagName,$configParams=array()){
+		$errcode=0;
+		$fileNameSuccess='';
+		//配置文件
+		$config=array(
+				'filePath'=>"assets/tmp",
+				'typeAllow'=>"gif|bmp|jpg|jpeg|png", //默认只允许图片格式
+		);
+		if($configParams){
+			foreach($configParams as $k=>$v){
+				$config[$k]=$v;
+			}
+		}
+		//过滤路径
+		$filePath=trim($config['filePath'],'.');
+		$filePath=trim($config['filePath'],'/');
+		$filePath=trim($config['filePath'],'\\');
+	
+		//获取文件对象
+		$file = CUploadedFile::getInstanceByName($fileTagName);
+		try {
+			//不是文件对象
+			if(!is_object($file)||get_class($file) !== 'CUploadedFile'){
+				throw new Exception(-11);
+			}
+			//后缀不是允许的格式
+			$allowTypeArr=explode('|', $config['typeAllow']);
+			if(!in_array($file->extensionName, $allowTypeArr)){
+				throw new Exception(-12);
+			}
+			//类型不是允许的格式
+			$type=explode('/', $file->type);
+			if(!in_array($type[1], $allowTypeArr)){
+				throw new Exception(-13);
+			}
+	
+			//上传的文件名
+			$fileName="{$filePath}/".md5_file($file->tempName).".{$file->extensionName}";
+	
+			//如果已经存在就不保存
+			if(file_exists($fileName)){
+				$fileNameSuccess=$fileName;
+				throw new Exception(0);
+			}
+	
+			//保存失败
+			if(!$file->saveAs($fileName)){
+				throw new Exception(-14);
+			}
+			//保存成功 返回文件名
+			$fileNameSuccess=$fileName;
+	
+		}catch (Exception $e){
+			$errcode=$e->getMessage();
+		}
+		 
+		$msg=array(
+				0=>"SUCCESS",
+				-11=>"不是文件格式",
+				-12=>"文件后缀错误",
+				-13=>"文件格式错误",
+				-14=>"保存失败，请重试",
+		);
+		 
+		return array(
+				'errcode'=>$errcode,
+				'msg'=>$msg[$errcode],
+				'filename'=>$fileNameSuccess,
+		);
+		 
+	}
+	
+	/**
+	 * 图片同步远程服务器
+	 * @param unknown $fileName
+	 * @param unknown $configParams
+	 * @throws Exception
+	 * @return multitype:string Ambigous <string> number
+	 */
+	
+	public static function imgFarUpload($fileName,$configParams=array()){
+		$errcode=0;
+		$fileNameSuccess='';
+		//配置文件
+		$config=array(
+				'farPath'=>'tmp',
+		);
+		if($configParams){
+			foreach($configParams as $k=>$v){
+				$config[$k]=$v;
+			}
+		}
+		//过滤路径
+		$filePath=trim($config['farPath'],'.');
+		$filePath=trim($config['farPath'],'/');
+		$filePath=trim($config['farPath'],'\\');
+		 
+		try {
+			if(!file_exists($fileName)){
+				throw new Exception(-21);
+			}
+			$upurl='http://imgupabc.7724.com/imguploadbgak.php';
+			$fileRootName="{$_SERVER['DOCUMENT_ROOT']}/{$fileName}";
+			$fileData=array("Filedata"=>"@".$fileRootName,'filePath'=>$config['farPath']);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $upurl);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $fileData);
+			$response = curl_exec($ch);
+			$response=json_decode($response,true);
+			if(!$response['filename']){
+				throw new Exception(-22);
+			}
+			$fileNameSuccess="http://img.7724.com/".$config['farPath']."/".$response['filename'];
+		}catch (Exception $e){
+			$errcode=$e->getMessage();
+		}
+		$msg=array(
+				0=>"SUCCESS",
+				-21=>"临时文件不存在",
+				-22=>"远程传图失败",
+		);
+		
+		//删除临时文件
+		unlink($fileName);
+		
+		return array(
+				'errcode'=>$errcode,
+				'msg'=>$msg[$errcode],
+				'filename'=>$fileNameSuccess,
+		);
+	}
+}?>

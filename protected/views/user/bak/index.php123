@@ -1,0 +1,28 @@
+<?php
+if(preg_match('/^\/(wy|dj|crack)\//', $_SERVER["REQUEST_URI"]) || preg_match('/^\/ios\/(wy|dj|crack)\//', $_SERVER["REQUEST_URI"])){
+	Header ( "HTTP/1.1 301 Moved Permanently" );
+	header ( "Location:http://yx.7724.com{$_SERVER["REQUEST_URI"]}" );
+	exit;
+}
+if($_SERVER ['HTTP_HOST'] == 'online.7724.com' || $_SERVER ['HTTP_HOST'].$_SERVER["REQUEST_URI"] == 'www.7724.com/online/'){
+	Header ( "HTTP/1.1 301 Moved Permanently" );
+	header ( "Location:http://www.7724.com" );
+	exit;
+}
+if(preg_match('/^\/olgames\//', $_SERVER["REQUEST_URI"])){
+	Header ( "HTTP/1.1 301 Moved Permanently" );
+	header ( "Location:http://play.7724.com{$_SERVER["REQUEST_URI"]}" );
+	exit;
+}
+header ( "Content-Type:text/html;charset=utf-8" );
+// change the following paths if necessary
+$yii=dirname(__FILE__).'/framework/yii.php';
+if ($_SERVER ['HTTP_HOST'] == 'www.7724.cn')
+	$config=dirname(__FILE__).'/protected/config/main_tech_m.php';
+else
+	$config=dirname(__FILE__).'/protected/config/main.php';
+
+
+error_reporting(0);
+require_once($yii);
+Yii::createWebApplication($config)->run();

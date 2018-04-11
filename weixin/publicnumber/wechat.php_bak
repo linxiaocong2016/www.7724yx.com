@@ -1,0 +1,261 @@
+<?php
+
+/*
+ * 微信服务端控制器 交互
+ */
+
+// “TOKEN”这个常量值为“weixin”,TOKEN 是用来进行交互安全认证的
+define ( "TOKEN", "weixin" );
+// 创建实例对象
+$wechatObj = new wechatCallbackapiTest ();
+// 调用类的valid()方法执行接口验证，接口设置成功后将其注释掉。
+if ($_GET ['echostr']) {
+	$wechatObj->valid ();
+} else {
+	$wechatObj->responseMsg ();
+}
+
+// 声明一个类 wechatCallbackapiTest，该类中包含有三个方法（函数）
+class wechatCallbackapiTest {
+	private function getConnection() {
+		$conn = mysql_connect ( 'localhost', 'root', 'Rac$VA2015fWpC7l9*3e7' ); // 设置连接
+		if (! $conn) {
+			die ( mysql_error () );
+		}
+		$db = mysql_select_db ( '7724', $conn ); // 连接数据库
+		mysql_set_charset ( "utf8", $conn ); // 设置字符集
+		return $conn;
+	}
+	
+	// 用于申请 成为开发者 时向微信发送验证信息
+	public function valid() {
+		$echoStr = $_GET ["echostr"];
+		
+		// valid signature , option
+		if ($this->checkSignature ()) {
+			echo $echoStr;
+			exit ();
+		}
+	}
+	
+	// 处理并回复用户发送过来的消息
+	public function responseMsg() {
+		// 接收微信公众平台发送过来的用户消息，该消息数据结构为XML
+		$postStr = $GLOBALS ["HTTP_RAW_POST_DATA"];
+		
+		// 判断$postStr是否为空，如果不为空（接收到了数据），就继续执行下面的语句;如果为空，则跳转到与之相对应的else语句
+		if (! empty ( $postStr )) {
+			/*
+			 * libxml_disable_entity_loader is to prevent XML eXternal Entity
+			 * Injection, the best way is to check the validity of xml by
+			 * yourself
+			 */
+			libxml_disable_entity_loader ( true );
+			
+			// 使用simplexml_load_string() 函数将接收到的XML消息数据载入对象$postObj中
+			$postObj = simplexml_load_string ( $postStr, 'SimpleXMLElement', LIBXML_NOCDATA );
+			// 判断接收消息类型,$RX_TYPE 得到消息类型
+			$RX_TYPE = trim ( $postObj->MsgType );
+			switch ($RX_TYPE) {
+				case "event" :
+					// 使用handleEvent() 函数处理事件推送；
+					$resultStr = $this->handleEvent ( $postObj );
+					break;
+				
+				case "text" :
+					// $resultStr = $this->handleText($postObj);
+					// 使用handleText() 函数处理文本消息；
+					$content = trim ( $postObj->Content ); // 获取用户发送的文本消息，并去除前后空格（为用于查询数据库用的关键词）
+					$resultStr = $this->getByKeyWord ( $postObj, $content );
+					// $resultStr = $this -> transmitText($postObj, $content);
+					break;
+				
+				default :
+					$resultStr = "Unknow msg type: " . $RX_TYPE;
+					break;
+			}
+			echo $resultStr;
+		} else {
+			echo "";
+			exit ();
+		}
+	}
+	
+	// 处理事件推送
+	public function handleEvent($postObj) {
+		$contentStr = "";
+		switch ($postObj->Event) {
+			case "subscribe" :
+				$conn = $this->getConnection ();
+				$sql = "select * from weixin_attention_text";
+				$result = mysql_query ( $sql, $conn );
+				while ( $row = mysql_fetch_assoc ( $result ) ) {
+					$res = $row;
+				}
+				if ($res ['use'] == "1") {
+					$type = "news";
+					$type = trim ( $type );
+					$content = $res ['content'];
+					return $this->transmitText ( $postObj, $content );
+				} else if ($res ['use'] == "0") {
+					$sql = "select * from weixin_attention_picture";
+					$result = mysql_query ( $sql, $conn );
+					$type == "news";
+					$content = array ();
+					while ( $row = mysql_fetch_assoc ( $result ) ) {
+						$res = $row;
+						$content [] = array (
+								"Title" => $res ['content'],
+								"Description" => $res ['description'],
+								"PicUrl" => $res ['pic_url'],
+								"Url" => $res ['url'] 
+						);
+					}
+					// $content[] = array("Title" => "单图文1标题", "Description" =>
+					// "单图文内容", "PicUrl" =>
+					// "http://discuz.comli.com/weixin/weather/icon/cartoon.jpg",
+					// "Url" => "http://m.cnblogs.com/?u=txw1958");
+					return $this->transmitNews ( $postObj, $content );
+				}
+				break;
+			default :
+				$contentStr = "Unknow Event: " . $postObj->Event;
+				break;
+		}
+		$resultStr = $this->responseText ( $postObj, $contentStr );
+		return $resultStr;
+	}
+	public function responseText($object, $content, $flag = 0) {
+		$textTpl = "<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[%s]]></Content>
+                    <FuncFlag>%d</FuncFlag>
+                    </xml>";
+		$resultStr = sprintf ( $textTpl, $object->FromUserName, $object->ToUserName, time (), $content, $flag );
+		return $resultStr;
+	}
+	
+	// 开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请求原样返回echostr参数内容，则接入生效，否则接入失败
+	private function checkSignature() {
+		// you must define TOKEN by yourself
+		if (! defined ( "TOKEN" )) {
+			throw new Exception ( 'TOKEN is not defined!' );
+		}
+		
+		$signature = $_GET ["signature"];
+		$timestamp = $_GET ["timestamp"];
+		$nonce = $_GET ["nonce"];
+		
+		$token = TOKEN;
+		$tmpArr = array (
+				$token,
+				$timestamp,
+				$nonce 
+		);
+		// use SORT_STRING rule
+		sort ( $tmpArr, SORT_STRING );
+		$tmpStr = implode ( $tmpArr );
+		$tmpStr = sha1 ( $tmpStr );
+		
+		if ($tmpStr == $signature) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// 根据关键词回复
+	private function getByKeyWord($postObj, $key_word) {
+		return $this->transmitText ( $postObj, "测试中..." );
+		$conn = $this->getConnection ();
+		$sql = "select * from weixin_reply where keyword = '" . $key_word . "'";
+		$select_result = mysql_query ( $sql, $conn ); // 根据数据库关键词进行查询，查询到的结果是个数组
+		$res = array ();
+		while ( $row = mysql_fetch_assoc ( $select_result ) ) {
+			$res [] = $row;
+		}
+		$index = 0;
+		$index = count ( $res ); // 当查询出来的对象不为空时，获取对象数组的长度
+		if ($index > 0) {
+			$num = rand ( 0, $index - 1 ); // 当对象数组为多个时随机提取一条进行回复
+			$answer = $res [$num];
+			$answer_type = $answer ['classify']; // 这里的Classify为数据表中的classify（回复消息的类型）
+			if (! isset ( $answer_type )) { // 如果回复消息类型为空时，不进行操作
+				return $this->transmitText ( $postObj, "回复消息类型不正确，请联系管理员！" );
+			} else {
+				if ($answer_type == 0) { // 当回复消息类型为文本时执行
+					$answer_content = $answer ['content']; // 获取数据库的文本消息，对应数据表中的content
+					return $this->transmitText ( $postObj, $answer_content ); // 调用回复文本方法
+				} else if ($answer_type == 1) { // 当回复消息类型为图文时执行
+					$title = $answer ['content']; // 获取数据库的图文标题
+					$description = $answer ['description']; // 获取数据库的图文描述
+					$url = $answer ['url']; // 获取数据库的图文url
+					$pic_url = $answer ['pic_url']; // 获取数据库的图文图片
+					$answer_news = array ();
+					$answer_news [] = array (
+							"Title" => $title,
+							"Description" => $description,
+							"PicUrl" => $pic_url,
+							"Url" => $url 
+					);
+					return $this->transmitNews ( $postObj, $answer_news ); // 调用回复图文方法
+				} else {
+					return $this->transmitText ( $postObj, "谢谢你的关注！" ); // 调用默认
+				}
+			}
+		} else {
+			return $this->transmitText ( $postObj, "未查询到数据" );
+		}
+		return "";
+	}
+	
+	// 回复文本消息
+	private function transmitText($object, $content) {
+		if (! isset ( $content )) {
+			return "";
+		}
+		$xmlTpl = "<xml>
+    <ToUserName><![CDATA[%s]]></ToUserName>
+    <FromUserName><![CDATA[%s]]></FromUserName>
+    <CreateTime>%s</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[%s]]></Content>
+    </xml>";
+		$result = sprintf ( $xmlTpl, $object->FromUserName, $object->ToUserName, time (), $content );
+		
+		return $result;
+	}
+	
+	// 回复图文消息
+	private function transmitNews($object, $newsArray) {
+		if (! is_array ( $newsArray )) {
+			return "";
+		}
+		$itemTpl = "<item>
+            <Title><![CDATA[%s]]></Title>
+            <Description><![CDATA[%s]]></Description>
+            <PicUrl><![CDATA[%s]]></PicUrl>
+            <Url><![CDATA[%s]]></Url>
+        </item>";
+		$item_str = "";
+		foreach ( $newsArray as $item ) {
+			$item_str .= sprintf ( $itemTpl, $item ['Title'], $item ['Description'], $item ['PicUrl'], $item ['Url'] );
+		}
+		$xmlTpl = "<xml>
+        <ToUserName><![CDATA[%s]]></ToUserName>
+        <FromUserName><![CDATA[%s]]></FromUserName>
+        <CreateTime>%s</CreateTime>
+        <MsgType><![CDATA[news]]></MsgType>
+        <ArticleCount>%s</ArticleCount>
+        <Articles>$item_str</Articles>
+        </xml>";
+		
+		$result = sprintf ( $xmlTpl, $object->FromUserName, $object->ToUserName, time (), count ( $newsArray ) );
+		return $result;
+	}
+}
+
+?>

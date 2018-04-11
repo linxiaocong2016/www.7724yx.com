@@ -1,0 +1,34 @@
+<?php foreach($list as $k=>$v):?>
+          	<li rel="<?php echo $v['id']?>" class="action_li_<?php echo $v['id']?>">
+                  <p class="p1"><img src="<?php echo Pinglunfun::getUserLogo($v['ulogo'],$v['uid'],$v['head_img'])?>" /></p>
+                  <p class="p2">
+                    <span><?php echo $v['username']?></span>
+                    <em><?php echo Pinglunfun::setDateN($v['create_time']);?></em>
+                    <i><?php echo Pinglunfun::setStar($v['star_level']);?></i>
+                  </p>
+                  <p class="p2"><?php echo $v['content']?></p>
+                  
+                  <?php if($v['sec']):?>
+                  <p class="p6"><span></span></p>
+                  <p class="p5">
+                  	<?php foreach($v['sec'] as $k0=>$v0):?>
+                    <span>
+                      <i><?php echo $v0['username']?>：</i><?php echo $v0['content']?>
+                      <?php /*?>
+                      <em><?php echo Pinglunfun::setDateN($v0['create_time']);?></em>
+                      <?php */?>
+                    </span>
+                    <?php endforeach;?>
+                  </p>
+                  <?php endif;?>
+                  <p class="p3 action_hf">
+                     <span>回复</span>
+                     <em class="action_ding">点赞(<i ><?php echo $v['ding']?></i>)</em>
+                  </p>
+                  <p class="p4 clearfix">
+                    <img src="/assets/pinglun/img/textarea_ico.png">
+                    <textarea maxlength="500" placeholder="我来说两句..." class="area_one" style="height:50px;"></textarea>
+                    <input type="button" value="发布" class="release_bt new_release_bt action_fb">
+                  </p>
+            </li>
+          	<?php endforeach;?>

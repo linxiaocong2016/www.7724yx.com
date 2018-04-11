@@ -1,0 +1,388 @@
+<?php 
+class CommonFunction{
+	public static $isHaveArtId;
+	
+	//管理员昵称
+	function adminNikeName(){
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::adminNikeName";
+		$cacheTime=Yii::app()->params['longCacheTime'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			$criteria = new CDbCriteria();	//构造查询条件
+			$criteria->select="merchant_uid,nikeName";
+			$info=PayMember::model()->findAll($criteria);
+			$lvCache=array();
+			foreach($info as $v){
+				$lvCache[$v['merchant_uid']]=$v['nikeName'];
+			}
+			$cache->set($cacheName,$lvCache,$cacheTime);
+		}
+		return $lvCache;
+	}
+	
+	//栏目分类
+	function artClassInfo(){
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::artClassInfo";
+		$cacheTime=Yii::app()->params['longCacheTime'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			$lvCache=ArticleClass::model()->findAll();
+			$cache->set($cacheName,$lvCache,$cacheTime); 
+		}
+		return $lvCache;
+	}
+	
+	
+	//网站管理
+	function webInfo(){
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::webInfo";
+		$cacheTime=Yii::app()->params['longCacheTime'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			$lvCache=Web::model()->findByPk(1);
+			$cache->set($cacheName,$lvCache,$cacheTime);
+		}
+		return $lvCache;
+	}
+	
+	
+	
+	//默认关键字
+	function seoInfo(){
+		$info=self::webInfo();
+		return array(
+				'title'=>$info->title,
+				'keyword'=>$info->keyword,
+				'descript'=>$info->descript,
+		);
+	}
+	
+	//头部热门标签
+	function hotTagInfo(){
+		$info=self::webInfo();
+		return preg_split("/,|，/",$info->tag);
+	}
+	
+	//右侧热门话题今日要闻
+	function rightInfo($lvCache){
+		$lvModel=new Article();
+		//右侧热门头条
+		$criteria=new CDbCriteria;
+		$hot_status=2;
+		$criteria->select="
+							CASE
+							WHEN hot_status=$hot_status THEN 10
+							WHEN hot_status=1 THEN 9
+							ELSE 0 END hot_status,id,cid,art_title,art_img,create_time,art_tag,create_admin";
+		$criteria->condition=" status=1 ";
+		if(self::$isHaveArtId!=""){
+			$ids=self::$isHaveArtId;
+			$criteria->condition.=" AND id NOT IN({$ids}) ";
+		}
+		$criteria->order=" hot_status DESC,create_time DESC ";
+ 		$criteria->limit=6;
+		$lvCache['right2']=$lvModel->findAll($criteria);
+		//添加id
+		self::idDieJia($lvCache['right2']);
+		//右侧每日要闻
+		$criteria=new CDbCriteria;
+		$hot_status=3;
+		$criteria->select="
+							CASE
+							WHEN hot_status=$hot_status THEN 10
+							WHEN hot_status=1 THEN 9
+							ELSE 0 END hot_status,id,cid,art_title,art_img,create_time,art_tag,create_admin";
+		$criteria->condition=" status=1 ";
+		if(self::$isHaveArtId!=""){
+			$ids=self::$isHaveArtId;
+			$criteria->condition.=" AND id NOT IN({$ids}) ";
+		}
+		$criteria->order=" hot_status DESC,create_time DESC ";
+		$criteria->limit=6;
+		$lvCache['right3']=$lvModel->findAll($criteria);
+
+		return $lvCache;
+	}
+	
+	//文章内容页
+	function detailInfo(){
+		$id=(int)$_GET["id"];
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::detailInfo";
+		$cacheName.="_{$id}";
+		$cacheTime=Yii::app()->params['longCacheTime'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			self::$isHaveArtId="";
+			$lvCache["left"]=Article::model()->findByPk($id);
+			$tableName="art_article_content".$id%10;
+			$re=CActiveRecordTech::model($tableName)->findByPk($id);
+			$lvCache["content"]="";
+			if($re){
+				$lvCache["content"]=$re->content;
+			}			
+			$lvCache['seo']=array(
+				"title"=>$lvCache["left"]["title"],
+				"keyword"=>$lvCache["left"]["keyword"],
+				"descript"=>$lvCache["left"]["descript"],
+			);
+			self::$isHaveArtId=$id;
+			
+			$lvCache=self::rightInfo($lvCache);
+			
+			//感兴趣的文章
+			self::idDieJia($lvCache['right3']);
+			$lvModel=new Article();
+			$criteria=new CDbCriteria;
+			$cid=$lvCache["left"]["cid"];
+			$criteria->select="
+								CASE
+								WHEN cid=$cid THEN 10
+								ELSE 0 END cid,id,art_title,create_time";			
+			$criteria->condition=" status=1 ";
+			if(self::$isHaveArtId!=""){
+				$ids=self::$isHaveArtId;
+				$criteria->condition.=" AND id NOT IN({$ids}) ";
+			}
+			$criteria->order=" cid DESC,create_time DESC ";
+			$criteria->limit=3;
+	
+			$lvCache['left2']=$lvModel->findAll($criteria);
+			$lvCache["adminNikeName"]=self::adminNikeName();
+			$cache->set($cacheName,$lvCache,$cacheTime);
+		}
+		return $lvCache;
+	}
+	
+	
+	
+	
+	
+	function getListLeft($cid_s=null,$keyword_s=null,$page=null,$ajax=false){
+		$pageSize=10;
+		//where语句
+		$where=" status=1 ";
+		if($cid_s>0){
+			$where.=" AND cid='$cid_s' ";
+		}
+		if($keyword_s!==""){
+			$where.=" AND (art_title LIKE '%$keyword_s%' OR art_tag LIKE '%$keyword_s%') ";
+		}
+			
+		//左侧列表
+		$t_time=strtotime(date("Y-m-d",time()-3600*24));
+		$lvModel=new Article();
+		$criteria=new CDbCriteria;
+		$criteria->select="id,cid,art_title,art_img,art_tag,create_time,art_descript,create_admin,
+		CASE
+		/*	WHEN (hot_status='1' AND create_time>'$t_time') THEN 10 */
+		WHEN (hot_status>'1' AND create_time>'$t_time') THEN -1
+		ELSE 0 END hot_status_s
+		";
+		$criteria->condition=$where;
+		$criteria->order=" hot_status_s DESC,top_status DESC,create_time DESC ";
+			if(isset($keyword_s)&&$keyword_s!==""){
+					$criteria->order=" create_time DESC ";
+		}
+		if(!$ajax){
+			$count=$lvModel->count($criteria);
+			$pager = new CPagination ( $count );
+			$pager->pageSize = $pageSize;
+			$pager->applyLimit ( $criteria );
+			$lvCache['pager']=$pager;
+		}else{
+			$page=(int)$page>0?(int)$page:1;
+			$criteria->limit=$pageSize;
+			$criteria->offset=($page-1)*$pageSize;
+		}
+		$lvCache['left'] = $lvModel->findAll ( $criteria );
+		return $lvCache;
+	}
+	
+	
+	//列表页
+	function listInfo($page=null){
+		$page=(int)$_GET["page"];
+		$page=$page?$page:1;
+		$cid_s=self::nameToCid($_GET["cid_s"]);
+		$keyword_s=trim($_GET["keyword_s"]);
+		
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::listInfo";
+		$cacheName.="_{$cid_s}_{$keyword_s}_{$page}";
+		$cacheTime=Yii::app()->params['cacheTime2'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			self::$isHaveArtId="";//已经显示过的文章id避免重复
+			if($cid_s>0){
+				$classInfo=ArticleClass::model()->findByPk($cid_s);
+				$lvCache['seo']=$classInfo->attributes;
+			}else{
+				$lvCache['seo']=self::seoInfo();
+			}
+			$res=self::getListLeft($cid_s,$keyword_s);
+			$lvCache['pager']=$res['pager'];
+			$lvCache['left'] = $res['left'];
+			//添加id
+			self::idDieJia($lvCache['left']);
+			
+			$lvCache=self::rightInfo($lvCache);
+			$lvCache["adminNikeName"]=self::adminNikeName();
+			$cache->set($cacheName,$lvCache,$cacheTime);
+		}
+		return $lvCache;
+	}
+		
+	
+	
+	//ajax 首页加载
+	function ajaxIdxMore($pageSize){
+		$page=(int)$_POST["page"];
+		if($page<2)return;
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::indexInfo";
+		$cacheName=$cacheName."_{$page}";
+		$cacheTime=Yii::app()->params['cacheTime2'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			$lvCache=self::leftDbInfo($page,$pageSize);
+		}
+		return $lvCache;
+	}
+	
+	
+
+	
+	//主页内容
+	function indexInfo($pageSize){
+		$cache = Yii::app()->memcache;
+		$cacheName="CommonFunction::indexInfo";
+		$cacheTime=Yii::app()->params['cacheTime2'];
+		$lvCache=$cache->get($cacheName);
+		if(empty($lvCache)||$lvCache==""){
+			self::$isHaveArtId="";//已经显示过的文章id避免重复
+			//seo
+			$lvCache['seo']=self::seoInfo();
+			//左侧列表
+			$lvCache['left']=self::leftDbInfo(1,$pageSize);
+			//添加id
+			self::idDieJia($lvCache['left']);
+			
+			$lvCache=self::rightInfo($lvCache);		
+			$lvCache["adminNikeName"]=self::adminNikeName();
+			$cache->set($cacheName,$lvCache,$cacheTime);
+		}
+		return $lvCache;
+
+	}
+	
+	//左侧列表数据
+	function leftDbInfo($page=1,$pageSize){
+		$t_time=strtotime(date("Y-m-d",time()-3600*24));
+		$lvModel=new Article();
+		$criteria=new CDbCriteria;
+		$criteria->select="id,cid,art_title,art_img,art_tag,create_time,art_descript,create_admin,
+							CASE
+						/*	WHEN (hot_status='1' AND create_time>'$t_time') THEN 10 */
+							WHEN (hot_status>'1' AND create_time>'$t_time') THEN -1
+							ELSE 0 END hot_status_s
+							";
+		$criteria->condition=" status=1 ";
+		$criteria->order=" hot_status_s DESC,top_status DESC,create_time DESC ";
+		$criteria->limit=$pageSize; //左侧文章数量
+		$criteria->offset=($page-1)*$pageSize;
+		return $lvModel->findAll($criteria);
+	}
+	
+	//id叠加 避免重复文章出现同一个页面
+	function idDieJia($obj){
+		$str=self::$isHaveArtId;
+		$str=explode(',', $str);
+		foreach($obj as $v){
+			$str[]=$v->id;
+		}
+		$str=trim(implode(',', $str),',');
+		self::$isHaveArtId=$str;
+	}
+	
+	//截取字符串
+	public static function truncate_utf8_string($string, $length, $etc = '...'){
+		$result = '';
+		$string = html_entity_decode(trim(strip_tags($string)), ENT_QUOTES, 'UTF-8');
+		$strlen = strlen($string);
+		for ($i = 0; (($i < $strlen) && ($length > 0)); $i++)
+		{
+		if ($number = strpos(str_pad(decbin(ord(substr($string, $i, 1))), 8, '0', STR_PAD_LEFT), '0'))
+		{
+		if ($length < 1.0)
+		{
+			break;
+		}
+		$result .= substr($string, $i, $number);
+			$length -= 1.0;
+			$i += $number - 1;
+		}
+		else
+		{
+			$result .= substr($string, $i, 1);
+			$length -= 0.5;
+		}
+		}
+		$result = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
+		if ($i < $strlen)
+		{
+		$result .= $etc;
+		}
+		return $result;
+	}
+	
+	//随机生成字符串
+	public function rangCodeString($len){
+		$strCodeY="0123456789abcdefghijklmnopqrstuvwxyz";
+		$strCodeYlen=strlen($strCodeY)-1;
+		$str="";
+		for($i=0;$i<$len;$i++){
+			$j=rand(0,$strCodeYlen);
+			$str.=$strCodeY{$j};
+		}
+		return $str;
+	}
+	
+	
+	public function cidToName($cid=""){
+		if((int)$cid<=0)return "index";
+		$artClassInfo=self::artClassInfo();
+		foreach($artClassInfo as $v){
+			if($v->id==$cid){
+				return $v->seo_tag;
+			}
+		}
+		return "index";
+	}
+	
+	public function nameToCid($name=""){
+		if($name=="")return 0;
+		$artClassInfo=self::artClassInfo();
+		foreach($artClassInfo as $v){
+			if($v->seo_tag==$name){
+				return $v->id;
+			}
+		}
+		return 0;
+	}
+	
+	public function cidToChName($cid=""){
+		if((int)$cid<=0)return "";
+		$artClassInfo=self::artClassInfo();
+		foreach($artClassInfo as $v){
+			if($v->id==$cid){
+				return $v->name;
+			}
+		}
+	}
+	
+}
+?>

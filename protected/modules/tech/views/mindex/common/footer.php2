@@ -1,0 +1,11 @@
+<!--底部导航-->
+
+   <!--底部-->
+   <footer class="footer">
+       <p>闽ICP备12000443号-3
+       <a href="http://passport.pipaw.com/m/user/login?url=http://m.pipaw.com/">登录</a>|
+       <a href="http://passport.pipaw.com/m/user/register?url=http://passport.pipaw.com">注册</a>
+       </p>
+   </footer>
+   <!--返回顶部-->
+    <div class="backtop">返回顶部</div>

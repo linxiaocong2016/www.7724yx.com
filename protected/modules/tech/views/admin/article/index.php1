@@ -1,0 +1,160 @@
+
+
+<script type="text/javascript">
+$(function(){
+	 date=now_time.Format('yyyy-MM-dd');
+	 $("#start_time").datepicker();
+	 $("#end_time").datepicker();
+});
+</script>
+
+
+<form action="<?php echo $this->createurl("admin/article/index")?>" method="post">
+	<div class="toolbar_search">
+		<ul>
+			<li><label>搜索名称：</label>
+				<div class="tool_con">
+					<input name="art_title_s"  style="width: 200px" value="<?php echo $_REQUEST['art_title_s'];?>" type="text" />
+				</div>
+			</li>
+			<li><label>栏目：</label>
+				<div class="tool_con">
+					<select name="cid_s">
+					<option value='' >全部</option>
+					<?php foreach($ArtClassList as $k=>$v):?>
+						<option value='<?php echo $k;?>' <?php if($_REQUEST['cid_s']==$k) echo 'selected="selected"'?>><?php echo $v;?></option>
+					<?php endforeach;?>
+					</select>
+				</div>
+			</li>				
+			<li><label>推荐：</label>
+				<div class="tool_con">
+					<select name="hot_status_s">
+					<option value='' >全部</option>
+					<?php foreach($HotStatusArr as $k=>$v):?>
+						<option value='<?php echo $k;?>' <?php if($_REQUEST['hot_status_s']==$k) echo 'selected="selected"'?>><?php echo $v;?></option>
+					<?php endforeach;?>
+					</select>
+				</div>
+			</li>					
+			<li><label>显示：</label>
+				<div class="tool_con">
+					<select name="status_s">
+					<option value='' >全部</option>
+					<option value='1' <?php if($_REQUEST['status_s']==='1') echo 'selected="selected"'?>>显示</option>
+					<option value='0' <?php if($_REQUEST['status_s']==='0') echo 'selected="selected"'?>>隐藏</option>
+					</select>
+				</div>
+			</li>	
+			<li><label>置顶：</label>
+				<div class="tool_con">
+					<select name="top_status_s">
+					<option value='' >全部</option>
+					<option value='1' <?php if($_REQUEST['top_status_s']==='1') echo 'selected="selected"'?>>是</option>
+					<option value='0' <?php if($_REQUEST['top_status_s']==='0') echo 'selected="selected"'?>>否</option>
+					</select>
+				</div>
+			</li>						
+			<li><input name="" value="搜索" class="btn" type="submit" /></li>
+			<li style="margin-left: 30px">
+			<input type="button" value="添加+" onclick="window.location.href='<?php echo $this->createurl("admin/article/add")?>';">
+		</ul>
+	</div>
+</form>
+
+<table class="list_table" border="1" bordercolor="#CCCCCC"
+	cellspacing="0" cellpadding="0">
+	<tr>
+		<th width='5%' ><input type="checkbox" class="selectAllCheckbox"  /></th>
+		<th width='5%' >ID</th>
+		<th width='40%'>标题</th>
+		<th width='5%'>栏目</th>
+		<th width='10%'>推荐</th>
+		<th width='5%'>排序</th>
+		<th width='5%'>显示</th>
+		<th width='5%'>置顶</th>
+		<th width='10%'>创建时间</th>
+		<th>操作</th>
+	</tr>
+
+<?php if(isset($list)&&!empty($list))foreach ($list as $k=>$v){?>
+<tr>
+		<td style="text-align: auto"><input name="_selected" type="checkbox" value="<?php echo $v->id;?>"  /></td>
+		<td style="text-align: auto"><?php echo $v->id;?></td>
+		<td><?php echo $v->art_title;?></td>
+		<td><?php echo $ArtClassList[$v->cid];?></td>
+		<td style="text-align: auto"><?php echo $HotStatusArr[$v->hot_status];?></td>
+		<td style="text-align: auto"><?php echo $v->sorts;?></td>
+		<td style='width: auto;'><?php echo ($v->status?'<span style="color:blue">显示</span>':'<span style="color:red">隐藏</span>');?></td>
+		<td style='width: auto;'><?php echo ($v->top_status?'<span style="color:red">是</span>':'<span style="color:blue">否</span>');?></td>
+		<td style="text-align: auto"><?php echo date("Y-m-d H:i:s",$v->create_time);?></td>
+		<td>
+		<a href="<?php echo $this->createUrl("admin/article/add",array("id"=>$v->id));?>">修改</a>
+		<a href="javascript:void(0)" class='_delect' rel='<?php echo $v->id;?>'>删除</a></td>
+	</tr>
+<?php }?>
+<tr>
+	<td><input type="checkbox" class="selectAllCheckbox"  /></td>
+    <td colspan="9" align="left" style="text-align:left">
+    	<select name="actionName">
+        	<option value="status|1">全部--显示</option>
+        	<option value="status|0">全部--隐藏</option>
+        	<option value="top_status|1">全部--置顶</option>
+        	<option value="top_status|0">全部--取消置顶</option>        	
+        	<?php foreach($ArtClassList as $k=>$v):?>
+			<option value='cid|<?php echo $k?>'>全部栏目--<?php echo $v;?></option>
+			<?php endforeach;?>        	
+        	<?php foreach($HotStatusArr as $k=>$v):?>
+			<option value='hot_status|<?php echo $k?>'>全部推荐--<?php echo $v;?></option>
+			<?php endforeach;?>
+        </select>
+        <input type="button" value="执行操作" id="actionAll"  />
+    </td>
+</tr>
+</table>
+
+
+
+<div class="page_tabble">
+<?php
+$this->widget ( 'CLinkPager', array (
+		'header' => '',
+		'firstPageLabel' => '首页',
+		'lastPageLabel' => '末页',
+		'prevPageLabel' => '上一页',
+		'nextPageLabel' => '下一页',
+		'pages' => $pager,
+		'maxButtonCount' => 20 
+) );
+?>
+</div>
+<script>
+$(function(){
+	$("._delect").click(function(){
+		if(!confirm("是否确认删除"))return;
+		var id=$(this).attr("rel");
+
+		$.post('<?php echo $this->createurl("admin/article/del")?>',{"id":id},function(data){
+			alert(data);
+			location.reload(); 
+		});
+	})
+	
+	$("#actionAll").click(function(){
+		if(!confirm("是否确认执行"))return;
+		var actionName=$("select[name='actionName']").val();
+		var ids=new Array;
+		$("input[name='_selected']:checked").each(function(i){
+			ids[i]=$(this).val();
+		});
+		$.post('<?php echo $this->createurl("admin/article/actionall")?>',{"actionName":actionName,"ids":ids},function(data){
+			alert(data);
+			location.reload(); 
+		});
+	});
+	
+	$(".selectAllCheckbox").click(function(){
+		$(".list_table").find("input[type='checkbox']").attr("checked",this.checked);
+	})
+})
+</script>

@@ -1,0 +1,21 @@
+<!--底部导航-->
+<nav class="bottom_nav">
+	<ul>
+		<li><a href="http://m.pipaw.com/">首页</a></li>
+		<li><a href="http://m.wy.pipaw.com/">网游</a></li>
+		<li><a href="http://m.pipaw.com/danji">单机</a></li>
+		<li><a href="http://m.fahao.pipaw.com/">发号</a></li>
+		<li><a href="http://bbs.pipaw.com/">论坛</a></li>
+		<li class="noline"><a href="http://appmobile.pipaw.com/">客户端</a></li> 
+	</ul>
+ </nav>
+   <!--底部-->
+   <footer class="footer">
+       <p><a href="http://www.pipaw.com/">电脑版</a>|<a href="http://appmobile.pipaw.com/">客户端下载</a></p>
+       <p>闽ICP备12000443号-2&nbsp;ICP许可证：闽B2-20140076
+       <a href="http://passport.pipaw.com/m/user/login?url=http://m.pipaw.com/">登录</a>|
+       <a href="http://passport.pipaw.com/m/user/register?url=http://passport.pipaw.com">注册</a>
+       </p>
+   </footer>
+   <!--返回顶部-->
+    <div class="backtop">返回顶部</div>
