@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7724.com</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        html,body{
+            max-width: 640px;
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            background: #f5f5f5;
+            font-size: 0.24rem;
+        }
+        .bg-pic{
+            width: 100%;
+            height: 100%;
+            -webkit-background-size: 100% auto;
+            background-size: 100% auto;
+            position: relative;
+        }
+        .head-pic{
+        	margin-bottom: 20px;
+        }
+        .head-pic>img{
+        	width:100%;
+        }
+        .sp-img>img{
+            width: 50%;
+        }
+        .sw-pic{
+   
+        }
+        .download-pic{
+            width: 90%;
+            margin: 0 auto 40px;
+        }
+        .download-pic img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="css/Swiper.min.css.3.0.css">
+    <script src="js/Swiper.min.3.0.js"></script>
+</head>
+<body>
+<div class="bg-pic">
+	<div class="head-pic"><img src="./img/head.png" alt="" /></div>
+    <div id="down_app" class="download-pic">
+        <img src="img/download-pic.png" alt="">
+    </div>
+    <div class="sw-pic">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide sp-img"><img src="img/1.png" alt=""><img src="img/2.png" alt=""></div>
+                <div class="swiper-slide sp-img"><img src="img/3.png" alt=""><img src="img/4.png" alt=""></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p style="font-size: 12px;text-align:center;">杭州威赫网络科技有限公司&nbsp;&nbsp;&nbsp;地址:杭州市西湖区竞舟路</p>
+    </div>
+</div>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        loop:false
+    });
+    document.getElementById("down_app").addEventListener("click", function(){
+        xitong()
+    });
+    function xitong() {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1;
+        var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if (isAndroid) {
+            window.location.href = "http://down.play.7724.com/game/app-baiduhezi1-release-v4.0.003-c40003.apk";
+        }else if (isIOS) {
+           window.location.href = "https://itunes.apple.com/cn/app/7724%E6%B8%B8%E6%88%8F%E7%9B%92/id1085500671?mt=8";
+        }else{
+        	window.location.href = "http://down.play.7724.com/game/app-baiduhezi1-release-v4.0.003-c40003.apk";
+        }
+        
+    }
+</script>
+</body>
+</html>
