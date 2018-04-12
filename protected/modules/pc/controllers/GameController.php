@@ -319,6 +319,7 @@ class GameController extends PcController
 	public function actionGamedetail(){
 		$pinyin=addslashes(trim($_GET['pinyin']));
 		$alias = trim($_GET['alias']);
+        $m = trim($_GET['m']);
 				
 		$sql=" select * FROM game where pinyin='$pinyin' and game_id not in(".NOT_IN_GAME.") ";
 		$lvGameInfo=yii::app()->db->createCommand($sql)->queryRow();
@@ -386,7 +387,11 @@ class GameController extends PcController
 				'lvIsHave'=>$isHave,
 		);
 		
-		$this->render('game_detail',$data);
+        if($m){
+            $this->render('mobile_game_detail',$data);
+        }else{
+            $this->render('game_detail',$data);
+        }
 	}
 
     public function actionPlaygame()
