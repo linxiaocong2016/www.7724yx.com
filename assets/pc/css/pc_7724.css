@@ -1118,3 +1118,204 @@ text-align: center;width:99.5%; float:left}
     color: #8c8c8c;
     padding: 2px 12px;
 }
+
+/* 当前位置 */
+.index_pos {
+    height:54px;
+    line-height:54px;
+}
+.pos_text {
+    font-size: 15px;
+    color: #8e8e8e;
+}
+.pos_text>a {color: #8e8e8e;}
+/* 热门游戏 */
+.index_hot {
+    width: 1140px;
+    height: 430px;
+    background-color: #fff;
+}
+.hot_list_box {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    width: 1100px;
+    margin: 20px 25px;
+    font-size: 18px;
+    text-align: center;
+}
+.hot_item {position:relative;}
+.hot_item_name {
+    height: 40px;
+    line-height: 40px;
+}
+.hot_img_box {
+    position: relative;
+    width: 250px;
+    height: 300px;
+    overflow: hidden;
+}
+.hot_img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+}
+.hot_select_box {
+    visibility: hidden;
+    position:absolute;
+    width: 250px;
+    height: 301px;
+    left: 0px;
+    top: 0px;
+    background-image: url(/img/select_bg.png);
+    color:#fff;
+    font-size: 14px;
+}
+.hot_item:hover .hot_select_box{ visibility: visible;}
+.hot_select_box:hover { visibility: visible;}
+.hot_select_icon { margin: 59px 0 20px 0;}
+.hot_star{ display:inline-block;width:90px; height:15px; background:url(../img/start2.png) no-repeat;}
+.hot_select_msg {
+    line-height:25px;
+    height:25px;
+}
+/* 游戏列表 */
+.index_gamelist {
+    width: 1140px;
+    height: 1093px;
+    margin-top: 10px;
+    background-color: #fff;
+    overflow: hidden;
+}
+.gamelist_box {
+    width: 1100px;
+    font-size: 23px;
+}
+.gamelist_box>div {
+    float:left;
+    width: 200px;
+    margin: 35px 10px 20px 10px;
+    text-align: center;
+}
+.game_title {white-space:nowrap;}
+.game_type {color: #999999;white-space:nowrap;}
+.gamelist_box img {
+    width: 133px;
+    height: 133px;
+    margin: 0 auto;
+}
+.index_title_box {
+    width:1100px;
+    height:47px;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 5px 21px;
+}
+.index_title {
+    display: inline-block;
+    height: 44px;
+    line-height: 44px;
+    font-size: 22px;
+    border-bottom: solid 3px #0685f6;
+}
+/* 页码列 */
+
+.pagelist_box {
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+}
+.pagelist_box>span {
+    display: inline-block;
+}
+.pagelist {
+    display: inline-block;
+    list-style-type: none;
+    font-size: 12px;
+}
+.pagelist>li {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding:0 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    border: 1px solid #dedede;
+    background-color: #fff;
+}
+.pagelist>li:hover {
+    background-color: #e54c3d;
+    color: #fff;
+}
+.pagelist>.active {
+    background-color: #e54c3d;
+    color: #fff;
+}
+
+.no_select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* 手游详情 */
+.detail_box {
+    float: left;
+    width: 1140px;
+    height: 700px;
+    background-color: #fff;
+}
+.detail_img {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:120px;
+    height:120px;
+}
+.detail_msg{
+    position:absolute;
+    left:150px;
+    top:0px;
+    width:700px;
+    line-height:60px;
+    font-size:18px;
+}
+.detail_msg span { color:#737373;}
+.msg_item {
+    display: inline-block;
+    margin-left: 50px;
+}
+.detail_dl {
+    position: absolute;
+    width: 255px;
+    height: 68px;
+    left: 837px;
+    top:15px;
+    cursor: pointer;
+}
+
+.detail_intro {
+    width: 1092px;
+    margin: 0 auto;
+    line-height:30px;
+}
+.detail_intro>span { 
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #737373;
+}
+.general_box {
+    float: left;
+    width: 100%;
+}
+.general:after {
+    display: block;
+    content: '';
+    clear: both;
+}

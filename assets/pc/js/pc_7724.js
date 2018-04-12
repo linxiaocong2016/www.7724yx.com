@@ -6,7 +6,8 @@ function positioncount(posid) {
 }
 
 $(function(){
-	
+	var max_page = 0;
+	var page_idx = 0;
 	//活动
 	 $(".active_top_left .button span").hover(function(){
 		  $(this).parent(".button").next(".ewm").children("p").show();   
@@ -206,4 +207,103 @@ var JPlaceHolder = {
         });
     }
 };
+
+var PageList = {
+	page_idx : 1,
+	max_page : 1,
+	start_pos : 1,
+	init : function(maxPage) {
+		this.max_page = maxPage || 1;
+		this.initListener();
+		if(this.page_idx === 1){
+			$("#pre_page_btn").hide();
+		}
+		if(this.page_idx === this.max_page) {
+			$("#next_page_btn").hide();
+		}	
+	},
+	refresh : function() {
+		for(var i=0;i<(this.max_page>10?10:this.max_page);++i) {
+			$(".page_num")[i].innerText = this.start_pos+i;
+		}
+	},
+	initListener : function() {
+		//页码点击
+		$(".page_num").click(function() {
+			$(".page_num").removeClass("active");
+			PageList.page_idx = this.innerText;
+			if(PageList.page_idx > 1) {
+				$("#pre_page_btn").show();
+			} else {
+				$("#pre_page_btn").hide();
+			}
+			if(PageList.page_idx == PageList.max_page) {
+				$("#next_page_btn").hide();
+			} else {
+				$("#next_page_btn").show();
+			}
+			$(this).addClass("active");
+		});
+
+		//首页点击
+		$("#first_page_btn").click(function() {
+			$(".page_num").removeClass("active");
+			PageList.page_idx = 1;
+			PageList.start_pos = 1;
+			PageList.refresh();
+			$("#pre_page_btn").hide();
+			if(PageList.page_idx == PageList.max_page) {
+				$("#next_page_btn").hide();
+			}
+			$($(".page_num")[0]).addClass("active");
+		});
+		//上一页点击
+		$("#pre_page_btn").click(function() {
+			$(".page_num").removeClass("active");
+			PageList.page_idx = PageList.page_idx-1 >0? PageList.page_idx-1: 1;
+			if(PageList.page_idx < PageList.start_pos) {
+				PageList.start_pos = PageList.page_idx;
+				PageList.refresh();
+			}
+			if(PageList.page_idx == 1) {
+				$("#pre_page_btn").hide();
+			}
+			if(PageList.page_idx < PageList.max_page) {
+				$("#next_page_btn").show();
+			}
+			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
+		});
+		//下一页点击
+		$("#next_page_btn").click(function() {
+			$(".page_num").removeClass("active");
+			PageList.page_idx = PageList.page_idx+1 < PageList.max_page? PageList.page_idx+1: PageList.max_page;
+			if(PageList.page_idx >= PageList.start_pos+10) {
+				PageList.start_pos = PageList.page_idx - 9;
+				PageList.refresh();
+			}
+			if(PageList.page_idx > 1) {
+				$("#pre_page_btn").show();
+			}
+			if(PageList.page_idx == PageList.max_page) {
+				$("#next_page_btn").hide();
+			}
+			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
+		});
+
+		//末页点击
+		$("#last_page_btn").click(function() {
+			$(".page_num").removeClass("active");
+			PageList.page_idx = PageList.max_page;
+			if(PageList.page_idx >= PageList.start_pos+10) {
+				PageList.start_pos = PageList.page_idx - 9;
+				PageList.refresh();
+			}	
+			if(PageList.page_idx > 1) {
+				$("#pre_page_btn").show();
+			}
+			$("#next_page_btn").hide();
+			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
+		});
+	}
+}
  

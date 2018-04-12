@@ -59,504 +59,80 @@ $(function(){
 		}
 	?>
 	<div class="general">
-		<!--精品推荐、我玩过的、我的收藏-->
-		<div class="index_recommend">
-			<div class="recommend_tab">
-				<ul>
-					<li class="hover" onMouseOver="setTab('one',1,3)" id="one1"><p
-							class="p1">精品推荐</p></li>
-					<li onMouseOver="setTab('one',2,3)" id="one2"><p class="p2">我玩过的</p></li>
-					
-					
-					<?php if($myCollectList):?>
-					<!-- 用户已登录 -->
-					<li onMouseOver="setTab('one',3,3)" id="one3"><p class="p3">我的收藏</p></li>
-					<?php endif;?>
-					
-				</ul>
+		<!-- 当前位置 -->
+		<div class="index_pos">
+			<img src="/img/local_ico.png">
+			<span class="pos_text">当前位置:<a>首页</a>>手游</span>
+		</div>
+		<!-- 热门游戏 -->
+		
+		<div class="index_hot">
+			<div class="index_title_box">
+				<div class="index_title">热门游戏</div>
 			</div>
-			
-			<!-- 精品推荐 -->
-			<?php $list=Pc_PositionBll::getRecommendGame(12);?>
-			<?php if($list):?>
-			<div class="recommend_list" id="con_one_1">
-				<div class="exchange_bt">换一组</div>
-				<!--星级规则0就是0个星，5是半个星，10是一个星，以此类推-->
-				<ul>
-					<?php 
-						foreach ($list as $k=>$v):
-						$url=Urlfunction::getGameUrl($v['pinyin']);
-						$playUrl=Urlfunction::getPlayUrl($v['pinyin'],$v['game_type'],$v['game_url'],$v['status']);
-					?>
-					<li<?php if($k>5) echo " style='display:none'"?>>
-						<div class="p1">
-							<a onclick="positioncount('3')"  target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
+			<?php $list=Pc_GameBll::getGameTuijianList(1,4);?>
+			<div class="hot_list_box">
+				<?php 
+					foreach ($list as $k=>$v):
+					$url=Urlfunction::getGameUrl($v['pinyin']);
+					$playUrl=Urlfunction::getPlayUrl($v['pinyin'],$v['game_type'],$v['game_url'],$v['status']);
+				?>
+				<div class="hot_item">
+					<a target="_blank" title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+						<div class="hot_img_box">
+							<img class="hot_img"src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
+						</div>			
+						<div class="hot_select_box">
+							<img class="hot_select_icon" width="60" height="60" src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
+							<p class="hot_select_msg">类型:手游 | 仙侠</p>
+							<p class="hot_select_msg">评分:<span class="hot_star star_two_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span></p>
+							<p class="hot_select_msg">人气:<?php echo $v['game_visits'] + $v['rand_visits']?></p>
 						</div>
-						<div class="p2">
-							<a onclick="positioncount('3')" target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a> 
-							<i class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></i> 
-							
-							<span><?php $type_names=explode('，', $v['type_names']);
-									echo $type_names[0].''.(isset($type_names[1])?'，'.$type_names[1]:'')?>
-							<br>人气：<?php echo $v['game_visits'] + $v['rand_visits']?>
-							</span>
-						</div>
-						
-						<div class="p3">
-							<a onclick="positioncount('3')" target=_blank href="<?php echo $url;?>?t=wy">开始游戏</a>
-							<!--<span><?php echo $playUrl?'手机上玩':'暂未上线'?></span>-->
-						</div>
-						<?php if($playUrl):?>
-						<!--<div class="p4">
-							<p>
-								<img src="<?php echo Pc_GameBll::getErwm($playUrl);?>" />
-							</p>
-						</div>-->
-						<?php endif;?>
-					</li>	
-					<?php endforeach;?>				
-				</ul>
+					</a>			
+					<p class="hot_item_name"><?php echo $v['game_name']?></p>
+				</div>	
+				<?php endforeach;?>
+			</div>		
+		</div>
+
+		<!-- 游戏列表 -->
+		<div class="index_gamelist">
+			<div class="index_title_box">
+				<div class="index_title">游戏列表</div>
 			</div>
-			<?php endif;?>
-			
-			<!-- 我玩过的 -->
-			<?php $list=Pc_UserBll::getUserPlayRecord(12);?>
-			<?php if($list):?>
-			<div class="recommend_list" id="con_one_2" style="display: none">
-				<div class="exchange_bt">换一组</div>
-				<ul>
-					<?php 
-						$i=0;
-						foreach ($list as $k=>$v):
-						if(!$v['pinyin'])continue;
-						$url=Urlfunction::getGameUrl($v['pinyin']);
-						$playUrl=Urlfunction::getPlayUrl($v['pinyin'],$v['game_type'],$v['game_url'],$v['status']);
-						
-					?>
-					<li<?php if($i++>5) echo " style='display:none'"?>>
-						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
-							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-						</div>
-						<div class="p2">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a> 
-							<i class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></i> 
-							<span>
-								<?php $type_names=explode('，', $v['type_names']);
-									echo $type_names[0].''.(isset($type_names[1])?'，'.$type_names[1]:'')?>
-							<br>人气：<?php echo $v['game_visits'] + $v['rand_visits']?>
-							</span>
-						</div>
-						<div class="p3">
-							<a target=_blank href="<?php echo $url;?>?t=wy">开始游戏</a>
-							<!--<span><?php echo $playUrl?'手机上玩':'暂未上线'?></span>-->
-						</div>
-						<?php if($playUrl):?>
-						<!--<div class="p4">
-							<p>
-								<img src="<?php echo Pc_GameBll::getErwm($playUrl);?>" />
-							</p>
-						</div>-->
-						<?php endif;?>
-					</li>
-					<?php endforeach;?>
-					
-				</ul>
-			</div>
-			<?php endif;?>
-			
-			
-			<!-- 我的收藏 用户已经登录 -->		
-			<?php if($myCollectList):?>
-				<?php $list=$myCollectList;?>
-				<?php if($list):?>	
-				<div class="recommend_list" id="con_one_3" style="display: none">
-					<div class="exchange_bt">换一组</div>
-					<ul>
-						<?php 
-							foreach ($list as $k=>$v):
-							$url=Urlfunction::getGameUrl($v['pinyin']);
-							$playUrl=Urlfunction::getPlayUrl($v['pinyin'],$v['game_type'],$v['game_url'],$v['status']);
-						
-						?>
-						<li<?php if($k>5) echo " style='display:none'"?>>
-							<div class="p1">
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>">
-								<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-							</div>
-							<div class="p2">
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>"><?php echo $v['game_name']?></a> 
-								<i class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></i> 
-								<span>
-									<?php $type_names=explode('，', $v['type_names']);
-									echo $type_names[0].''.(isset($type_names[1])?'，'.$type_names[1]:'')?>
-								<br>人气：<?php echo $v['game_visits'] + $v['rand_visits']?>
-								</span>
-							</div>
-							<div class="p3">
-							<a target=_blank href="<?php echo $url;?>">开始游戏</a>
-							<!--<span><?php echo $playUrl?'手机上玩':'暂未上线'?></span>-->
-						</div>
-						<?php if($playUrl):?>
-						<!--<div class="p4">
-							<p>
-								<img src="<?php echo Pc_GameBll::getErwm($playUrl);?>" />
-							</p>
-						</div>-->
-						<?php endif;?>
-						</li>
-						<?php endforeach;?>
-					</ul>	
+			<?php  $page_idx=1;$list=Pc_GameBll::getGameTuijianList(1+($page_idx-1)*20,60);$max_page=ceil(count($list)/20)?>
+			<div class="gamelist_box">
+				<?php 
+					foreach ($list as $v):
+					$url=Urlfunction::getGameUrl($v['pinyin']);
+				?>
+				<div>
+					<a target=_blank title='<?php echo $v['game_name']?>'  href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
+						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
+					</a>
+					<p class="game_title"><a title='<?php echo $v['game_name']?>'  href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy"><?php echo $v['game_name'];?></a></p>
+					<p class="game_type">养成 | 策略 | Q宠</p>
 				</div>
-				<?php endif;?>
-			<?php endif;?>
-
-		</div>
-
-		
-		<!--最新游戏-->
-		<?php $list=Pc_GameBll::getNewGames(12);?>
-		<?php if($list):?>
-		<div class="index_left">
-			<div class="h5_tit">
-				<p>最新游戏</p>
-				<a target=_blank href="/new.html">更多</a>
+				<?php endforeach;?>
 			</div>
-			<div class="new_game">
-				<ul>
+		</div>
+		<!-- 页码列 -->
+			<div class="pagelist_box no_select">
+				<span >共<?php echo $max_page?>页:</span>
+				<ul class="pagelist">
+					<li id="first_page_btn" >首页</li>
+					<li id="pre_page_btn">上一页</li>
 					<?php 
-						foreach ($list as $v):
-						$url=Urlfunction::getGameUrl($v['pinyin']);
+						for ($x=1;$x<=($max_page>10?10:$max_page);$x++):;
 					?>
-					<li>
-						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
-								<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-						</div>
-						<div class="p2">
-							<p>
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-									<?php echo $v['game_name']?></a>
-							</p>
-							<span>人气：<?php echo $v['game_visits'] + $v['rand_visits']?></span> 
-							<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
-						</div>
-					</li>
-					<?php endforeach;?>
-					
+					<li class="page_num <?php if($x==$page_idx){echo 'active';}?>"><?php echo $x?></li>
+					<?php endfor?>
+					<li id="next_page_btn" >下一页</li>			
+					<li id="last_page_btn" >末页</li>
 				</ul>
-			</div>
-		</div>
-		<?php endif;?>
-		
-
-		<div class="index_right">
-			<!-- 推荐位最新推荐的 2条 最新新闻、攻略等-->
-			<?php $list=Pc_PositionBll::getRecommendArticle(13,2)?>
-			<?php if($list):?>
-			<div class="index_silder">
-				<ul>
-					<?php foreach ($list as $v):?>
-					<li>
-						<p>
-							<a target=_blank title='<?php echo $v['title']?>' href="<?php echo Urlfunction::getArticleUrl($v['pinyin'], $v['type'], $v['id'])?>" 
-								onclick="positioncount(13)"><?php echo $v['title']?></a>
-							
-						</p>
-						<span><?php echo mb_substr($v['descript'],0,40,'utf-8');?>
-							<a target=_blank href="<?php echo Urlfunction::getArticleUrl($v['pinyin'], $v['type'], $v['id'])?>" 
-								onclick="positioncount(13)">[详情]</a>
-							</span>
-					</li>
-					<?php endforeach;?>
-					
-				</ul>
-			</div>
-			<?php endif;?>
-
-			<!-- 最新新闻、攻略等 -->
-			<?php $list=Myfunction::getArticleList(array(),10,1,'');?>
-			<?php if($list):?>
-			<div class="silder_list">
-				<ul>
-					<?php foreach ($list as $v):?>
-					<li>
-						<p>
-							<?php if($v['type']==1):?><a target=_blank href="<?php echo Urlfunction::getArtcileListUrl('news')?>">新闻</a>
-							<?php elseif ($v['type']==2):?><a target=_blank href="<?php echo Urlfunction::getArtcileListUrl('gonglue')?>">攻略</a>
-							<?php endif;?>
-						</p> <em>|</em> <span><a target=_blank title='<?php echo $v['title']?>' href="<?php echo Urlfunction::getArticleUrl($v['pinyin'], $v['type'], $v['id'])?>"><?php echo $v['title']?></a></span>
-					</li>	
-					<?php endforeach;?>				
-				</ul>
-			</div>
-			<?php endif;?>
-
-		</div>
-
-		<!--广告1-->
-		<?php $ggList=Pc_PositionBll::getCommonPosition(11,2)?>
-		<?php if($ggList && isset($ggList[0])):?>
-		<?php $v=$ggList[0];?>
-		<!--<div class="h5_ad">
-			<a target=_blank href="<?php echo $v['url']?>" onclick="positioncount(11)"><img src="<?php echo Urlfunction::getImgURL($v['img']);?>"></a>
-		</div>-->
-		<?php endif;?>
-		
-		<!--热门网游-->
-		<?php $list=Pc_GameBll::getGameTuijianList(2,8);?>
-		<?php if($list):?>
-		<div class="hot_game">
-			<div class="h5_tit">
-				<p>热门网游</p>
-				<a target=_blank href="/wy-hot.html">更多</a>
-			</div>
-			<ul>
-				<?php 
-					foreach ($list as $k=>$v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-				?>
-				<li<?php if($k%4==0) echo ' class="nomargin"';?>>
-					<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-					
-						<?php if($v['img_wy']):?>
-						<div class="p1" >
-							<img src="<?php echo Urlfunction::getImgURL($v['img_wy']);?>" >
-						</div>
-						<?php else:?>
-						<div class="p1" style="text-align: center;">
-							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>" 
-								style="display: inline;width:120px !important;">
-						</div>
-						<?php endif;?>
-						
-						<div class="p2">
-							<p class="p2_1">类型：<?php $type_names=explode('，', $v['type_names']);
-									echo $type_names[0].''.(isset($type_names[1])?'，'.$type_names[1]:'')?></p>
-							<p>
-								<em>评分：</em><span class="star_two star_two_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span>
-							</p>
-							<p>人气：<?php echo $v['game_visits'] + $v['rand_visits']?></p>
-						</div>
-						<div class="p3"><?php echo $v['game_name']?></div>
-					</a></li>
-				<?php endforeach;?>
-			</ul>
-		</div>
-		<?php endif;?>
-		
-		
-		<?php $list=Pc_GameBll::getGameTuijianList(1,15);?>
-		<?php if($list):?>
-		<!--热门单机-->
-		<div class="index_left">
-			<div class="h5_tit">
-				<p>热门单机</p>
-				<a target=_blank href="/new-hot.html">更多</a>
-			</div>
-			<div class="new_game">
-				<ul>
-					<?php 
-						foreach ($list as $v):
-						$url=Urlfunction::getGameUrl($v['pinyin']);
-					?>
-					<li>
-						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=new">
-								<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-						</div>
-						<div class="p2">
-							<p>
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=new"><?php echo $v['game_name']?></a>
-							</p>
-							<span>人气：<?php echo $v['game_visits'] + $v['rand_visits']?></span> 
-							<em><a target=_blank href="<?php echo $url?>?t=new">开始游戏</a></em>
-						</div>
-					</li>
-					<?php endforeach;?>
-				</ul>
-			</div>
-		</div>
-		<?php endif;?>
-		
-		
-		<!--礼包领取-->
-        <!--
-		<?php $list=Giftcommon::getList(array('limit'=>5));?>
-		<?php if($list):?>
-		<div class="get_gift">
-			<div class="h5_tit">
-				<p>礼包领取</p>
-				<a target=_blank href="<?php echo Urlfunction::getGiftList()?>">更多</a>
-			</div>
-			<ul>
-				<?php foreach ($list as $k=>$v):?>
-				<li <?php if($k==0):?> class="hover" <?php endif;?> >
-					<div class="p1">
-						<a target=_blank title='<?php echo $v['package_name']?>' href="<?php echo Urlfunction::getGiftUrl($v['id'])?>">
-							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-					</div>
-					<div class="p2">
-						<p class="p2_1">
-							<a target=_blank title='<?php echo $v['package_name']?>' href="<?php echo Urlfunction::getGiftUrl($v['id'])?>"><?php echo $v['package_name'];?></a>
-						</p>
-						<p class="p2_2">
-							<span><em mywidth=<?php echo $v['surplus']?> class="my_percent"></em></span><i><?php echo $v['surplus']; ?>%</i>
-						</p>
-						<p class="p2_3">截止时间：<?php echo date('Y-m-d',$v['end_time']);?></p>
-						<p class="p2_4">剩余：<?php echo $v['surplus']; ?>%</p>
-					</div>
-					<div class="p3">
-						<a target=_blank href="<?php echo Urlfunction::getGiftUrl($v['id'])?>">
-						<span>领取</span>
-						</a>
-					</div>
-				</li>
-				<?php endforeach;?>
-			</ul>
-		</div>
-		<?php endif;?>
-		-->
-		
-        <div>
-		<!--最新专题-->
-		<?php $list=Myfunction::getSubjectList(array('order'=>'new'),15,1);?>
-		<?php if($list):?>
-		<div class="get_gift" style='height:616px;'>
-			<div class="h5_tit">
-				<p>最新专题</p>
-				<a target=_blank href="<?php echo Urlfunction::getSubjectListUrl()?>">更多</a>
-			</div>
-			<dl>
-				<?php foreach ($list as $k=> $v):?>
-				<dd <?php if($k==0):?> class="hover" <?php endif?> >
-					<div class="p1">
-						<a target=_blank title='<?php echo $v['name']?>' href="<?php echo Urlfunction::getSubjectDetailUrl($v['id'])?>" >
-							<img src="<?php echo Urlfunction::getImgURL($v['img']);?>"></a>
-					</div>
-					<div class="p2">
-						<a target=_blank title='<?php echo $v['name']?>' href="<?php echo Urlfunction::getSubjectDetailUrl($v['id'])?>" >
-							<?php echo $v['name']?></a>
-						<span><?php echo date('m-d',$v['report_time'])?></span>
-					</div>
-				</dd>
-				<?php endforeach;?>
-			</dl>
-		</div>
-		<?php endif;?>
-		
-		<!-- 广告2 -->
-		<?php if($ggList && isset($ggList[1])):?>
-		<?php $v=$ggList[1];?>
-		<!--<div class="h5_ad">
-			<a target=_blank href="<?php echo $v['url']?>" onclick="positioncount(11)"><img src="<?php echo Urlfunction::getImgURL($v['img']);?>"></a>
-		</div>-->
-		<?php endif;?>
-		
-		
-		<!--新游排行榜-->
-		<?php $list=Pc_GameBll::getGamePaihang(1,10);?>
-		<?php if($list):?>
-		<div class="game_rank">
-			<div class="h5_tit">
-				<p>新游排行榜</p>
-				<a target=_blank href="/new.html">更多</a>
-			</div>
-			<ul>
-				<?php 
-					foreach ($list as $k=>$v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-				?>
-				<li <?php if($k==0):?> class="hover" <?php endif;?> >
-					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
-					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-					</div>
-					<div class="p2">
-						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
-						</p>
-						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
-					</div>
-					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
-				</li>
-				<?php endforeach;?>
-			</ul>
-		</div>
-		<?php endif;?>
-		
-		
-		<!--网游排行榜-->
-		<?php $list=Pc_GameBll::getGamePaihang(2,10);?>
-		<?php if($list):?>
-		<div class="game_rank wy_rank">
-			<div class="h5_tit">
-				<p>网游排行榜</p>
-				<a target=_blank href="<?php echo Urlfunction::getGameListUrl('wy')?>">更多</a>
-			</div>
-			<ul>
-				<?php 
-					foreach ($list as $k=>$v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-				?>
-				<li <?php if($k==0):?> class="hover" <?php endif;?> >
-					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
-					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-					</div>
-					<div class="p2">
-						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
-						</p>
-						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
-					</div>
-					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
-				</li>	
-				<?php endforeach;?>			
-			</ul>
-		</div>
-		<?php endif;?>
-		
-		
-		
-		<!--单机排行榜-->
-		<?php $list=Pc_GameBll::getGamePaihang(3,10);?>
-		<?php if($list):?>
-		<div class="game_rank single_rank">
-			<div class="h5_tit">
-				<p>单机排行榜</p>
-				<a target=_blank href="<?php echo Urlfunction::getGameListUrl('new')?>">更多</a>
-			</div>
-			<ul>
-				<?php 
-					foreach ($list as $k=>$v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-				?>
-				<li <?php if($k==0):?> class="hover" <?php endif;?> >
-					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
-					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
-						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
-					</div>
-					<div class="p2">
-						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
-						</p>
-						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
-					</div>
-					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
-				</li>	
-				<?php endforeach;?>			
-			</ul>
-		</div>
-		<?php endif;?>
-
+			</div>			
 	</div>
-
 </div>
+<script>
+	PageList.init(<?php echo $max_page?>);
+</script>
