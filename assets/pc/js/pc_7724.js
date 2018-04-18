@@ -212,7 +212,7 @@ var PageList = (function() {
 	function PageList() {
 		this.page_idx = 1;
 		this.page_size = 20;
-		this.max_page = 1;
+		this.max_page = null;
 		this.start_pos = 1;
 		this.games = null;
 	} 
@@ -226,35 +226,38 @@ var PageList = (function() {
 			var end = start + this.page_size;
 			if(typeof this.games.game_data[start] != 'undefined') {
 				this.games.refreshList(start,end);
-				return ;
-			}
-			var that = this;
-			$.ajax({
-				url : '/pc/index/index',
-				type : 'POST',
-				data : {
-					page : that.page_idx,
-					pageSize : that.page_size
-				},
-				success : function(res) {	
-					that.max_page = res.data.pageCount;
-					that.initPageNum();
-					that.initListener();		
-					if(that.page_idx === 1){
-						$("#pre_page_btn").hide();
+			} else {
+				var that = this;
+				$.ajax({
+					url : '/pc/index/index',
+					type : 'POST',
+					async : false,
+					data : {
+						page : that.page_idx,
+						pageSize : that.page_size
+					},
+					success : function(res) {	
+						if(that.max_page === null) {
+							that.max_page = res.data.pageCount;
+							that.initPageNum();
+							that.initListener();
+						}			
+						if(that.page_idx === 1){
+							$("#pre_page_btn").hide();
+						}
+						if(that.page_idx === that.max_page) {
+							$("#next_page_btn").hide();
+						}	
+						for(var i=0;i<that.page_size;++i) {
+							that.games.game_data[(that.page_idx-1)*that.page_size+i] = res.data.list[i] || null;
+						}
+						that.games.refreshList(start,end);
+					},
+					fail : function(data) {
+						console.log('get list fail!')
 					}
-					if(that.page_idx === that.max_page) {
-						$("#next_page_btn").hide();
-					}	
-					for(var i=0;i<that.page_size;++i) {
-						that.games.game_data[(that.page_idx-1)*that.page_size+i] = res.data.list[i] || null;
-					}
-					that.games.refreshList(start,end);
-				},
-				fail : function(data) {
-					console.log('get list fail!')
-				}
-			});
+				});
+			}	
 		},
 		initPageNum : function() {
 			var content = '';
@@ -310,6 +313,7 @@ var PageList = (function() {
 					that.start_pos = that.page_idx;
 					that.refresh();
 				}
+				console.log(that.page_idx);
 				if(that.page_idx == 1) {
 					$("#pre_page_btn").hide();
 				}
@@ -322,7 +326,7 @@ var PageList = (function() {
 			//下一页点击
 			$("#next_page_btn").click(function() {
 				$(".page_num").removeClass("active");
-				that.page_idx = that.page_idx+1 < that.max_page? that.page_idx+1: that.max_page;
+				that.page_idx = that.page_idx+1 < that.max_page? that.page_idx+1: that.max_page;		
 				if(that.page_idx >= that.start_pos+10) {
 					that.start_pos = that.page_idx - 9;
 					that.refresh();
@@ -345,6 +349,7 @@ var PageList = (function() {
 					that.start_pos = that.page_idx - 9;
 					that.refresh();
 				}	
+				
 				if(that.page_idx > 1) {
 					$("#pre_page_btn").show();
 				}
