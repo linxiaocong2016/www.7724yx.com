@@ -12,52 +12,6 @@ $(function(){
 })
 </script>
 <div class="index_center">
-<?php /*?>
-	<!--幻灯片-->
-	<?php $list=Pc_PositionBll::getCommonPosition(10,4);?>
-	<?php if($list):?>
-	<?php $num=count($list)?>
-	<div class="exhi_banner slideBox">
-		<div class="big_pic bd">
-			<ul>
-				<?php foreach($list as $k=>$v):?>
-				<li><a target=_blank title="<?php echo $v['title']?>" href="<?php echo $v['url']?>" onclick="positioncount(10)"
-					style="background: url(<?php echo Urlfunction::getImgURL($v['img']);?>) no-repeat top center"></a></li>
-				<?php endforeach;?>
-			</ul>
-		</div>
-		<div class="banner_center">
-			<div class="exhi_bt exhi_prev_bt prev"></div>
-			<div class="exhi_bt exhi_next_bt next"></div>
-			<div class="exhi_force hd">
-				<ul>
-					<?php for ($i=1;$i<=$num ; $i++):?>
-					<li <?php if($i==1):?> class="on" <?php endif;?>></li>
-					<?php endfor;?>
-				</ul>
-			</div>
-		</div>
-
-	</div>
-	<script type="text/javascript">
-		  jQuery(".slideBox").slide({
-			  mainCell:".bd ul",
-			  effect:"leftLoop",
-			  autoPlay:true,
-			  delayTime:1000,
-			  interTime:3000
-			  }); 
-	</script>
-	<?php endif;?>
-<?php */?>
-	
-	
-	<?php
-		$myCollectList=array();
-		if(isset(Yii::app ()->session['userinfo']) && Yii::app ()->session['userinfo']){
-			$myCollectList=Pc_UserBll::getUserCollectGames(12);
-		}
-	?>
 	<div class="general">
 		<!-- 当前位置 -->
 		<div class="index_pos">
@@ -70,23 +24,20 @@ $(function(){
 			<div class="index_title_box">
 				<div class="index_title">热门游戏</div>
 			</div>
-			<?php $list=Pc_GameBll::getGameTuijianList(1,4);?>
 			<div class="hot_list_box">
 				<?php 
-					foreach ($list as $k=>$v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-					$playUrl=Urlfunction::getPlayUrl($v['pinyin'],$v['game_type'],$v['game_url'],$v['status']);
+					foreach ($data as $k=>$v):
 				?>
 				<div class="hot_item">
-					<a target="_blank" title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+					<a target="_blank" title='<?php echo $v['name']?>' href="/pc/game/gamedetail?gameid=<?php echo $v['id'];?>">
 						<div class="hot_img_box">
-							<img class="hot_img"src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
+							<img class="hot_img"src="<?php echo $v['img'];?>">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
-							<p class="hot_select_msg">类型:手游 | 仙侠</p>
-							<p class="hot_select_msg">评分:<span class="hot_star star_two_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span></p>
-							<p class="hot_select_msg">人气:<?php echo $v['game_visits'] + $v['rand_visits']?></p>
+							<img class="hot_select_icon" width="60" height="60" src="<?php echo $v['img'];?>">
+							<p class="hot_select_msg"><?php echo $v['type']?></p>
+							<p class="hot_select_msg">评分:<span class="hot_star star_two_10"></span></p>
+							<p class="hot_select_msg">人气:<?php echo $v['downnum'];?></p>
 						</div>
 					</a>			
 					<p class="hot_item_name"><?php echo $v['game_name']?></p>

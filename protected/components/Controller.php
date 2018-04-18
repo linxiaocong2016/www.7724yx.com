@@ -270,5 +270,40 @@ class Controller extends CController {
             return $_REQUEST['flag'];
     }
     
+    public function success($data, $msg = '请求成功')
+    {
+        $output = array('code' => 0, 'msg' => $msg);
+        empty($data) or $output['data'] = $data;
+        $this->json($output);
+    }
+    
+    public function error($code)
+    {
+        $msg = isset(Yii::app()->params['errcode'][$code]) ? Yii::app()->params['errcode'][$code] : '未知错误';
+        $this->json(compact('code', 'msg'));
+    }
+    
+    function json($arr, $output = true)
+    {
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $content = json_encode($arr);
+            $content = preg_replace_callback(
+                        "#\\\u([0-9a-f]{4})#i",
+                        function($matchs) {
+                            return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
+                        },
+                        $content
+            );
+            $content = str_replace("\\/", "/", $content);
+        } else {
+            $content = json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+        if (! $output) {
+            return $content;
+        }
+        header('Content-Type: application/json; charset=utf-8');
+        exit($content);
+    }
+    
     
 }
