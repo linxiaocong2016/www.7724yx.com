@@ -208,102 +208,175 @@ var JPlaceHolder = {
     }
 };
 
-var PageList = {
-	page_idx : 1,
-	max_page : 1,
-	start_pos : 1,
-	init : function(maxPage) {
-		this.max_page = maxPage || 1;
-		this.initListener();
-		if(this.page_idx === 1){
-			$("#pre_page_btn").hide();
-		}
-		if(this.page_idx === this.max_page) {
-			$("#next_page_btn").hide();
-		}	
-	},
-	refresh : function() {
-		for(var i=0;i<(this.max_page>10?10:this.max_page);++i) {
-			$(".page_num")[i].innerText = this.start_pos+i;
-		}
-	},
-	initListener : function() {
-		//页码点击
-		$(".page_num").click(function() {
-			$(".page_num").removeClass("active");
-			PageList.page_idx = this.innerText;
-			if(PageList.page_idx > 1) {
-				$("#pre_page_btn").show();
-			} else {
+var PageList = (function() {
+	function PageList() {
+		this.page_idx = 1;
+		this.page_size = 20;
+		this.max_page = 1;
+		this.start_pos = 1;
+		this.games = null;
+	} 
+	PageList.prototype = {
+		init : function() {
+			this.games = new Games();
+			this.getPageData();	
+		},
+		getPageData : function() {
+			var start = (this.page_idx-1)*this.page_size;
+			var end = start + this.page_size;
+			if(typeof this.games.game_data[start] != 'undefined') {
+				this.games.refreshList(start,end);
+				return ;
+			}
+			var that = this;
+			$.ajax({
+				url : '/pc/index/index',
+				type : 'POST',
+				data : {
+					page : that.page_idx,
+					pageSize : that.page_size
+				},
+				success : function(res) {	
+					that.max_page = res.data.pageCount;
+					that.initPageNum();
+					that.initListener();		
+					if(that.page_idx === 1){
+						$("#pre_page_btn").hide();
+					}
+					if(that.page_idx === that.max_page) {
+						$("#next_page_btn").hide();
+					}	
+					for(var i=0;i<that.page_size;++i) {
+						that.games.game_data[(that.page_idx-1)*that.page_size+i] = res.data.list[i] || null;
+					}
+					that.games.refreshList(start,end);
+				},
+				fail : function(data) {
+					console.log('get list fail!')
+				}
+			});
+		},
+		initPageNum : function() {
+			var content = '';
+			for (var i=1;i<=(this.max_page>10?10:this.max_page);i++) {
+				content += '<li class="page_num '+(i==this.page_idx?'active':'')+'">'+i+'</li>';
+			}
+			$("#page_list").html(content);
+			$("#page_count").text('共'+this.max_page+'页:');
+		},
+		refresh : function() {
+			for(var i=0;i<(this.max_page>10?10:this.max_page);++i) {
+				$(".page_num")[i].innerText = this.start_pos+i;
+			}
+		},
+		initListener : function() {
+			//页码点击
+			var that = this;
+			$(".page_num").click(function() {
+				$(".page_num").removeClass("active");
+				that.page_idx = this.innerText;
+				if(that.page_idx > 1) {
+					$("#pre_page_btn").show();
+				} else {
+					$("#pre_page_btn").hide();
+				}
+				if(that.page_idx == that.max_page) {
+					$("#next_page_btn").hide();
+				} else {
+					$("#next_page_btn").show();
+				}
+				$(this).addClass("active");
+				that.getPageData();
+			});
+	
+			//首页点击
+			$("#first_page_btn").click(function() {
+				$(".page_num").removeClass("active");
+				that.page_idx = 1;
+				that.start_pos = 1;
+				that.refresh();
 				$("#pre_page_btn").hide();
-			}
-			if(PageList.page_idx == PageList.max_page) {
+				if(that.page_idx == that.max_page) {
+					$("#next_page_btn").hide();
+				}
+				$($(".page_num")[0]).addClass("active");
+				that.getPageData();
+			});
+			//上一页点击
+			$("#pre_page_btn").click(function() {
+				$(".page_num").removeClass("active");
+				that.page_idx = that.page_idx-1 >0? that.page_idx-1: 1;
+				if(that.page_idx < that.start_pos) {
+					that.start_pos = that.page_idx;
+					that.refresh();
+				}
+				if(that.page_idx == 1) {
+					$("#pre_page_btn").hide();
+				}
+				if(that.page_idx < that.max_page) {
+					$("#next_page_btn").show();
+				}
+				$($(".page_num")[that.page_idx - that.start_pos]).addClass("active");
+				that.getPageData();
+			});
+			//下一页点击
+			$("#next_page_btn").click(function() {
+				$(".page_num").removeClass("active");
+				that.page_idx = that.page_idx+1 < that.max_page? that.page_idx+1: that.max_page;
+				if(that.page_idx >= that.start_pos+10) {
+					that.start_pos = that.page_idx - 9;
+					that.refresh();
+				}
+				if(that.page_idx > 1) {
+					$("#pre_page_btn").show();
+				}
+				if(that.page_idx == that.max_page) {
+					$("#next_page_btn").hide();
+				}
+				$($(".page_num")[that.page_idx - that.start_pos]).addClass("active");
+				that.getPageData();
+			});
+	
+			//末页点击
+			$("#last_page_btn").click(function() {
+				$(".page_num").removeClass("active");
+				that.page_idx = that.max_page;
+				if(that.page_idx >= that.start_pos+10) {
+					that.start_pos = that.page_idx - 9;
+					that.refresh();
+				}	
+				if(that.page_idx > 1) {
+					$("#pre_page_btn").show();
+				}
 				$("#next_page_btn").hide();
-			} else {
-				$("#next_page_btn").show();
-			}
-			$(this).addClass("active");
-		});
-
-		//首页点击
-		$("#first_page_btn").click(function() {
-			$(".page_num").removeClass("active");
-			PageList.page_idx = 1;
-			PageList.start_pos = 1;
-			PageList.refresh();
-			$("#pre_page_btn").hide();
-			if(PageList.page_idx == PageList.max_page) {
-				$("#next_page_btn").hide();
-			}
-			$($(".page_num")[0]).addClass("active");
-		});
-		//上一页点击
-		$("#pre_page_btn").click(function() {
-			$(".page_num").removeClass("active");
-			PageList.page_idx = PageList.page_idx-1 >0? PageList.page_idx-1: 1;
-			if(PageList.page_idx < PageList.start_pos) {
-				PageList.start_pos = PageList.page_idx;
-				PageList.refresh();
-			}
-			if(PageList.page_idx == 1) {
-				$("#pre_page_btn").hide();
-			}
-			if(PageList.page_idx < PageList.max_page) {
-				$("#next_page_btn").show();
-			}
-			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
-		});
-		//下一页点击
-		$("#next_page_btn").click(function() {
-			$(".page_num").removeClass("active");
-			PageList.page_idx = PageList.page_idx+1 < PageList.max_page? PageList.page_idx+1: PageList.max_page;
-			if(PageList.page_idx >= PageList.start_pos+10) {
-				PageList.start_pos = PageList.page_idx - 9;
-				PageList.refresh();
-			}
-			if(PageList.page_idx > 1) {
-				$("#pre_page_btn").show();
-			}
-			if(PageList.page_idx == PageList.max_page) {
-				$("#next_page_btn").hide();
-			}
-			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
-		});
-
-		//末页点击
-		$("#last_page_btn").click(function() {
-			$(".page_num").removeClass("active");
-			PageList.page_idx = PageList.max_page;
-			if(PageList.page_idx >= PageList.start_pos+10) {
-				PageList.start_pos = PageList.page_idx - 9;
-				PageList.refresh();
-			}	
-			if(PageList.page_idx > 1) {
-				$("#pre_page_btn").show();
-			}
-			$("#next_page_btn").hide();
-			$($(".page_num")[PageList.page_idx - PageList.start_pos]).addClass("active");
-		});
+				$($(".page_num")[that.page_idx - that.start_pos]).addClass("active");
+				that.getPageData();
+			});
+		}
 	}
-}
- 
+
+	function Games() {
+		this.game_data = [];
+	}
+	Games.prototype = {
+		refreshList : function(start,end) {
+			var content = '';
+			var data = this.game_data;
+			for(var i=start; i<end; ++i) {
+				if(data[i] == null) {
+					break;
+				}
+				content += 
+				'<div>\
+					<a target=_blank title='+data[i].name+' href="/pc/game/gameDetail?gameid='+data[i].id+'">\
+						<img src="'+data[i].img+'">\
+					</a>\
+					<p class="game_title"><a title='+data[i].name+'  href="/pc/game/gameDetail?gameid='+data[i].id+'">'+data[i].name+'</a></p>\
+					<p class="game_type">'+data[i].type.replace(',',' | ')+'</p>\
+				</div>';
+			}
+			$('#gameListBox').html(content);
+		}
+	}
+	return PageList;
+})();

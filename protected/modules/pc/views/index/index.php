@@ -51,39 +51,24 @@ $(function(){
 			<div class="index_title_box">
 				<div class="index_title">游戏列表</div>
 			</div>
-			<?php  $page_idx=1;$list=Pc_GameBll::getGameTuijianList(1+($page_idx-1)*20,60);$max_page=ceil(count($list)/20)?>
-			<div class="gamelist_box">
-				<?php 
-					foreach ($list as $v):
-					$url=Urlfunction::getGameUrl($v['pinyin']);
-				?>
-				<div>
-					<a target=_blank title='<?php echo $v['game_name']?>'  href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
-						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>">
-					</a>
-					<p class="game_title"><a title='<?php echo $v['game_name']?>'  href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy"><?php echo $v['game_name'];?></a></p>
-					<p class="game_type">养成 | 策略 | Q宠</p>
-				</div>
-				<?php endforeach;?>
+			<div id="gameListBox" class="gamelist_box">
+				
 			</div>
 		</div>
 		<!-- 页码列 -->
 			<div class="pagelist_box no_select">
-				<span >共<?php echo $max_page?>页:</span>
-				<ul class="pagelist">
-					<li id="first_page_btn" >首页</li>
-					<li id="pre_page_btn">上一页</li>
-					<?php 
-						for ($x=1;$x<=($max_page>10?10:$max_page);$x++):;
-					?>
-					<li class="page_num <?php if($x==$page_idx){echo 'active';}?>"><?php echo $x?></li>
-					<?php endfor?>
-					<li id="next_page_btn" >下一页</li>			
-					<li id="last_page_btn" >末页</li>
-				</ul>
+				<span id="page_count"></span>
+				<div id="first_page_btn" class="page_btn">首页</div>
+				<div id="pre_page_btn" class="page_btn">上一页</div>
+				<ul id="page_list" class="pagelist"></ul>
+				<div id="next_page_btn" class="page_btn">下一页</div>
+				<div id="last_page_btn" class="page_btn">末页</div>
+				
 			</div>			
 	</div>
 </div>
 <script>
-	PageList.init(<?php echo $max_page?>);
+	var page = new PageList();
+	page.init();
+	
 </script>

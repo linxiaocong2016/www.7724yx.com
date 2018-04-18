@@ -1248,6 +1248,16 @@ text-align: center;width:99.5%; float:left}
     border: 1px solid #dedede;
     background-color: #fff;
 }
+.page_btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding:0 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    border: 1px solid #dedede;
+    background-color: #fff;
+}
 .pagelist>li:hover {
     background-color: #e54c3d;
     color: #fff;
