@@ -19,7 +19,17 @@ class IndexController extends PcController
 		$this->metaDescription = "7724游戏是手机页游第一平台,提供最热最好玩的h5游戏大全,手机页游排行榜,手机游戏在线玩,手机在线小游戏,手机页游,手机网页游戏,双人在线小游戏,更多不用下载立即玩手机游戏尽在7724 h5游戏平台";
 		
         if(Yii::app()->request->getIsPostRequest()){
-            $data = Yii::app()->seven->createCommand()->select('*')->from('appgame')->order('id desc')->offset(($page - 1) * $pageSize)->limit($pageSize)->queryAll();
+            $count = Yii::app()->seven->createCommand()->select('count(id) as num')->from('appgame')->queryRow();
+            
+            $data = array();
+            if($count['num'] > 0){
+                $pageCount = ceil($count['num'] / $pageSize);//总分页数
+                $result = Yii::app()->seven->createCommand()->select('*')->from('appgame')->order('id desc')->offset(($page - 1) * $pageSize)->limit($pageSize)->queryAll();
+                $data['list'] = $result;
+                $data['page'] = $page;
+                $data['pageSize'] = $pageSize;
+                $data['pageCount'] = $pageCount;
+            }
             $this->success($data);
         }
         

@@ -272,7 +272,7 @@ class Controller extends CController {
     
     public function success($data, $msg = '请求成功')
     {
-        $output = array('code' => 0, 'msg' => $msg);
+        $output = array('code' => 0, 'msg' => $msg , 'data'=>array());
         empty($data) or $output['data'] = $data;
         $this->json($output);
     }
