@@ -36,7 +36,7 @@ $(function(){
 						<div class="hot_select_box">
 							<img class="hot_select_icon" width="60" height="60" src="<?php echo $v['img'];?>">
 							<p class="hot_select_msg"><?php echo $v['type']?></p>
-							<p class="hot_select_msg">评分:<span class="hot_star star_two_10"></span></p>
+							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
 							<p class="hot_select_msg">人气:<?php echo $v['downnum'];?></p>
 						</div>
 					</a>			
