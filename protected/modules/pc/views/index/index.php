@@ -25,24 +25,62 @@ $(function(){
 				<div class="index_title">热门游戏</div>
 			</div>
 			<div class="hot_list_box">
-				<?php 
-					foreach ($data as $k=>$v):
-				?>
 				<div class="hot_item">
-					<a target="_blank" title='<?php echo $v['name']?>' href="/pc/game/gamedetail?gameid=<?php echo $v['id'];?>">
+					<a target="_blank" title='雪鹰领主' href="/pc/game/gamedetail?gameid=37">
 						<div class="hot_img_box">
-							<img class="hot_img"src="<?php echo $v['img'];?>">
+							<img class="hot_img"src="/img/hot_1.png">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="<?php echo $v['img'];?>">
-							<p class="hot_select_msg"><?php echo $v['type']?></p>
+							<img class="hot_select_icon" width="60" height="60" src="/img/hot_1_icon.png">
+							<p class="hot_select_msg">手游 | 仙侠</p>
 							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
-							<p class="hot_select_msg">人气:<?php echo $v['downnum'];?></p>
+							<p class="hot_select_msg">人气:2254225</p>
 						</div>
 					</a>			
-					<p class="hot_item_name"><?php echo $v['game_name']?></p>
+					<p class="hot_item_name">雪鹰领主</p>
 				</div>	
-				<?php endforeach;?>
+				<div class="hot_item">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=12">
+						<div class="hot_img_box">
+							<img class="hot_img"src="/img/hot_2.png">
+						</div>			
+						<div class="hot_select_box">
+							<img class="hot_select_icon" width="60" height="60" src="/img/hot_2_icon.png">
+							<p class="hot_select_msg">手游 | 仙侠</p>
+							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
+							<p class="hot_select_msg">人气:3546887</p>
+						</div>
+					</a>			
+					<p class="hot_item_name">云巅</p>
+				</div>
+				<div class="hot_item">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=22">
+						<div class="hot_img_box">
+							<img class="hot_img"src="/img/hot_3.png">
+						</div>			
+						<div class="hot_select_box">
+							<img class="hot_select_icon" width="60" height="60" src="/img/hot_3_icon.png">
+							<p class="hot_select_msg">手游 | 仙侠</p>
+							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
+							<p class="hot_select_msg">人气:2678994</p>
+						</div>
+					</a>			
+					<p class="hot_item_name">仙魔圣域</p>
+				</div>	
+				<div class="hot_item">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=13">
+						<div class="hot_img_box">
+							<img class="hot_img"src="/img/hot_4.png">
+						</div>			
+						<div class="hot_select_box">
+							<img class="hot_select_icon" width="60" height="60" src="/img/hot_4_icon.png">
+							<p class="hot_select_msg">手游 | 仙侠</p>
+							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
+							<p class="hot_select_msg">人气:3546551</p>
+						</div>
+					</a>			
+					<p class="hot_item_name">烈火星辰</p>
+				</div>	
 			</div>		
 		</div>
 
