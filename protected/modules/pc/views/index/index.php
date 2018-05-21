@@ -28,58 +28,58 @@ $(function(){
 				<div class="hot_item">
 					<a target="_blank" title='雪鹰领主' href="/pc/game/gamedetail?gameid=37">
 						<div class="hot_img_box">
-							<img class="hot_img"src="/img/hot_1.png">
+							<img class="hot_img"src="/img/hot_1.jpg">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="/img/hot_1_icon.png">
+							<img class="hot_select_icon" width="60" height="60" src="http://upload.92fox.com/201608/ba802fb96a47ffd479d8676ab12dc57e.png">
 							<p class="hot_select_msg">手游 | 仙侠</p>
 							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
 							<p class="hot_select_msg">人气:2254225</p>
 						</div>
 					</a>			
-					<p class="hot_item_name">雪鹰领主</p>
+					<p class="hot_item_name">梦幻西游</p>
 				</div>	
 				<div class="hot_item">
-					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=12">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=29">
 						<div class="hot_img_box">
-							<img class="hot_img"src="/img/hot_2.png">
+							<img class="hot_img"src="/img/hot_2.jpg">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="/img/hot_2_icon.png">
+							<img class="hot_select_icon" width="60" height="60" src="http://upload.92fox.com/201701/06b7bf55d8ada67bfc58b4a35ebc1ebc.png">
 							<p class="hot_select_msg">手游 | 仙侠</p>
 							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
 							<p class="hot_select_msg">人气:3546887</p>
 						</div>
 					</a>			
-					<p class="hot_item_name">云巅</p>
+					<p class="hot_item_name">镇魔曲</p>
 				</div>
 				<div class="hot_item">
-					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=22">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=34">
 						<div class="hot_img_box">
-							<img class="hot_img"src="/img/hot_3.png">
+							<img class="hot_img"src="/img/hot_3.jpg">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="/img/hot_3_icon.png">
+							<img class="hot_select_icon" width="60" height="60" src="http://image.92fox.com/92fox/game/ac/ac9b10e3066ba30428d3cf125e0e6a23.jpg">
 							<p class="hot_select_msg">手游 | 仙侠</p>
 							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
 							<p class="hot_select_msg">人气:2678994</p>
 						</div>
 					</a>			
-					<p class="hot_item_name">仙魔圣域</p>
+					<p class="hot_item_name">倩女幽魂</p>
 				</div>	
 				<div class="hot_item">
-					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=13">
+					<a target="_blank" title='' href="/pc/game/gamedetail?gameid=31">
 						<div class="hot_img_box">
-							<img class="hot_img"src="/img/hot_4.png">
+							<img class="hot_img"src="/img/hot_4.jpg">
 						</div>			
 						<div class="hot_select_box">
-							<img class="hot_select_icon" width="60" height="60" src="/img/hot_4_icon.png">
+							<img class="hot_select_icon" width="60" height="60" src="http://upload.92fox.com/201701/d9d584cd8e287ea06422059611de8b60.png">
 							<p class="hot_select_msg">手游 | 仙侠</p>
 							<p class="hot_select_msg">评分:<span class="hot_star"></span></p>
 							<p class="hot_select_msg">人气:3546551</p>
 						</div>
 					</a>			
-					<p class="hot_item_name">烈火星辰</p>
+					<p class="hot_item_name">大唐无双</p>
 				</div>	
 			</div>		
 		</div>
