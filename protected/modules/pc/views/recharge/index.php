@@ -108,7 +108,7 @@
 				<span style="float: right;">1元=100奇币</span>
 			</div>
 		</div>
-		<div class="recharge-btn" onclick="submitPay()">
+		<div class="recharge-btn" id="payBtn">
 			提交支付
 		</div>
 	</div>
@@ -119,18 +119,10 @@ function calQibiNum(value) {
 	document.getElementById('qibiNum').innerText = num;
 }
 
-function submitPay() {
-	var num = document.getElementById('payNum').value;
-	if(num=='' || num == '0') {
-		alert('请输入充值金额!');
-	} else {
-		// 此处发起充值请求
-	}
-}
 
 (function(){
 	var payType = 'weixin';
-	
+	var payBtn = document.getElementById('payBtn');
 	var weixinDom = document.getElementById('weixinPay');
 	var aliDom = document.getElementById('aliPay');
 	weixinDom.addEventListener('click',function() {
@@ -143,5 +135,13 @@ function submitPay() {
 		aliDom.className = 'active';
 		weixinDom.className = '';
 	});
+	payBtn.addEventListener('click',function() {
+		var num = document.getElementById('payNum').value;
+		if(num=='' || num == '0') {
+			alert('请输入充值金额!');
+		} else {
+			// 此处发起充值请求，变量支付方式payType=[weixin|ali]
+		}
+	})
 })();
 </script>
