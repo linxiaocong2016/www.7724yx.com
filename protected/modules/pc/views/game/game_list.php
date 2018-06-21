@@ -54,9 +54,9 @@
              	$tag=explode(',', $v['tag']);
              ?>
                <li<?php if($k%3==0) echo ' class="g_ku_li"';?>>
-                   <div class="p1"><a title='<?php echo $v['game_name']?>' target=_blank href="<?php echo $url;?>?t=<?php echo $_GET['type']?>"><img src="<?php echo Urlfunction::getImgURL($v['game_logo'])?>"></a></div>
+                   <div class="p1"><a title='<?php echo $v['game_name']?>' target=_blank href="<?php echo $url;?>"><img src="<?php echo Urlfunction::getImgURL($v['game_logo'])?>"></a></div>
                    <div class="p2">
-                      <p><a title='<?php echo $v['game_name']?>' target=_blank href="<?php echo $url;?>?t=<?php echo $_GET['type']?>"><?php echo $v['game_name']?></a></p>
+                      <p><a title='<?php echo $v['game_name']?>' target=_blank href="<?php echo $url;?>"><?php echo $v['game_name']?></a></p>
                       <span>
                       	<?php 
                       		if($tag):
@@ -70,7 +70,7 @@
                       </span>
                       <em>人气：<?php echo $v['game_visits']+$v['rand_visits']?></em>
                    </div>
-                   <div class="p3"><a target=_blank href="<?php echo $url;?>?t=<?php echo $_GET['type']?>">开始玩</a></div>
+                   <div class="p3"><a target=_blank href="<?php echo $url;?>">开始玩</a></div>
                 </li>
              <?php endforeach;?>
              </ul>

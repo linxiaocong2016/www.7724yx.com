@@ -18,13 +18,13 @@
             	
             ?>
             <li<?php if(!$k)echo ' class="hover"';?>>
-                   <div class="p1"><a title='<?php echo $v['game_name']?>' href="<?php echo $url;?>?t=wy"><img src="<?php echo Urlfunction::getImgURL($v['game_logo'])?>"></a></div>
+                   <div class="p1"><a title='<?php echo $v['game_name']?>' href="<?php echo $url;?>"><img src="<?php echo Urlfunction::getImgURL($v['game_logo'])?>"></a></div>
                    <div class="p2">
-                      <p><a title='<?php echo $v['game_name']?>' href="<?php echo $url;?>?t=wy"><?php echo $v['game_name']?></a></p>
+                      <p><a title='<?php echo $v['game_name']?>' href="<?php echo $url;?>"><?php echo $v['game_name']?></a></p>
                       <span><a href="<?php echo $catUrl;?>"><?php echo $gameTypeArr[0]['name']?></a></span>
                       <em>人气：<i><?php echo $v['game_visits']+$v['rand_visits']?></i></em>
                    </div>
-                   <div class="p3"><a href="<?php echo $url;?>?t=wy">开始玩</a></div>
+                   <div class="p3"><a href="<?php echo $url;?>">开始玩</a></div>
                 </li>
             <?php endforeach;?>
             </ul>

@@ -4,7 +4,7 @@
        <em class="local_home">当前位置：</em>
        <a href="/">首页</a><span>&gt;</span> 
        <?php if($lvCatInfo):?>
-       <a href="<?php echo Urlfunction::getArtcileListUrl($_GET['alias'])?>"><?php echo $lvCatInfo[1]?></a><span>&gt;</span> 
+       <a href="<?php echo Urlfunction::getArtcileListUrl($alias)?>"><?php echo $lvCatInfo[1]?></a><span>&gt;</span> 
        <?php endif;?>
        <em>正文</em>
     </div>

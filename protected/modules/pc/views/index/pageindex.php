@@ -90,11 +90,11 @@ $(function(){
 					?>
 					<li<?php if($k>5) echo " style='display:none'"?>>
 						<div class="p1">
-							<a onclick="positioncount('3')"  target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+							<a onclick="positioncount('3')"  target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 						</div>
 						<div class="p2">
-							<a onclick="positioncount('3')" target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a> 
+							<a onclick="positioncount('3')" target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a> 
 							<i class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></i> 
 							
 							<span><?php $type_names=explode('，', $v['type_names']);
@@ -104,7 +104,7 @@ $(function(){
 						</div>
 						
 						<div class="p3">
-							<a onclick="positioncount('3')" target=_blank href="<?php echo $url;?>?t=wy">开始游戏</a>
+							<a onclick="positioncount('3')" target=_blank href="<?php echo $url;?>">开始游戏</a>
 							<!--<span><?php echo $playUrl?'手机上玩':'暂未上线'?></span>-->
 						</div>
 						<?php if($playUrl):?>
@@ -136,11 +136,11 @@ $(function(){
 					?>
 					<li<?php if($i++>5) echo " style='display:none'"?>>
 						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>">
 							<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 						</div>
 						<div class="p2">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a> 
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a> 
 							<i class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></i> 
 							<span>
 								<?php $type_names=explode('，', $v['type_names']);
@@ -149,7 +149,7 @@ $(function(){
 							</span>
 						</div>
 						<div class="p3">
-							<a target=_blank href="<?php echo $url;?>?t=wy">开始游戏</a>
+							<a target=_blank href="<?php echo $url;?>">开始游戏</a>
 							<!--<span><?php echo $playUrl?'手机上玩':'暂未上线'?></span>-->
 						</div>
 						<?php if($playUrl):?>
@@ -231,16 +231,16 @@ $(function(){
 					?>
 					<li>
 						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>?t=wy">
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo Urlfunction::getGameUrl($v['pinyin'])?>">
 								<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 						</div>
 						<div class="p2">
 							<p>
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 									<?php echo $v['game_name']?></a>
 							</p>
 							<span>人气：<?php echo $v['game_visits'] + $v['rand_visits']?></span> 
-							<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
+							<em><a target=_blank href="<?php echo $url?>">开始游戏</a></em>
 						</div>
 					</li>
 					<?php endforeach;?>
@@ -318,7 +318,7 @@ $(function(){
 					$url=Urlfunction::getGameUrl($v['pinyin']);
 				?>
 				<li<?php if($k%4==0) echo ' class="nomargin"';?>>
-					<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+					<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 					
 						<?php if($v['img_wy']):?>
 						<div class="p1" >
@@ -363,15 +363,15 @@ $(function(){
 					?>
 					<li>
 						<div class="p1">
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=new">
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 								<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 						</div>
 						<div class="p2">
 							<p>
-								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=new"><?php echo $v['game_name']?></a>
+								<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a>
 							</p>
 							<span>人气：<?php echo $v['game_visits'] + $v['rand_visits']?></span> 
-							<em><a target=_blank href="<?php echo $url?>?t=new">开始游戏</a></em>
+							<em><a target=_blank href="<?php echo $url?>">开始游戏</a></em>
 						</div>
 					</li>
 					<?php endforeach;?>
@@ -471,15 +471,15 @@ $(function(){
 				<li <?php if($k==0):?> class="hover" <?php endif;?> >
 					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
 					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 					</div>
 					<div class="p2">
 						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a>
 						</p>
 						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
+						<em><a target=_blank href="<?php echo $url?>">开始游戏</a></em>
 					</div>
 					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
 				</li>
@@ -505,15 +505,15 @@ $(function(){
 				<li <?php if($k==0):?> class="hover" <?php endif;?> >
 					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
 					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 					</div>
 					<div class="p2">
 						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a>
 						</p>
 						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
+						<em><a target=_blank href="<?php echo $url?>">开始游戏</a></em>
 					</div>
 					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
 				</li>	
@@ -540,15 +540,15 @@ $(function(){
 				<li <?php if($k==0):?> class="hover" <?php endif;?> >
 					<div class="num_bg <?php if($k<3):?> num_bg<?php echo $k+1?> <?php endif;?>"><?php echo $k+1?></div>
 					<div class="p1">
-						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy">
+						<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>">
 						<img src="<?php echo Urlfunction::getImgURL($v['game_logo']);?>"></a>
 					</div>
 					<div class="p2">
 						<p>
-							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>?t=wy"><?php echo $v['game_name']?></a>
+							<a target=_blank title='<?php echo $v['game_name']?>' href="<?php echo $url?>"><?php echo $v['game_name']?></a>
 						</p>
 						<span class="star_one star_one_<?php echo Pc_GameBll::getStarLevelNum($v['star_level'])?>"></span> 
-						<em><a target=_blank href="<?php echo $url?>?t=wy">开始游戏</a></em>
+						<em><a target=_blank href="<?php echo $url?>">开始游戏</a></em>
 					</div>
 					<div class="p3"><?php echo $v['game_visits']+$v['rand_visits']?>人玩过</div>
 				</li>	

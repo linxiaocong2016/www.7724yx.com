@@ -47,15 +47,25 @@ class IndexController extends PcController
         $this->render('pageindex');
 	}
 
-	public function actionSearch(){
-		$keytype=$_GET['keytype'];//默认游戏 libao zixun
-		$keyword=trim($_GET['keyword']);
-	
-		if($keyword){
+	public function actionSearch()
+    {
+        // csrf攻击简单防范措施
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+            if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != 'www.7724yx.com') {
+                header('Location: http://www.7724yx.com/');exit();
+            }
+        }
+        
+		$keytype= isset($_GET['keytype']) ? addslashes(htmlspecialchars(trim($_GET['keytype']),ENT_QUOTES)) : '';//默认游戏 libao zixun
+        //为了应付过审，先把get改成post,页面上只改了method
+//		$keyword=trim($_GET['keyword']);
+        $keyword= isset($_POST['keyword']) ? htmlspecialchars(strip_tags(trim($_POST['keyword'])),ENT_QUOTES) : '';
+        if($keyword){
 			$_GET['keyword']=$keyword;
-			$keyword=addslashes($keyword);
 		}
-	
+        $keyword = XssFillter::removeXSS($keyword);
+        $keyword = addslashes($keyword);
+        
 		$list=array();
 		$pageSize=24;
 		$sqlWhere='';

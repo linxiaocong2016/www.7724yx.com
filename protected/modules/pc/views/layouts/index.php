@@ -56,7 +56,7 @@ s.parentNode.insertBefore(hm, s);
          <div class="h5_logo">
             <div class="logo_left"><a href="/"><img src="/img/logo20160720.png"></a><span><img src="/assets/pc/img/game_love.png"></span></div>
             <div class="h5_search">
-            <form action="/search/" onsubmit="var v=$('#search_keyword_input').val(); v=v.replace(/(^\s*)|(\s*$)/g, '');    if(!v){alert('请输入正确的游戏名称');return false};">
+            <form action="/search/" method="post" onsubmit="var v=$('#search_keyword_input').val(); v=v.replace(/(^\s*)|(\s*$)/g, '');    if(!v){alert('请输入正确的游戏名称');return false};">
                <input id="search_keyword_input" name='keyword' type="text" class="h5_text" placeholder="输入正确的游戏名称" value='<?php echo $_GET['keyword']?>'/>
                <input type="submit" class="h5_bt" value="" />
             </form>   

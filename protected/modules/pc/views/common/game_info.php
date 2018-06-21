@@ -67,7 +67,7 @@
 	function playGame(){
         //alert('游戏正在内测中，敬请期待！');return false;
 		var playUrl = '<?php echo $playUrl;?>';
-        var t = '<?php echo $_GET['t'];?>';
+        //var t = '<?php echo $_GET['t'];?>';
 		<?php if(isset(Yii::app ()->session['userinfo1']) && Yii::app ()->session['userinfo1']):?>
             //if(t == 'wy'){
               //  alert('游戏正在内测中，敬请期待！');return false;

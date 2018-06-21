@@ -24,7 +24,7 @@ class Feedbackfun {
 		yii::app()->aCache->set($keyName,'1',$keyTime);
 		$err='';
 		$data['uid']=(int)$_SESSION ['userinfo']['uid'];
-		$data['type']=(int)$inDate['feedback'];
+		$data['mobile_type']=(int)$inDate['feedback'];
 		$data['create_time']=time();
 		$data['content']=addslashes(trim(strip_tags($_POST['content'])));
 		$data['contact']=addslashes(trim(strip_tags($_POST['contact'])));

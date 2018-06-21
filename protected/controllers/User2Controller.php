@@ -883,7 +883,15 @@ class User2Controller extends Controller {
     
 		
     //问题反馈
-    public function actionFeedback(){
+    public function actionFeedback()
+    {
+        // csrf攻击简单防范措施
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+            if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != 'www.7724yx.com') {
+                header('Location: http://www.7724yx.com/');exit();
+            }
+        }
+        
     	$this->pageTitle = "意见反馈-7724小游戏";
     	Yii::import('ext.Feedbackfun');
     	if($_POST){

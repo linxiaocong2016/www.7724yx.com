@@ -237,9 +237,11 @@ class GameController extends PcController
 	}
 	
 	public function actionGamelist(){
-		$type=trim($_GET['type']);
-		$order=trim($_GET['order']);
-		$cat_id=(int)$_GET['cat_id'];
+		$type= isset($_GET['type']) ? addslashes(htmlspecialchars(trim($_GET['type']))) : '';
+		$order= isset($_GET['order']) ? addslashes(htmlspecialchars(trim($_GET['order']))) : '';
+		$cat_id= isset($_GET['cat_id']) ? htmlspecialchars(strip_tags($_GET['cat_id']),ENT_QUOTES) : 0;
+        $cat_id = XssFillter::removeXSS($cat_id);
+        $cat_id = (int) addslashes($cat_id);
 		
 		$lvGameAllcat=Gamefun::gameTypes();
 		
@@ -319,7 +321,8 @@ class GameController extends PcController
 	public function actionGamedetail(){
 		$pinyin=addslashes(trim($_GET['pinyin']));
 		$alias = trim($_GET['alias']);
-        $gameid = trim($_GET['gameid']);
+        $gameid = isset($_GET['gameid']) ? trim(urldecode($_GET['gameid'])) : 0;
+        $gameid = intval(addslashes(htmlspecialchars($gameid)));
         
         if($gameid){
             $data = Yii::app()->seven->createCommand()->select('*')->from('appgame')->where("id=$gameid")->queryRow();

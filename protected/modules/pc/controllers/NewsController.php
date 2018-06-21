@@ -85,9 +85,9 @@ class NewsController extends PcController
 	
 	public function actionNewsDetail(){
 		$this->menu_on_flag=4;
-		$id=$_GET['id'];
-		$alias=trim($_GET['alias']);
-		$pinyin=addslashes(trim($_GET['pinyin']));
+		$id= isset($_GET['id']) ? addslashes(htmlspecialchars($_GET['id'])) : 0;
+		$alias= isset($_GET['alias']) ? addslashes(htmlspecialchars(trim($_GET['alias']))) : '';
+		$pinyin= isset($_GET['pinyin']) ? addslashes(htmlspecialchars(trim($_GET['pinyin']))) : '';
 		
 		$catInfo=array();
 		$gameInfo=array();
@@ -142,7 +142,8 @@ class NewsController extends PcController
 			'lvGameInfo'=>$gameInfo,
 			'lvCatInfo'=>$catInfo,
 			'lvActicleInfo'=>$articleInfo,
-			'xgwzlist'=>$xgwzlist
+			'xgwzlist'=>$xgwzlist,
+            'alias' => $alias
 		);
 		
 		$this->render('news_detail',$data);
