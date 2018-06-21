@@ -35,8 +35,8 @@ s.parentNode.insertBefore(hm, s);
 <!--           <a target=_blank href="/pc/about/cz">充值中心</a><em>|</em>-->
            <a target=_blank href="/pc/about/jh">家长监护</a><em>|</em>
            <a target=_blank href="/pc/about/jf">纠纷处理</a><em>|</em>
-           <a target=_blank href="/app/hezi/contactus">客服中心</a><em>|</em>
-<!--        <a target=_blank href="/pc/about/tk">退款功能</a><em>|</em>-->
+<!--           <a target=_blank href="/app/hezi/contactus">客服中心</a><em>|</em>
+        <a target=_blank href="/pc/about/tk">退款功能</a><em>|</em>-->
            <?php if(isset(Yii::app ()->session['userinfo1']) && Yii::app ()->session['userinfo1']):?>
            <!-- 已经登录 -->
            <a href="/user/center" ><?php echo Yii::app ()->session['userinfo1']['nickname']?></a>
