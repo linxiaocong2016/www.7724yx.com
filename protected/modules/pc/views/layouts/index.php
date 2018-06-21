@@ -80,6 +80,7 @@ s.parentNode.insertBefore(hm, s);
            <li <?php if ($this->menu_on_flag==3):?> class="on" <?php endif;?>><a href="/new.html">小游戏</a></li>
            <li <?php if ($this->menu_on_flag==4):?> class="on" <?php endif;?>><a href="/zixun.html">资讯</a></li>
            <li <?php if ($this->menu_on_flag==6):?> class="on" <?php endif;?>><a href="/zhuanti.html">专题</a></li>
+		   <li <?php if ($this->menu_on_flag==7):?> class="on" <?php endif;?>><a href="/pc/recharge/index">充值中心</a></li>
            <!--<li <?php if ($this->menu_on_flag==5):?> class="on" <?php endif;?>><a href="/libao.html">礼包</a></li>
            <li <?php if ($this->menu_on_flag==8):?> class="on" <?php endif;?>><a href="<?php echo yii::app()->createUrl("pc/activity/index")?>">活动</a></li>-->
        </ul>

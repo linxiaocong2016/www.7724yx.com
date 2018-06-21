@@ -1,0 +1,26 @@
+<?php
+
+class RechargeController extends PcController
+{
+	public $layout = 'index';
+		
+	public function filters(){
+		$this->menu_on_flag=7;
+	}
+	
+	public function actionIndex()
+	{
+        $page = Yii::app()->request->getPost('page',1);
+        $pageSize = Yii::app()->request->getPost('pageSize',10);
+        
+        $this->menu_on_flag = 7;
+		$this->pageTitle = "7724游戏-手机页游_h5游戏大全_手机游戏在线玩_手机页游排行";
+		$this->metaKeywords = "7724游戏,h5游戏,手机页游";
+		$this->metaDescription = "7724游戏是手机页游第一平台,提供最热最好玩的h5游戏大全,手机页游排行榜,手机游戏在线玩,手机在线小游戏,手机页游,手机网页游戏,双人在线小游戏,更多不用下载立即玩手机游戏尽在7724 h5游戏平台";
+		
+
+        $this->render('index');
+	}
+    
+ 
+}
