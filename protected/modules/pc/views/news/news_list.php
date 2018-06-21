@@ -38,9 +38,9 @@
             	$url=Urlfunction::getArticleUrl($v['pinyin'], $v['type'], $v['id']);
             ?>
                <dd>
-                   <div class="p1"><a href="<?php echo $url;?>?t=wy"><img src="<?php echo Urlfunction::getArticleImg($v['image'], $v['type'])?>"></a></div>
+                   <div class="p1"><a href="<?php echo $url;?>"><img src="<?php echo Urlfunction::getArticleImg($v['image'], $v['type'])?>"></a></div>
                    <div class="p2">
-                      <p><a href="<?php echo $url;?>?t=wy"><?php echo $v['title']; ?></a></p>
+                      <p><a href="<?php echo $url;?>"><?php echo $v['title']; ?></a></p>
                       <span><?php echo $v['descript']?><a href="<?php echo $url;?>">[查看全文]</a></span>
                       <em><?php echo date("Y-m-d H:i:s", $v['publictime']); ?></em>
                    </div>
