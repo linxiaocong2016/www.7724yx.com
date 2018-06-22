@@ -78,6 +78,7 @@
 	cursor: pointer;
 }
 </style>
+<form id="qibi_form" method="post" action="<?php echo $this->createUrl("recharge/qibipayguide") ?>">
 <div class="index_center">
 	<div class="general">
 		<!-- 当前位置 -->
@@ -101,7 +102,7 @@
 		<div class="recharge-num">
 			<span>充值奇币为：</span></br>
 			<div class="num-input-box">	
-				<input id="payNum" type="text" placeholder="请输入充值金额" oninput="calQibiNum(this.value)">
+				<input id="payNum" name="qibi_amount" type="text" placeholder="请输入充值金额" oninput="calQibiNum(this.value)">
 			</div>	
 			<div class="num-show">
 				奇币：<span id="qibiNum">0</span>
@@ -113,10 +114,23 @@
 		</div>
 	</div>
 <div>
+<input type="hidden" name="rechargetype" id="rechargetype" value="1" />
+<input type="hidden" name="to_uid" id="to_uid" value="<?php echo $userInfo['uid']; ?>" />
+<input type="hidden" name="username" id="username" value="<?php echo $userInfo['username']; ?>" />
+<input type="hidden" name="rechargesource" id="rechargesource" value="qibi" />
+<input type="hidden" name="ppctype" id="ppctype" value="cash" />
+<input type="hidden" name="qty" id="qty" value="0" />
+<input type="hidden" name="qibi_discount" id="qibi_discount" value="0" />
+<input type="hidden" name="spendorderno" id="spendorderno" value="" />
+<input type="hidden" name="channel_id" id="channel_id" value="<?php echo $channel_id;?>" />
+<input type="hidden" name="spend_id" id="spend_id" value="<?php echo $spend_id;?>" />
+<input type="hidden" name="flag" id="flag" value="<?php echo $flag;?>" />
+</form>
 <script>
 function calQibiNum(value) {
 	var num = value * 100;
 	document.getElementById('qibiNum').innerText = num;
+    document.getElementById('qty').value = num;
 }
 
 
@@ -141,6 +155,7 @@ function calQibiNum(value) {
 			alert('请输入充值金额!');
 		} else {
 			// 此处发起充值请求，变量支付方式payType=[weixin|ali]
+            document.getElementById('qibi_form').submit()
 		}
 	})
 })();

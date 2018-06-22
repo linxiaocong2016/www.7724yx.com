@@ -570,4 +570,67 @@ class Helper {
     	}
     		
     }
+    
+    //判断浏览器类型 (不一定准确)
+    public static function browserType() {
+    	
+    	$useragent = $_SERVER ['HTTP_USER_AGENT'];
+    	$borwerType='未知';
+    	if (! empty ( $useragent )){
+    		if (stripos( $useragent,'Firefox')){
+    			//Firefox
+    			$borwerType='Firefox';
+    			
+    		}else if(stripos( $useragent,'Opera')){
+    			//Opera
+    			$borwerType='Opera';
+    			
+    		}else if(stripos( $useragent,'Maxthon')){
+    			//傲游浏览器
+    			$borwerType='傲游浏览器';
+    			
+    		}else if(stripos( $useragent,'SE') && stripos( $useragent,'MetaSr')){
+    			//搜狗浏览器
+    			$borwerType='搜狗浏览器';
+    			
+    		}else if(stripos( $useragent,'360SE')){
+    			//360浏览器
+    			$borwerType='360浏览器';
+    			
+    		}else if(stripos( $useragent,'QQBrowser')){
+    			//QQ浏览器
+    			$borwerType='QQ浏览器';
+    			
+    		}else if(stripos( $useragent,'UCWEB') || stripos( $useragent,'UCBrowser')){
+    			//UC浏览器
+    			$borwerType='UC浏览器';
+    			
+    		}else if(stripos( $useragent,'baidubrowser')){
+    			//百度浏览器
+    			$borwerType='百度浏览器';
+    			
+    		}else if(stripos( $useragent,'LBBROWSER')){
+    			//猎豹浏览器
+    			$borwerType='猎豹浏览器';
+    			
+    		}else if(stripos( $useragent,'MSIE') && !stripos( $useragent,'Maxthon')
+    				&& stripos( $useragent,'The world') && !stripos( $useragent,'360SE')
+    				&& stripos( $useragent,'TencentTraveler') && !stripos( $useragent,'SE') 
+    				&& stripos( $useragent,'Avant') ){
+    			//IE
+    			$borwerType='IE';    			
+    		}else if(stripos( $useragent,'Safari') && !stripos( $useragent,'Chrome')){
+    			//Safari
+    			$borwerType='Safari';
+    			
+    		}else if(stripos( $useragent,'Chrome') || (stripos( $useragent,'android') 
+    				&& stripos( $useragent,'linux') && stripos( $useragent,'mobile safari')) ){
+    			//Chrome
+    			$borwerType='Chrome';
+    			
+    		}         		
+    	}
+    		
+    	return $borwerType;
+    }
 }

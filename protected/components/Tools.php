@@ -731,5 +731,19 @@ class Tools {
 
         return array('obj_type' => $obj_type, 'obj_id' => intval($obj_id));
     }
+    
+    /**
+     * 将数据写入文件
+     */
+    public static function log($filename, $content, $recordTime = false)
+    {
+        $dir = $_SERVER['DOCUMENT_ROOT'] . '/log';
+        is_dir($dir) ? null : mkdir($dir);
+        $filename = "$dir/$filename" . date('Ymd');
+        $msg = '';
+        $recordTime && $msg .= 'time: ' . date('Y-m-d H:i:s') . "\r\n";
+        $msg .= $content . "\r\n";
+        file_put_contents($filename, $msg, FILE_APPEND);
+    }
 
 }

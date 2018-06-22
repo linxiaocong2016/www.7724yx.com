@@ -10,6 +10,15 @@ class ExtUserInfo extends CActiveRecord
     public function tableName(){
         return 'ext_userinfo';
     }
+    
+    public function getDbConnection()
+	{
+		self::$db=Yii::app()->ucdb;
+			if(self::$db instanceof CDbConnection)
+			return self::$db;
+		else
+			throw new CDbException(Yii::t('yii','Active Record requires a "ucdb" CDbConnection application component.'));
+	}
 
     public static function model($className=__CLASS__){
         return parent::model($className);

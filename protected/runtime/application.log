@@ -12846,3 +12846,507 @@ Stack trace:
 REQUEST_URI=/images/body.png
 HTTP_REFERER=http://www.7724yx.local/index.php/pc/index/pageindex
 ---
+2018/06/21 17:03:59 [error] [exception.CException] exception 'CException' with message '属性 "RechargeController.menu_on_flag" 未被定义.' in D:\www\www.7724yx.com\framework\base\CComponent.php:173
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\controllers\RechargeController.php(8): CComponent->__set('menu_on_flag', 7)
+#1 D:\www\www.7724yx.com\framework\web\CController.php(265): RechargeController->filters()
+#2 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#3 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('recharge/index')
+#4 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#5 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#6 {main}
+REQUEST_URI=/recharge/index
+---
+2018/06/21 17:38:11 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:38:11 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:40:49 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:40:49 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:43:51 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:43:51 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:47:07 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'seven.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:47:07 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:48:06 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'seven.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:48:06 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:48:13 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'seven.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:48:13 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:48:15 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'seven.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:48:15 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 17:48:16 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'seven.ext_userinfo' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_userinfo`.
+2018/06/21 17:48:16 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtUserInfo" 对应的 table "ext_userinfo".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtUserInfo))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(661): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(1490): CActiveRecord->getTableSchema()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(25): CActiveRecord->findByPk(3107936)
+#4 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionIndex()
+#5 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#6 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#7 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('index')
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/ind...')
+#10 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#11 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#12 {main}
+REQUEST_URI=/pc/recharge/index
+---
+2018/06/21 18:21:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "pc/pc/recharge/qibipayguide"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/pc/recharge/...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/pc/pc/recharge/qibipayguide
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/index
+---
+2018/06/21 18:21:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/pc/pc/recharge/qibipayguide
+---
+2018/06/21 18:50:09 [error] [exception.CException] exception 'CException' with message '属性 "RechargeController.Title" 未被定义.' in D:\www\www.7724yx.com\framework\base\CComponent.php:173
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(37): CComponent->__set('Title', '\xE5\xA5\x87\xE5\xB8\x81\xE5\x85\x85\xE5\x80\xBC\xE7\xBB\x93...')
+#1 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#2 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#5 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#7 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#8 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#9 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/index
+---
+2018/06/21 18:50:40 [error] [exception.CException] exception 'CException' with message '属性 "RechargeController.MenuHtml" 未被定义.' in D:\www\www.7724yx.com\framework\base\CComponent.php:173
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(38): CComponent->__set('MenuHtml', '')
+#1 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#2 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#5 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#7 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#8 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#9 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+---
+2018/06/21 19:19:03 [error] [exception.CException] exception 'CException' with message 'RechargeController 无法找到请求的视图 "qibiresult".' in D:\www\www.7724yx.com\framework\web\CController.php:878
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CController.php(782): CController->renderPartial('qibiresult', Array, true)
+#1 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(79): CController->render('qibiresult', Array)
+#2 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#3 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#7 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#8 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#9 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#10 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+---
+2018/06/21 19:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:21:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:21:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:21:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:22:33 [error] [exception.CException] exception 'CException' with message 'RechargeController 无法找到请求的视图 "qibiresult".' in D:\www\www.7724yx.com\framework\web\CController.php:878
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CController.php(782): CController->renderPartial('qibiresult', Array, true)
+#1 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(79): CController->render('qibiresult', Array)
+#2 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#3 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#7 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#8 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#9 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#10 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+---
+2018/06/21 19:24:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:24:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/21 19:50:38 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_recharge_log' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `ext_recharge_log`.
+2018/06/21 19:50:38 [error] [exception.CDbException] exception 'CDbException' with message '数据库中无法找到 active record class "ExtRechargeLog" 对应的 table "ext_recharge_log".' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:2385
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(ExtRechargeLog))
+#1 D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php(79): CActiveRecord->getMetaData()
+#2 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeBase.php(104): CActiveRecord->__construct()
+#3 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeBase.php(887): RechargeBase->processQibiData()
+#4 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(62): appWechatPayIos->genQibiSignDataMes()
+#5 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#6 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#7 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#8 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#9 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#10 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#11 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#12 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#13 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/index
+---
+2018/06/21 20:08:45 [error] [exception.CDbException] exception 'CDbException' with message 'active record 由于不是新的, 无法被新增到数据库.' in D:\www\www.7724yx.com\framework\db\ar\CActiveRecord.php:1073
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeBase.php(199): CActiveRecord->insert()
+#1 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeBase.php(887): RechargeBase->processQibiData()
+#2 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(62): appWechatPayIos->genQibiSignDataMes()
+#3 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiPayGuide()
+#4 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#5 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#6 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#7 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibipayguide')
+#8 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#9 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#10 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#11 {main}
+REQUEST_URI=/pc/recharge/qibipayguide
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/index
+---
+2018/06/22 09:12:35 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_user_token' doesn't exist. The SQL statement executed was: select flag from ext_user_token where uid=:uid.
+2018/06/22 09:12:43 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_user_token' doesn't exist. The SQL statement executed was: select flag from ext_user_token where uid=:uid.
+2018/06/22 09:31:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 09:31:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 09:31:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 09:31:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 09:37:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 09:37:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 10:07:37 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_recharge_log' doesn't exist. The SQL statement executed was: select * from ext_recharge_log where order_no=:orderno.
+2018/06/22 10:07:37 [error] [exception.CException] exception 'CException' with message 'RechargeController 无法找到请求的视图 "result".' in D:\www\www.7724yx.com\framework\web\CController.php:878
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CController.php(782): CController->renderPartial('result', Array, true)
+#1 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(150): CController->render('result', Array)
+#2 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionWechatReturn()
+#3 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('wechatreturn')
+#7 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/wec...')
+#8 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#9 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#10 {main}
+REQUEST_URI=/pc/recharge/wechatreturn?order_no=Q10020180622093129187615
+---
+2018/06/22 10:07:55 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_recharge_log' doesn't exist. The SQL statement executed was: select * from ext_recharge_log where order_no=:orderno.
+2018/06/22 10:08:25 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_recharge_log' doesn't exist. The SQL statement executed was: select * from ext_recharge_log where order_no=:orderno.
+2018/06/22 10:09:39 [error] [exception.CException] exception 'CException' with message 'RechargeController 无法找到请求的视图 "result".' in D:\www\www.7724yx.com\framework\web\CController.php:878
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CController.php(782): CController->renderPartial('result', Array, true)
+#1 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(151): CController->render('result', Array)
+#2 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionWechatReturn()
+#3 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('wechatreturn')
+#7 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/wec...')
+#8 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#9 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#10 {main}
+REQUEST_URI=/pc/recharge/wechatreturn?order_no=Q10020180622093129187615
+---
+2018/06/22 10:13:10 [error] [exception.CException] exception 'CException' with message '属性 "RechargeController.isApp" 未被定义.' in D:\www\www.7724yx.com\framework\base\CComponent.php:130
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\modules\pc\views\recharge\result.php(34): CComponent->__get('isApp')
+#1 D:\www\www.7724yx.com\framework\web\CBaseController.php(126): require('D:\\www\\www.7724...')
+#2 D:\www\www.7724yx.com\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\\www\\www.7724...', Array, true)
+#3 D:\www\www.7724yx.com\framework\web\CController.php(869): CBaseController->renderFile('D:\\www\\www.7724...', Array, true)
+#4 D:\www\www.7724yx.com\framework\web\CController.php(782): CController->renderPartial('result', Array, true)
+#5 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(151): CController->render('result', Array)
+#6 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionWechatReturn()
+#7 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#10 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('wechatreturn')
+#11 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/wec...')
+#12 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#13 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#14 {main}
+REQUEST_URI=/pc/recharge/wechatreturn?order_no=Q10020180622093129187615
+---
+2018/06/22 10:17:26 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table '7724.ext_spend_log' doesn't exist. The SQL statement executed was: select * from ext_spend_log where order_no=:orderno.
+2018/06/22 10:29:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 10:29:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 10:37:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 10:37:03 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 11:55:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 11:55:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 11:55:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/WePayLogo.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/WePayLog...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/WePayLogo.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/22 11:55:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/wepaywenzi.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/wepaywen...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/wepaywenzi.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
