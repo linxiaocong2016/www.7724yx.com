@@ -15,9 +15,9 @@ class RechargeController extends PcController
 		$this->pageTitle = "7724游戏-手机页游_h5游戏大全_手机游戏在线玩_手机页游排行";
 		$this->metaKeywords = "7724游戏,h5游戏,手机页游";
 		$this->metaDescription = "7724游戏是手机页游第一平台,提供最热最好玩的h5游戏大全,手机页游排行榜,手机游戏在线玩,手机在线小游戏,手机页游,手机网页游戏,双人在线小游戏,更多不用下载立即玩手机游戏尽在7724 h5游戏平台";
-		
-        $uid = $_SESSION['userinfo']['uid'] ? $_SESSION['userinfo']['uid'] : 3107936;
-    	$username = $_SESSION['userinfo']['username'] ? $_SESSION['userinfo']['username'] : 18998313125;
+
+        $uid = $_SESSION['userinfo']['uid'] ? $_SESSION['userinfo']['uid'] : '';//3107936
+    	$username = $_SESSION['userinfo']['username'] ? $_SESSION['userinfo']['username'] : '';//18998313125
         $flag = intval($_REQUEST['flag']);
         $channel_id = isset($_REQUEST['channel_id'])?$_REQUEST['channel_id']:0;//渠道id
     	if(trim($channel_id)==''){
@@ -28,10 +28,9 @@ class RechargeController extends PcController
     		$spend_id=0;
     	}
         
+        $userInfo = array();
         if($uid && $username){
             $userInfo = ExtUserInfo::model()->findByPk($uid);//用户
-        } else {
-            die('用户校验失败(code#2)!');
         }
 
         $this->render('index',array(
@@ -71,9 +70,11 @@ class RechargeController extends PcController
                 require dirname(__FILE__) . '/../views/recharge/pccodepay.php';
                 break;  
     		default :
+                $this->layout = 'qibi';
     			$lvResult=array(
     						'success'=>'-1',
     						'amount'=>'',
+                            'red_url'=>'http://www.7724yx.com/pc/recharge/index',
     						'msg'=>'系统繁忙，请重新发起新订单',
     			);
 
@@ -158,6 +159,45 @@ class RechargeController extends PcController
     }
     
     /**
+     * 微信支付 异步回调处理
+     */
+    public function actionWechatNotify() {
+    	$messageJson = $_REQUEST['messageJson'];
+    	$messageValue=json_decode($messageJson, true);
+    	
+        Tools::log('recharge-wechatnotify',  "接收微信支付异步通知" . var_export($messageValue,TRUE),TRUE);
+
+    	// 商户订单号
+    	//$recharge_order_no = $messageValue['recharge_order_no'];
+    	//消费订单号
+    	$sp_billno = $messageValue['out_trade_no'];
+    	
+    	// 微信交易单号
+    	$transaction_id = $messageValue['transaction_id'];
+    	// 金额,以分为单位
+    	$total_fee   = $messageValue['total_fee'];
+        // 微信交易账号的openid
+        $pay_account_openid = $messageValue['openid'];
+        if(!$pay_account_openid){
+            $pay_account_openid = md5(uniqid('',true).time());
+        }
+        $pay_account = $messageValue['bank_type'] . '>' . $pay_account_openid;
+    	
+    	// 支付结果
+    	$pay_result = $messageValue['return_code'];
+		$code_result = $messageValue['result_code'];		
+    	
+    	if("SUCCESS" == $pay_result && "SUCCESS" == $code_result ) {
+    		$recharge=new RechargeBase();
+    		$recharge->successRechage($sp_billno, $total_fee / 100.0, $transaction_id, $pay_account);
+    		echo 'success';
+    	} else {
+    		echo 'fail';
+    	}
+    	
+    }
+    
+    /**
      * 微信同步回调处理
      */
     public function actionWechatReturn() 
@@ -228,6 +268,7 @@ class RechargeController extends PcController
     {
     	$ppclog_id = $_REQUEST ['ppclog_id'];//奇币记录id
         $total_amount = $_REQUEST ['total_amount'];
+        $out_trade_no = $_REQUEST['out_trade_no'];
 		
     	$this->layout = 'qibi';
 
@@ -239,7 +280,8 @@ class RechargeController extends PcController
     			'msg' => '',
     			'red_url' => $red_url,
 				'game_spend' => 0,
-    			'game_url' => ''
+    			'game_url' => '',
+                'out_trade_no' => $out_trade_no
     	);
         
     	if ($ppclog_id) {

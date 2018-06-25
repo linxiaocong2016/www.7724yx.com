@@ -13364,3 +13364,75 @@ Stack trace:
 #9 {main}
 REQUEST_URI=/pc/recharge/qibireturnpc
 ---
+2018/06/25 11:48:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi5.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi5.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi5.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---
+2018/06/25 11:59:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi5.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi5.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi5.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---
+2018/06/25 15:47:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi4.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi4.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi4.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/25 15:47:36 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi4.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi4.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi4.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
+---
+2018/06/25 15:47:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "static/img/payResult"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('static/img/payR...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/static/img/payResult
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---
+2018/06/25 15:47:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi5.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi5.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi5.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---
+2018/06/25 15:48:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "static/img/payResult"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('static/img/payR...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/static/img/payResult
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---
+2018/06/25 15:48:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "img/tishi5.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('img/tishi5.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/tishi5.png
+HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
+---

@@ -20,12 +20,12 @@
         <!--充值成功-->            
 		
         <div class="re_result">            
-            <p class="result_img"><img src="/static/img/payResult" ></p>
-            <p class="p1"><span class="ok">成功充值 <?php echo "<span style='color:#ff530f;'>".($result['amount'] ? $result['amount'] : "100")."</span> 元"; ?></span></p>
-            <p class="p4">订单号为</p> 
+            <p class="result_img"><img src="/static/img/payResult.png" ></p>
+            <p class="p1"><span class="ok">成功充值 <?php echo "<span style='color:#ff530f;'>".($result['amount'] ? $result['amount'] : "")."</span> 元"; ?></span></p>
+            <p class="p4">订单号为 <?php echo $result['out_trade_no'];?></p> 
             
             <p class="p3">注：如充值遇到问题，请联系客服QQ：2885339244</p>
-            <a class="recharge_button2" href="javascript:history.go(-1)">好的,我知道了</a>
+            <a class="recharge_button2" href="/">好的,我知道了</a>
         </div> 
 		
     <?php elseif($result['success']=='2'):?>

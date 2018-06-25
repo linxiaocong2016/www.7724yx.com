@@ -153,9 +153,12 @@ function calQibiNum(value) {
 	});
 	payBtn.addEventListener('click',function() {
 		var num = document.getElementById('payNum').value;
+        var uid = "<?php echo (isset($_SESSION['userinfo']['uid']) && $_SESSION['userinfo']['uid'] ? $_SESSION['userinfo']['uid'] : '');?>";
 		if(num=='' || num == '0') {
 			alert('请输入充值金额!');
-		} else {
+		}else if(!uid){
+            alert('请先登陆再充值！');
+        }else {
 			// 此处发起充值请求，变量支付方式payType=[weixin|ali]
             document.getElementById('qibi_form').submit()
 		}

@@ -14,8 +14,9 @@
 	$notify = new Notify_pub();
 
 	//存储微信的回调
-	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];	
-	
+//	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];	
+    $xml = file_get_contents('php://input');
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/pccodewebweixinpay.log', var_export($xml,true));
 	$getObj = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
 	$messageJson=json_encode($getObj);
 
@@ -34,6 +35,7 @@
 	//对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
 	//微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
 	//尽可能提高通知的成功率，但微信不保证通知最终能成功。
+
 	if($notify->checkSign() == FALSE){
 		$notify->setReturnParameter("return_code","FAIL");//返回状态码
 		$notify->setReturnParameter("return_msg","签名失败");//返回信息
@@ -85,6 +87,7 @@
 			//$log_->log_result($log_name,"【业务出错】:\n".$xml."\n");
 		}
 		else{
+//            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/pccodewebweixinpay.log', var_export(8888888888888888,true));
 			//此处应该更新一下订单状态，商户自行增删操作			
 			//$log_->log_result($log_name,"【支付成功】:\n".$xml."\n".$spand_order_no);
 			
