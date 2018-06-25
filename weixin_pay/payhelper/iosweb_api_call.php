@@ -19,18 +19,32 @@ if(empty($_POST['total_fee'])){
 if(empty($_POST['return_url'])){
 	die(json_encode(array('error' => '同步回调地址不能为空！')));
 }
+if(!isset($_POST['flag'])){
+    die(json_encode(array('error' => '标志不能唯恐！')));
+}
 
 $order_no   = $_POST['order_no'];
 $body       = $_POST['body'];
 $total_fee  = $_POST['total_fee'];
 $return_url = $_POST['return_url'];
+$flag       = (int) $_POST['flag'];//标识，用于判断使用哪个商户号
+$http_user_agent = $_POST['http_user_agent'];//UA，用于判断使用哪个商户号
 
-$p =  new UnifiedOrder_pub; 
+$p =  new UnifiedOrder_pub();
 $p->setParameter('out_trade_no', $order_no);
 $p->setParameter('body', $body);
 $p->setParameter('total_fee', $total_fee);
 $p->setParameter('notify_url', WxPayConf_pub::NOTIFY_URL);
 $p->setParameter('trade_type', 'APP');
+if($flag == 0 && stripos($http_user_agent,'<wechatkey148>') === false){
+    $p->setParameter('appid', WxPayConf_pub::APPID);
+    $p->setParameter('mch_id' , WxPayConf_pub::MCHID);
+}
+elseif($flag == 1 || stripos($http_user_agent,'<wechatkey148>') !== false)
+{
+    $p->setParameter('appid', WxPayConf_pub::APPID_NEW);
+    $p->setParameter('mch_id' , WxPayConf_pub::MCHID_NEW);
+}
 $result = $p->getResult();
 //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/ioswebweixinpay.log', var_export($result,true));
 if($result['return_code'] != 'SUCCESS' || $result['return_msg'] != 'OK'){
@@ -51,5 +65,5 @@ $sign = $p->getSign($step2);
 $step2['sign'] = $sign;
 // $step2['return_url'] = urlencode($return_url);
 $step2['return_url'] = $return_url;
-
+$step2['flag'] = $flag;
 die(json_encode(array('error'=>'success', 'data'=>$step2)));

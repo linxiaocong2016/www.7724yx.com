@@ -254,6 +254,7 @@ class Wxpay_client_pub extends Common_util_pub
 	public $result;//返回参数，类型为关联数组
 	var $url;//接口链接
 	var $curl_timeout;//curl超时时间
+
 	
 	/**
 	 * 	作用：设置请求参数
@@ -268,8 +269,8 @@ class Wxpay_client_pub extends Common_util_pub
 	 */
 	function createXml()
 	{
-	   	$this->parameters["appid"] = WxPayConf_pub::APPID;//公众账号ID
-	   	$this->parameters["mch_id"] = WxPayConf_pub::MCHID;//商户号
+		$this->parameters["appid"] = $this->parameters['appid'];    //APPID
+	   	$this->parameters["mch_id"] = $this->parameters['mch_id'];//商户号
 	    $this->parameters["nonce_str"] = $this->createNoncestr();//随机字符串
 	    $this->parameters["sign"] = $this->getSign($this->parameters);//签名
 	    return  $this->arrayToXml($this->parameters);
@@ -298,8 +299,8 @@ class Wxpay_client_pub extends Common_util_pub
 	/**
 	 * 	作用：获取结果，默认不使用证书
 	 */
-	function getResult() 
-	{		
+	function getResult()
+	{
 		$this->postXml();
 		$this->result = $this->xmlToArray($this->response);
 		return $this->result;
@@ -312,7 +313,7 @@ class Wxpay_client_pub extends Common_util_pub
  */
 class UnifiedOrder_pub extends Wxpay_client_pub
 {	
-	function __construct() 
+	function __construct($flag = 0)
 	{
 		//设置接口链接
 		$this->url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -343,8 +344,8 @@ class UnifiedOrder_pub extends Wxpay_client_pub
 				$this->parameters["openid"] == NULL){
 				throw new SDKRuntimeException("统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数！"."<br>");
 			}
-		   	$this->parameters["appid"] = WxPayConf_pub::APPID;//公众账号ID
-		   	$this->parameters["mch_id"] = WxPayConf_pub::MCHID;//商户号
+		   	$this->parameters["appid"] = $this->parameters["appid"];//公众账号ID
+		   	$this->parameters["mch_id"] = $this->parameters["mch_id"];//商户号
 		   	$this->parameters["spbill_create_ip"] = $_SERVER['REMOTE_ADDR'];//终端ip	    
 		    $this->parameters["nonce_str"] = $this->createNoncestr();//随机字符串
 		    $this->parameters["sign"] = $this->getSign($this->parameters);//签名
@@ -378,7 +379,7 @@ class OrderQuery_pub extends Wxpay_client_pub
 		//设置接口链接
 		$this->url = "https://api.mch.weixin.qq.com/pay/orderquery";
 		//设置curl超时时间
-		$this->curl_timeout = WxPayConf_pub::CURL_TIMEOUT;		
+		$this->curl_timeout = WxPayConf_pub::CURL_TIMEOUT;
 	}
 
 	/**

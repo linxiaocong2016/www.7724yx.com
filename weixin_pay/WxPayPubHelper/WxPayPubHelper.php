@@ -68,7 +68,7 @@ class Common_util_pub
 	/**
 	 * 	作用：格式化参数，签名过程需要使用
 	 */
-	function formatBizQueryParaMap($paraMap, $urlencode)
+	function formatBizQueryParaMap($paraMap=array(), $urlencode)
 	{
 		$buff = "";
 		ksort($paraMap);
@@ -94,6 +94,7 @@ class Common_util_pub
 	 */
 	public function getSign($Obj)
 	{
+		$Parameters = array();
 		foreach ($Obj as $k => $v)
 		{
 			$Parameters[$k] = $v;
@@ -175,7 +176,7 @@ class Common_util_pub
 		//返回结果
 		if($data)
 		{
-			curl_close($ch);
+			// curl_close($ch);
 			return $data;
 		}
 		else 
@@ -299,7 +300,7 @@ class Wxpay_client_pub extends Common_util_pub
 	 * 	作用：获取结果，默认不使用证书
 	 */
 	function getResult() 
-	{		
+	{
 		$this->postXml();
 		$this->result = $this->xmlToArray($this->response);
 		return $this->result;
@@ -312,7 +313,7 @@ class Wxpay_client_pub extends Common_util_pub
  */
 class UnifiedOrder_pub extends Wxpay_client_pub
 {	
-	function __construct() 
+	function __construct()
 	{
 		//设置接口链接
 		$this->url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -832,6 +833,7 @@ class JsApi_pub extends Common_util_pub
 		curl_close($ch);
 		//取出openid
 		$data = json_decode($res,true);
+		file_put_contents(__DIR__.'/../../log/' .date("y-m-d", time()) . 'js_pay.log' , $data .'\r\n'.$url , FILE_APPEND);
 		$this->openid = $data['openid'];
 		return $this->openid;
 	}

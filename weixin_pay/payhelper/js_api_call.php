@@ -11,7 +11,9 @@
 	session_start();
 		
 	include_once("../WxPayPubHelper/WxPayPubHelper.php");
-	function getURLContent($pURL, $pPostData = '') {
+    
+    //发送请求的方法
+    function getURLContent($pURL, $pPostData = '') {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $pURL);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -29,7 +31,7 @@
 		return $out_put;
 	}
 	
-	
+	//记录日志方法
 	function write_log($pValue, $pFileName = "log.log") {
 		$lvContent = "时间：" . date("Y-m-d H:i:s", time()) . "\n";
 		$lvContent .= var_export($pValue, TRUE);
@@ -62,7 +64,7 @@
 		$url = $jsApi->createOauthUrlForCode(WxPayConf_pub::JS_API_CALL_URL);		
 		
 		$state = json_encode(array(
-				"order_no" => $_GET['order_no'],
+				"order_no" => $_GET['order_no']
 		));
 		$url = str_replace("STATE", $state, $url);
 		
@@ -133,59 +135,56 @@
 	$jsApi->setPrepayId($prepay_id);
 	
 	$jsApiParameters = $jsApi->getParameters();
-	
+
 	$out_put= <<<EOF
-	<title>微信安全支付</title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-	<script type="text/javascript">
+    <title>微信安全支付</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <script type="text/javascript">
 
-		//调用微信JS api 支付
-		function jsApiCall()
-		{
-			WeixinJSBridge.invoke(
-				'getBrandWCPayRequest',
-				$jsApiParameters,
-				function(res){
-					//WeixinJSBridge.log(res.err_msg+'====11111');					
-					if(res.err_msg == 'get_brand_wcpay_request:ok') {
-						//使用以上方式判断前端返回,res.err_msg将在用户支付成功后返回ok，不保证绝对可靠
-						//只通知充值结果，但不能作为充值成功依据，允许用户看得到页面
-						//alert('商品支付成功');	
-						window.location.href="http://i.7724.com/recharge/wechatReturn?order_no=$order_no";	
-        			}else if(res.err_msg == 'get_brand_wcpay_request:cancel'){
-						//取消支付
-						//alert("取消支付");
-						history.go(-1);
-					}else{
-						alert("订单已失效，请从新操作");
-						//alert(res.err_msg);
-					}
-					//alert(res.err_msg);
-					//alert(res.err_code+res.err_desc+res.err_msg);
-				}
-			);
-		}
+        //调用微信JS api 支付
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                $jsApiParameters,
+                function(res){
+                    //WeixinJSBridge.log(res.err_msg+'====11111');					
+                    if(res.err_msg == 'get_brand_wcpay_request:ok') {
+                        //使用以上方式判断前端返回,res.err_msg将在用户支付成功后返回ok，不保证绝对可靠
+                        //只通知充值结果，但不能作为充值成功依据，允许用户看得到页面
+                        //alert('商品支付成功');	
+                        window.location.href="https://i.7724.com/recharge/wechatReturn?order_no=$order_no";	
+                    }else if(res.err_msg == 'get_brand_wcpay_request:cancel'){
+                        //取消支付
+                        //alert("取消支付");
+                        history.go(-1);
+                    }else{
+                        alert("订单已失效，请从新操作");
+                        //alert(res.err_msg);
+                    }
+                    //alert(res.err_msg);
+                    //alert(res.err_code+res.err_desc+res.err_msg);
+                }
+            );
+        }
 
-		function callpay()
-		{
-			if (typeof WeixinJSBridge == "undefined"){
-			    if( document.addEventListener ){
-			        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
-			    }else if (document.attachEvent){
-			        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
-			        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
-			    }
-			}else{
-			    jsApiCall();
-			}
-		}
-
+        function callpay()
+        {
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+        
 		callpay()
 						
-	</script>
-	
+    </script>
 EOF;
-
-	echo $out_put;	
-	
+    echo $out_put;
 ?>

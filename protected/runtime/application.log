@@ -13350,3 +13350,17 @@ Stack trace:
 REQUEST_URI=/images/wepaywenzi.png
 HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibipayguide
 ---
+2018/06/22 16:54:46 [error] [exception.CException] exception 'CException' with message '属性 "RechargeController.Title" 未被定义.' in D:\www\www.7724yx.com\framework\base\CComponent.php:173
+Stack trace:
+#0 D:\www\www.7724yx.com\protected\modules\pc\controllers\RechargeController.php(231): CComponent->__set('Title', '\xE5\xA5\x87\xE5\xB8\x81\xE5\x85\x85\xE5\x80\xBC\xE7\xBB\x93...')
+#1 D:\www\www.7724yx.com\framework\web\actions\CInlineAction.php(49): RechargeController->actionQibiReturnPc()
+#2 D:\www\www.7724yx.com\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#3 D:\www\www.7724yx.com\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#4 D:\www\www.7724yx.com\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), NULL)
+#5 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('qibireturnpc')
+#6 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/recharge/qib...')
+#7 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#8 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#9 {main}
+REQUEST_URI=/pc/recharge/qibireturnpc
+---

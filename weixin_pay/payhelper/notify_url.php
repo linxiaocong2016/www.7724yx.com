@@ -90,7 +90,7 @@
 			
 			//异步回调业务处理			
 			//拼接url
-			$lvUrl="http://i.7724.com/recharge/wechatNotify";
+			$lvUrl="http://www.7724yx.com/pc/recharge/wechatNotify";
 			
 			$lvUrl.='?messageJson='.$messageJson;	
 			//$log_->log_result($log_name,"【拼接url-2】:\n".$lvUrl_2."\n");				

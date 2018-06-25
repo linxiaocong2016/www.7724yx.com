@@ -114,7 +114,7 @@
 		</div>
 	</div>
 <div>
-<input type="hidden" name="rechargetype" id="rechargetype" value="1" />
+<input type="hidden" name="rechargetype" id="rechargetype" value="100" />
 <input type="hidden" name="to_uid" id="to_uid" value="<?php echo $userInfo['uid']; ?>" />
 <input type="hidden" name="username" id="username" value="<?php echo $userInfo['username']; ?>" />
 <input type="hidden" name="rechargesource" id="rechargesource" value="qibi" />
@@ -143,11 +143,13 @@ function calQibiNum(value) {
 		payType = 'weixin';
 		aliDom.className = '';
 		weixinDom.className = 'active';
+        document.getElementById('rechargetype').value = 100;
 	});
 	aliDom.addEventListener('click',function() {
 		payType = 'ali';
 		aliDom.className = 'active';
 		weixinDom.className = '';
+        document.getElementById('rechargetype').value = 1;
 	});
 	payBtn.addEventListener('click',function() {
 		var num = document.getElementById('payNum').value;

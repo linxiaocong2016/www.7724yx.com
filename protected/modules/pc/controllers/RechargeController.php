@@ -55,7 +55,6 @@ class RechargeController extends PcController
     		case "1" :
     			// 支付宝
                 $log = new aliPayPc ();
-                print_r($log);exit;
                 $log->genSignData(1);
     			break;
             case "100" : 
@@ -228,28 +227,26 @@ class RechargeController extends PcController
     public function actionQibiReturnPc()
     {
     	$ppclog_id = $_REQUEST ['ppclog_id'];//奇币记录id
+        $total_amount = $_REQUEST ['total_amount'];
 		
-    	$this->Title = '奇币充值结果';
-    	$this->pageTitle = "支付中心-7724用户中心";
-    	$this->MenuHtml = "";
     	$this->layout = 'qibi';
 
-		$red_url = UrlTools::getHostReturnUrl("/user2/qibicoinindex",1);
+		$red_url = "http://www.7724yx.com";
     	
     	$lvResult = array(
     			'success' => '1',
-    			'amount' => '',
+    			'amount' => $total_amount,
     			'msg' => '',
     			'red_url' => $red_url,
 				'game_spend' => 0,
     			'game_url' => ''
     	);
-    	 
+        
     	if ($ppclog_id) {
     		$sql = "SELECT ppc.spend_id,ppc.channel_id,spend.game_id FROM `ext_ppc_log` ppc 
     			LEFT JOIN ext_spend_log spend ON ppc.spend_id=spend.spend_id 
 				WHERE ppc.id='{$ppclog_id}'";
-    		$ppcInfo = DBHelper::queryRow($sql);
+    		$ppcInfo = DBHelper::uc_queryRow($sql);
     		
     		//游戏消费里面过来充值奇币
     		if ($ppcInfo && $ppcInfo['game_id']) {
@@ -257,15 +254,16 @@ class RechargeController extends PcController
     			$sql = "SELECT esgame.pinyin,sg.callbackurl,sg.gameurl FROM `ucenter`.ext_sdk_game sg
     			left join `7724`.game esgame on esgame.game_id = sg.qqesgameid
     			where sg.id='{$ppcInfo['game_id']}'";
-    			$gameInfo = DBHelper::queryRow($sql);    
+    			$gameInfo = DBHelper::uc_queryRow($sql);    
                 
     			if ($gameInfo) {
-					$game_url = UrlTools::getHostReturnUrl("/{$gameInfo['pinyin']}/game");
+					$game_url = "http://www.7724yx.com/{$gameInfo['pinyin']}/game";
     				$lvResult['game_spend'] = 1;
     				$lvResult['game_url'] = $game_url;	
     			}
     		}
     	}
+
     	$this->render("qibiresult", array('result' => $lvResult));
     }
     

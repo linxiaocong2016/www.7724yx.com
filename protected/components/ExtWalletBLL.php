@@ -74,7 +74,7 @@ class ExtWalletBLL extends ExtWallet {
         $lvTime = time();
         $lvInfo->last_time = time();
         //红包奇币
-        $res = HbUserInfo::model()->getOddByUid($pUID);
+//        $res = HbUserInfo::model()->getOddByUid($pUID);
         /**
          * FIXME: 20160803
          * 这个是有问题的。。。 不是原子性操作。有概率出问题
@@ -85,16 +85,16 @@ class ExtWalletBLL extends ExtWallet {
         }else{
             //判断红包表的奇币是否够扣
             if($res['odd'] + $pPPC >= 0){
-                $odd = (int)$res['odd'] + $pPPC;
-                HbUserInfo::model()->updateOddByUid($pUID , $odd);
+//                $odd = (int)$res['odd'] + $pPPC;
+//                HbUserInfo::model()->updateOddByUid($pUID , $odd);
             }else{
                 //先扣充值奇币表 再扣红包表
-                $num = $lvInfo->ppc + $pPPC;
-                if($num < 0){
-                    $lvInfo->ppc = 0;
-                }
-                $odd = (int)$res['odd'] + $num;
-                HbUserInfo::model()->updateOddByUid($pUID , $odd);
+//                $num = $lvInfo->ppc + $pPPC;
+//                if($num < 0){
+//                    $lvInfo->ppc = 0;
+//                }
+//                $odd = (int)$res['odd'] + $num;
+//                HbUserInfo::model()->updateOddByUid($pUID , $odd);
             }
         }
         $lvInfo->safecode = $lvMD5;
