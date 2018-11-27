@@ -28,7 +28,7 @@
     .h5_nav>.general ul{
         display: -webkit-box;
         display: flex;
-        justify-content: center;
+        overflow: hidden;
     }
     .h5_nav li {
         width: auto;
