@@ -13,14 +13,14 @@
     </div>
     
     <div class="detail_box">
-        <div style="position:relative;width:1092px;height:179px;margin:42px auto;border-bottom: 1px solid #ccc;">
+        <div class="detail_msg_box" style="position:relative;width:1092px;height:179px;margin:42px auto;border-bottom: 1px solid #ccc;">
             <div class="detail_img">
                 <img style="width: 120px;height: 120px;" src="<?php echo $data['img'];?>" >
             </div>
             <div class="detail_msg" >
                 <h1><?php echo $data['name'];?></h1>
                 <p>
-                    <span>版本：</span>通用
+                    <span class="msg_item">版本：</span>通用
                     <span class="msg_item">平台：</span><img src="/img/android_icon.png">     
                     <span class="msg_item">大小：</span><?php echo $data['size'];?>M    
                     <span class="msg_item">下载量：</span><?php echo $data['downnum'];?>

@@ -4,12 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noarchive">
 <title><?php echo $this->pageTitle ?></title>
+    <meta name="viewport" content="width=device-width,user-scalable=no">
 <meta name="keywords" content="<?php echo $this->metaKeywords ?>"/>
 <meta name="description" content="<?php echo $this->metaDescription ?>" />
 <meta property="qc:admins" content="2425622777677246375" />
 <link rel="stylesheet" type="text/css" href="/assets/pc/css/pc_7724.css?v=1.1" />
+<link rel="stylesheet" type="text/css" href="/assets/pc/css/compatible.css" />
 <script type="text/javascript" src="/assets/pc/js/jquery.js"></script>
 <script type="text/javascript" src="/assets/pc/js/pc_7724.js"></script>
+<script src="/assets/pc/js/compatible.js"></script>
 <script type="text/javascript" src="/assets/pc/js/jquery.SuperSlide.2.1.1.js"></script>   
 <!-- 内容复制 -->
 <script type="text/javascript" src="/js/ZeroClipboard/ZeroClipboard.js"></script>
