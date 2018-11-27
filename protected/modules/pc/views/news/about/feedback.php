@@ -14,7 +14,9 @@ $(function(){
 	
 	var locksubmit=false;
 	var _button=$("#_button");
-	
+    var tokenKey = '<?php echo Urlfunction::getSession('feedbackTokenKey');?>';
+
+    
 	$(_button).click(function(){
 		
 		if(locksubmit)return;
@@ -23,6 +25,8 @@ $(function(){
 		var content=$("textarea[name='content']").val();
 		var contact=$("input[name='contact']").val();
 		var descript=$("input[name='descript']").val();
+        
+        
 
 	
 		content=trimcontent(content);
@@ -35,10 +39,12 @@ $(function(){
 			alert(err);
 			return false;
 		}
+
+        var feedback_token= $.md5(feedback+content+contact+descript+tokenKey);
 		
 		locksubmit=true
 		
-		var query={'feedback':feedback,'content':content,'contact':contact,'descript':descript};
+		var query={'feedback':feedback,'content':content,'contact':contact,'descript':descript,'feedback_token':feedback_token};
 		$.post('<?php echo $this->createUrl('/user2/feedback')?>',query,function(data){
 			if(data.sus>0){	
 				$("input[name='feedback']").attr("checked",false);
@@ -54,7 +60,7 @@ $(function(){
 })
 </script>
 <div class="feedback">
-	<form id="_form">
+	<form id="_form" method="post">
 		<div class="feedback_one">
 			<p>
 				选择反馈类型（

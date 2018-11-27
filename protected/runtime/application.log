@@ -13436,3 +13436,193 @@ Stack trace:
 REQUEST_URI=/img/tishi5.png
 HTTP_REFERER=http://www.7724yx.local/pc/recharge/qibireturnpc
 ---
+2018/08/13 15:21:35 [error] [exception.CException] exception 'CException' with message '别名 "pc.PcModule" 无效。请确认它指向一个存在的PHP文件。' in D:\www\www.7724yx.com\framework\YiiBase.php:323
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\YiiBase.php(196): YiiBase::import('pc.PcModule', true)
+#1 D:\www\www.7724yx.com\framework\base\CModule.php(282): YiiBase::createComponent('pc.PcModule', 'pc', NULL, Array)
+#2 D:\www\www.7724yx.com\framework\web\CWebApplication.php(337): CModule->getModule('pc')
+#3 D:\www\www.7724yx.com\framework\web\CWebApplication.php(276): CWebApplication->createController('pc/news/about')
+#4 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/news/about')
+#5 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#6 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#7 {main}
+REQUEST_URI=/feedback.html
+---
+2018/08/13 15:21:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "pc/news/about"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/news/about')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/feedback.html
+---
+2018/08/13 15:21:54 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/feedback.html
+---
+2018/08/13 15:25:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "pc/news/about"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/news/about')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/feedback.html
+---
+2018/08/13 15:25:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/feedback.html
+---
+2018/08/13 15:26:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "pc/news/about"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/news/about')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/feedback.html
+---
+2018/08/13 15:26:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/feedback.html
+---
+2018/08/13 15:26:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "pc/news/about"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/news/about')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/feedback.html
+---
+2018/08/13 15:26:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/feedback.html
+---
+2018/08/13 15:51:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "tag/pc/game/gamelistbytag/tag_id/962"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('tag/pc/game/gam...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/tag/pc/game/gamelistbytag/tag_id/962
+HTTP_REFERER=http://www.7724yx.local/tag/199.html
+---
+2018/08/13 15:51:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/tag/pc/game/gamelistbytag/tag_id/962
+---
+2018/08/23 14:33:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message '系统无法找到请求的 "pc" 动作.' in D:\www\www.7724yx.com\framework\web\CController.php:483
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CController.php(270): CController->missingAction('pc')
+#1 D:\www\www.7724yx.com\framework\web\CWebApplication.php(282): CController->run('pc')
+#2 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('pc/game/pc/game...')
+#3 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#4 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#5 {main}
+REQUEST_URI=/pc/game/pc/game/gamelist
+HTTP_REFERER=http://www.7724yx.local/pc/game/gamelist?cat_id=32&order=
+---
+2018/08/23 14:33:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/pc/game/pc/game/gamelist
+---
+2018/08/30 19:10:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "wy--2.html"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('wy--2.html')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/wy--2.html?cat_id=29
+HTTP_REFERER=http://www.7724yx.local/pc/game/gamelist?type=wy&cat_id=29&order=
+---
+2018/08/30 19:10:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/wy--2.html?cat_id=29
+---
+2018/08/30 19:56:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "online/list-36-new-2.html"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('online/list-36-...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/online/list-36-new-2.html
+HTTP_REFERER=http://www.7724yx.local/pc/game/gamelist?cat_id=36&order=new
+---
+2018/08/30 19:56:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/online/list-36-new-2.html
+---
+2018/08/30 19:56:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "online/list-36-new-2.html"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('online/list-36-...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/online/list-36-new-2.html
+HTTP_REFERER=http://www.7724yx.local/pc/game/gamelist?cat_id=36&order=new
+---
+2018/08/30 19:56:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/online/list-36-new-2.html
+---
+2018/08/30 19:56:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "online/list-36-new-2.html"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('online/list-36-...')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/online/list-36-new-2.html
+HTTP_REFERER=http://www.7724yx.local/pc/game/gamelist?cat_id=36&order=new
+---
+2018/08/30 19:56:56 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "images/body.png"。' in D:\www\www.7724yx.com\framework\web\CWebApplication.php:286
+Stack trace:
+#0 D:\www\www.7724yx.com\framework\web\CWebApplication.php(141): CWebApplication->runController('images/body.png')
+#1 D:\www\www.7724yx.com\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 D:\www\www.7724yx.com\index.php(49): CApplication->run()
+#3 {main}
+REQUEST_URI=/images/body.png
+HTTP_REFERER=http://www.7724yx.local/online/list-36-new-2.html
+---

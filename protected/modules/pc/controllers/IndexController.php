@@ -13,6 +13,9 @@ class IndexController extends PcController
         $page = Yii::app()->request->getPost('page',1);
         $pageSize = Yii::app()->request->getPost('pageSize',10);
         
+        $page = intval($page);
+        $pageSize = intval($pageSize);
+        
         $this->menu_on_flag = 9;
 		$this->pageTitle = "7724游戏-手机页游_h5游戏大全_手机游戏在线玩_手机页游排行";
 		$this->metaKeywords = "7724游戏,h5游戏,手机页游";
@@ -56,16 +59,30 @@ class IndexController extends PcController
             }
         }
         
+        
+//        $tokey_key = 'thisname';
+        $tokey_key = $_SESSION['searchTokenKey'];
+        $search_token = $_POST['search_token'];
+        $keyword = $_POST['keyword'];
+        $search_token_new = md5($keyword.$tokey_key);
+        //token验证，防CSRF攻击
+        if($search_token_new != $search_token){
+//            echo $search_token_new;echo '<br />';echo $search_token;exit;
+            header('Location: http://www.7724yx.com/');exit();
+        }
+        
 		$keytype= isset($_GET['keytype']) ? addslashes(htmlspecialchars(trim($_GET['keytype']),ENT_QUOTES)) : '';//默认游戏 libao zixun
         //为了应付过审，先把get改成post,页面上只改了method
-//		$keyword=trim($_GET['keyword']);
-        $keyword= isset($_POST['keyword']) ? htmlspecialchars(strip_tags(trim($_POST['keyword'])),ENT_QUOTES) : '';
+		$key_word=trim($_GET['keyword']);
+        $keyword= isset($_POST['keyword']) ? htmlspecialchars(strip_tags(trim($_POST['keyword'])),ENT_QUOTES) : htmlspecialchars(strip_tags($key_word),ENT_QUOTES);
         if($keyword){
 			$_GET['keyword']=$keyword;
 		}
         $keyword = XssFillter::removeXSS($keyword);
         $keyword = addslashes($keyword);
         
+        
+
 		$list=array();
 		$pageSize=24;
 		$sqlWhere='';
@@ -150,6 +167,7 @@ class IndexController extends PcController
 				'pageCount'=>$pageCount,
 				'lvOther'=>$lvOther,
 		);
+        $_SESSION['searchTokenKey'] = '';
 		$this->render($lvVeiw,$data);
 	}
 	

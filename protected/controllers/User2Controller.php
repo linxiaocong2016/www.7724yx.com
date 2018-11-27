@@ -894,9 +894,19 @@ class User2Controller extends Controller {
         
     	$this->pageTitle = "意见反馈-7724小游戏";
     	Yii::import('ext.Feedbackfun');
+        
+        $tokey_key = $_SESSION['feedbackTokenKey'];
+        $feedback_token = $_POST['feedback_token'];
+        $feedback_token_new = md5($_POST['feedback'].$_POST['content'].$_POST['contact'].$_POST['descript'].$tokey_key);
+        if($feedback_token_new != $feedback_token){
+//            echo $feedback_token_new;echo '<br />';echo $feedback_token;exit;
+            header('Location: http://www.7724yx.com/feedback.html');exit();
+        }
+        
     	if($_POST){
     		$return=Feedbackfun::add($_POST);
     		$return=array('sus'=>$return[0],'err'=>$return[1]);
+            $_SESSION['feedbackTokenKey'] = '';
     		die(json_encode($return));
     	}
     	$this->render('feedback');
