@@ -28,7 +28,7 @@
     .h5_nav>.general ul{
         display: -webkit-box;
         display: flex;
-        overflow: hidden;
+        overflow-x:scroll;
     }
     .h5_nav li {
         width: auto;
