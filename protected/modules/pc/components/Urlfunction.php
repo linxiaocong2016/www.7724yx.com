@@ -104,7 +104,8 @@ class Urlfunction{
 
 	//游戏tag地址
 	public static function getGameListByTagUrl($tagId){
-		return "/tag/{$tagId}.html";
+//		return "/tag/{$tagId}.html";
+        return "/pc/game/gamelistbytag/tag_id/{$tagId}";
 	}
 
 
@@ -161,43 +162,60 @@ class Urlfunction{
 	//游戏库url
 	public static function getGameListUrl($type='',$cat_id='',$order='',$gametpye=''){
 		if($gametpye==49){
-			return "/wy.html";
+//			return "/wy.html";
+            return "/pc/game/gamelist";
 		}
 		if($type=='wy'){
 			if(!$cat_id&&!$order){
-				return "/wy.html";
+//				return "/wy.html";
+                return "/pc/game/gamelist?type=wy";
 			}
 			
 			if(!$cat_id&&$order){
-				return "/wy-hot.html";
+				//return "/wy-hot.html";
+				return "/pc/game/gamelist?type=wy&order=$order";
 			}
 			
 			
-			$url='/online/list-wy';
-			if($cat_id){
-				$url.="-{$cat_id}";
-			}
-			if($order){
-				$url.="-{$order}";
-			}
-			$url.="/";
+			$url="/pc/game/gamelist?type=wy&cat_id={$cat_id}&order={$order}";
+//			if($cat_id){
+//				$url.="$url?cat_id={$cat_id}";
+//			}
+//			if($order){
+//				$url.="-{$order}";
+//			}
+//			$url.="/";
 			return $url;
 		}else{
 			if($cat_id&&$order){
-				return "/online/list-{$cat_id}-{$order}/ ";
+//				return "/online/list-{$cat_id}-{$order}/ ";
+                return "/pc/game/gamelist?cat_id={$cat_id}&order={$order}";
 			}
 			if($cat_id&&!$order){
-				return "/online/list-{$cat_id}/ ";
+//				return "/online/list-{$cat_id}/ ";
+                return "/pc/game/gamelist?cat_id={$cat_id}";
 			}
-			$url="/new";
-			if($order){
-				$url.="-{$order}";
-			}
-			$url.=".html";
+//			$url="/new";
+            $url="/pc/game/gamelist?order={$order}";
+//			if($order){
+//				$url.="-{$order}";
+//			}
+//			$url.=".html";
 			return $url;
 		}
 		return '';
 	}
+    
+    
+    public static function getSession($token_name)
+    {
+        if(empty($_SESSION[$token_name])){
+            $rand = rand(100000, 999999999); 
+            $_SESSION[$token_name] = $rand; 
+        }
+        
+        return $_SESSION[$token_name];
+    }
 
 
 

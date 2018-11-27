@@ -9,6 +9,7 @@
 <meta property="qc:admins" content="2425622777677246375" />
 <link rel="stylesheet" type="text/css" href="/assets/pc/css/pc_7724.css?v=1.1" />
 <script type="text/javascript" src="/assets/pc/js/jquery.js"></script>
+<script type="text/javascript" src="/assets/pc/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/assets/pc/js/pc_7724.js"></script>
 <script type="text/javascript" src="/assets/pc/js/jquery.SuperSlide.2.1.1.js"></script>   
 <!-- 内容复制 -->
@@ -57,7 +58,8 @@ s.parentNode.insertBefore(hm, s);
             <div class="logo_left"><a href="/"><img src="/img/logo20160720.png"></a><span><img src="/assets/pc/img/game_love.png"></span></div>
             <div class="h5_search">
             <form action="/search/" method="post" onsubmit="var v=$('#search_keyword_input').val(); v=v.replace(/(^\s*)|(\s*$)/g, '');    if(!v){alert('请输入正确的游戏名称');return false};">
-               <input id="search_keyword_input" name='keyword' type="text" class="h5_text" placeholder="输入正确的游戏名称" value='<?php echo $_GET['keyword']?>'/>
+                <input id="search_keyword_input" name='keyword' type="text" class="h5_text" placeholder="输入正确的游戏名称" value='<?php echo trim($_GET['keyword'])?>'/>
+                <input type="hidden" name="search_token" id="search_token" value="">
                <input type="submit" class="h5_bt" value="" />
             </form>   
             </div>
@@ -76,16 +78,28 @@ s.parentNode.insertBefore(hm, s);
            		<a href="/">手游</a></li>
            <li <?php if ($this->menu_on_flag==1):?> class="on" <?php endif;?>>
            		<a href="/pc/index/pagegame">页游</a></li>
-           <li <?php if ($this->menu_on_flag==2):?> class="on" <?php endif;?>><a href="/wy.html">微网游</a></li>
-           <li <?php if ($this->menu_on_flag==3):?> class="on" <?php endif;?>><a href="/new.html">小游戏</a></li>
+           <li <?php if ($this->menu_on_flag==2):?> class="on" <?php endif;?>><a href="/pc/game/gamelist?type=wy">微网游</a></li>
+           <li <?php if ($this->menu_on_flag==3):?> class="on" <?php endif;?>><a href="/pc/game/gamelist">小游戏</a></li>
            <li <?php if ($this->menu_on_flag==4):?> class="on" <?php endif;?>><a href="/zixun.html">资讯</a></li>
            <li <?php if ($this->menu_on_flag==6):?> class="on" <?php endif;?>><a href="/zhuanti.html">专题</a></li>
-<!--		   <li <?php if ($this->menu_on_flag==7):?> class="on" <?php endif;?>><a href="/pc/recharge/index">充值中心</a></li>
-           <li <?php if ($this->menu_on_flag==5):?> class="on" <?php endif;?>><a href="/libao.html">礼包</a></li>
+		   <li <?php if ($this->menu_on_flag==7):?> class="on" <?php endif;?>><a href="/pc/recharge/index">充值中心</a></li>
+           <!--<li <?php if ($this->menu_on_flag==5):?> class="on" <?php endif;?>><a href="/libao.html">礼包</a></li>
            <li <?php if ($this->menu_on_flag==8):?> class="on" <?php endif;?>><a href="<?php echo yii::app()->createUrl("pc/activity/index")?>">活动</a></li>-->
        </ul>
     </div>
  </div>
+ 
+ <script>
+(function() {
+//    var tokenKey = 'thisname';
+    var tokenKey = '<?php echo Urlfunction::getSession('searchTokenKey');?>';
+    $('#search_keyword_input').keyup(function(){
+        var keyword = $(this).val();
+        var md5val= $.md5(keyword+tokenKey);
+        $('#search_token').val(md5val);
+    });
+})();
+</script>
 
 <?php echo $content;?>
 

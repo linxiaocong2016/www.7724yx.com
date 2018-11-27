@@ -1,4 +1,4 @@
-<?php
+<?php 
 //session_cache_limiter('public');
 if($_SERVER ['HTTP_HOST'] == 'online.7724.com' || $_SERVER ['HTTP_HOST'].$_SERVER["REQUEST_URI"] == 'www.7724.com/online/'){
 	Header ( "HTTP/1.1 301 Moved Permanently" );

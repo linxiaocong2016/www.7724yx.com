@@ -75,7 +75,8 @@ class GameController extends PcController
 	}
 	
 	public function actionGamelistbytag(){
-		$tagId=(int)$_GET['tag_id'];
+		$tagId = isset($_GET['tag_id']) ? addslashes(htmlspecialchars($_GET['tag_id'])) : 0;
+        $tagId = intval($tagId);
 		
 		$sql = "SELECT * FROM game_tag WHERE id='$tagId'";
 		$tagInfo = yii::app()->db->createCommand($sql)->queryRow();
@@ -237,11 +238,27 @@ class GameController extends PcController
 	}
 	
 	public function actionGamelist(){
-		$type= isset($_GET['type']) ? addslashes(htmlspecialchars(trim($_GET['type']))) : '';
-		$order= isset($_GET['order']) ? addslashes(htmlspecialchars(trim($_GET['order']))) : '';
+
+		$type= isset($_GET['type']) ? htmlspecialchars(strip_tags(trim($_GET['type']))) : '';
+		$orderon= isset($_GET['order']) ? htmlspecialchars(strip_tags(trim($_GET['order']))) : '';
 		$cat_id= isset($_GET['cat_id']) ? htmlspecialchars(strip_tags($_GET['cat_id']),ENT_QUOTES) : 0;
+        $type = XssFillter::removeXSS($type);
+        $orderon = XssFillter::removeXSS($orderon);
         $cat_id = XssFillter::removeXSS($cat_id);
-        $cat_id = (int) addslashes($cat_id);
+        $type = addslashes($type);
+        $orderon = addslashes($orderon);
+        $cat_id = addslashes($cat_id);
+        
+        if(!is_numeric($cat_id)){
+            header('Location: http://www.7724yx.com/');
+        }
+        if($orderon && $orderon != 'hot' && $orderon != 'new'){
+            header('Location: http://www.7724yx.com/');
+        }
+        if($type && $type != 'wy' && $type != 'xyx'){
+            header('Location: http://www.7724yx.com/');
+        }
+        
 		
 		$lvGameAllcat=Gamefun::gameTypes();
 		
@@ -263,7 +280,7 @@ class GameController extends PcController
 		$page=(int)$_GET['page'];
 		$page=$page>0?$page:1;
 		$offset=($page-1)*$pageSize;
-		
+
 		$sql="SELECT count(1) as num FROM game $sqlWhere";
 		$res=yii::app()->db->createCommand($sql)->queryRow();
 		$count=$res['num'];
@@ -311,7 +328,10 @@ class GameController extends PcController
 				'pages'=>$pages,
 				'pageCount'=>$pageCount,
 				'lvGameAllcat'=>$lvGameAllcat,
-				'lvTagInfoAll'=>Myfunction::getTagInfoByGameArrList($list)
+				'lvTagInfoAll'=>Myfunction::getTagInfoByGameArrList($list),
+                'cat_id'=>$cat_id,
+                'orderon'=>$orderon,
+                'type'=>$type
 		);
 		
 		$this->render('game_list',$data);

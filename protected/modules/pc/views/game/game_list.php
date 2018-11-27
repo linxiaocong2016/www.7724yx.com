@@ -3,14 +3,14 @@
     <div class="h5_local">
        <em class="local_home">当前位置：</em>
        <a href="/">首页</a><span>&gt;</span>
-       <em><?php echo $_GET['type']=='wy'?'网游':'单机';?></em>
+       <em><?php echo $type=='wy'?'网游':'单机';?></em>
     </div>
     <div class="news_tab">
            <ul>
            <?php $url=Urlfunction::getGameListUrl('wy');?>
-               <li<?php if($_GET['type']=='wy') echo ' class="hover"';?>><a href="<?php echo $url;?>">微网游</a></li>
+               <li<?php if($type=='wy') echo ' class="hover"';?>><a href="<?php echo $url;?>">微网游</a></li>
            <?php $url=Urlfunction::getGameListUrl('new');?>
-               <li<?php if($_GET['type']!='wy') echo ' class="hover"';?>><a href="<?php echo $url;?>">小游戏</a></li> 
+               <li<?php if($type!='wy') echo ' class="hover"';?>><a href="<?php echo $url;?>">小游戏</a></li> 
            </ul>
     </div>
      <div class="g_ku">
@@ -18,25 +18,25 @@
            <tr>
                <td class="td1" valign="top"><p>游戏分类：</p></td>
                <td class="td2">
-               	 <?php $url=Urlfunction::getGameListUrl($_GET['type'],'',$_GET['order']);?>
-                 <a href="<?php echo $url;?>"<?php if(!$_GET['cat_id']) echo ' class="on"';?>>所有</a>
+               	 <?php $url=Urlfunction::getGameListUrl($type,'',$orderon);?>
+                 <a href="<?php echo $url;?>"<?php if(!$cat_id) echo ' class="on"';?>>所有</a>
                  <?php 
                  	foreach($lvGameAllcat as $k=>$v):
                  	//if($v['id']==49&&$_GET['type']=='wy')continue;
                  	if($v['id']==49)continue;
-                 	$url=Urlfunction::getGameListUrl($_GET['type'],$v['id'],$_GET['order']);
+                 	$url=Urlfunction::getGameListUrl($type,$v['id'],$orderon);
                  ?>
-                 <a<?php if($v['id']==$_GET['cat_id']) echo ' class="on"';?> href="<?php echo $url?>"><?php echo $v['name']?></a>
+                 <a<?php if($v['id']==$cat_id) echo ' class="on"';?> href="<?php echo $url?>"><?php echo $v['name']?></a>
                  <?php endforeach;?>
                </td>
            </tr>
             <tr>
                <td class="td1" valign="top"><p>游戏排序：</p></td>
                <td class="td2">
-               <?php $url=Urlfunction::getGameListUrl($_GET['type'],$_GET['cat_id'],'');?>
-                 <a href="<?php echo $url;?>"<?php if(!$_GET['order']) echo '  class="on"';?>>最新</a>
-               <?php $url=Urlfunction::getGameListUrl($_GET['type'],$_GET['cat_id'],'hot');?>
-                 <a href="<?php echo $url;?>"<?php if($_GET['order']=='hot') echo '  class="on"';?>>最热</a>
+               <?php $url=Urlfunction::getGameListUrl($type,$cat_id,'new');?>
+                 <a href="<?php echo $url;?>"<?php if($orderon == 'new') echo '  class="on"';?>>最新</a>
+               <?php $url=Urlfunction::getGameListUrl($type,$cat_id,'hot');?>
+                 <a href="<?php echo $url;?>"<?php if($orderon=='hot') echo '  class="on"';?>>最热</a>
                </td>
            </tr>
         </table>
