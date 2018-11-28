@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noarchive">
 <title><?php echo $this->pageTitle ?></title>
-    <meta name="viewport" content="width=device-width,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
 <meta name="keywords" content="<?php echo $this->metaKeywords ?>"/>
 <meta name="description" content="<?php echo $this->metaDescription ?>" />
 <meta property="qc:admins" content="2425622777677246375" />
