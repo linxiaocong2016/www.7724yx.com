@@ -70,17 +70,19 @@
     .hot_img_box {
         width: 65px;
         height: 65px;
+        margin: 0 auto;
         border-radius: 20px;
     }
     .hot_item {
         width: 25%;
         white-space: nowrap;
+        text-align: center;
     }
     .hot_select_box {
         height: 100px;    
     }
     .hot_item:hover .hot_select_box {
-        visibility: hidden;
+        display: none;
     }
     .game_type {
         height: 30px;
@@ -122,7 +124,7 @@
         width: 120px;
         height: 32px;
         left: auto;
-        top: 15px;
+        top: 0px;
         right: 10px;
     }
     .detail_dl img {
@@ -151,9 +153,11 @@
     
     .detail_msg h1 {
         margin-left: 90px;
-        line-height: 60px;
+        height: 60px;
+        line-height: 30px;
         width:100px;
         font-size: 20px;
+        overflow: hidden;
     }
     .detail_msg p {
         margin: 20px 15px;
