@@ -115,6 +115,19 @@
     }
     .detail_box {
         width: 100%;
+        overflow:hidden;
+    }
+
+    .detail_dl {
+        width: 120px;
+        height: 32px;
+        left: auto;
+        top: 15px;
+        right: 10px;
+    }
+    .detail_dl img {
+        width: 120px;
+        height: 32px;
     }
     .detail_box>div {
         margin: 10px 0 !important;
@@ -139,7 +152,8 @@
     .detail_msg h1 {
         margin-left: 90px;
         line-height: 60px;
-        font-size: 23px;
+        width:100px;
+        font-size: 20px;
     }
     .detail_msg p {
         margin: 20px 15px;
