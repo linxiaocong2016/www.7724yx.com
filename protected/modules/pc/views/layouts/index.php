@@ -9,7 +9,7 @@
 <meta name="description" content="<?php echo $this->metaDescription ?>" />
 <meta property="qc:admins" content="2425622777677246375" />
 <link rel="stylesheet" type="text/css" href="/assets/pc/css/pc_7724.css?v=1.1" />
-<link rel="stylesheet" type="text/css" href="/assets/pc/css/compatible.css" />
+<link rel="stylesheet" type="text/css" href="/assets/pc/css/compatible.css?v=1.0" />
 <script type="text/javascript" src="/assets/pc/js/jquery.js"></script>
 <script type="text/javascript" src="/assets/pc/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/assets/pc/js/pc_7724.js"></script>
@@ -85,7 +85,7 @@ s.parentNode.insertBefore(hm, s);
            <li <?php if ($this->menu_on_flag==3):?> class="on" <?php endif;?>><a href="/pc/game/gamelist">小游戏</a></li>
            <li <?php if ($this->menu_on_flag==4):?> class="on" <?php endif;?>><a href="/zixun.html">资讯</a></li>
            <li <?php if ($this->menu_on_flag==6):?> class="on" <?php endif;?>><a href="/zhuanti.html">专题</a></li>
-		   <li <?php if ($this->menu_on_flag==7):?> class="on" <?php endif;?>><a href="/pc/recharge/index">充值中心</a></li>
+		   <!-- <li <?php if ($this->menu_on_flag==7):?> class="on" <?php endif;?>><a href="/pc/recharge/index">充值中心</a></li> -->
            <!--<li <?php if ($this->menu_on_flag==5):?> class="on" <?php endif;?>><a href="/libao.html">礼包</a></li>
            <li <?php if ($this->menu_on_flag==8):?> class="on" <?php endif;?>><a href="<?php echo yii::app()->createUrl("pc/activity/index")?>">活动</a></li>-->
        </ul>

@@ -1,4 +1,4 @@
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 750px) {
     body {
         width: 100% !important;
         min-width: auto !important;
@@ -24,19 +24,23 @@
         min-width: 320px;
         float: none !important;
         margin: 0 auto;
+        
     }
     .h5_nav>.general ul{
         display: -webkit-box;
         display: flex;
+        justify-content: center;
         overflow-x:scroll;
+        font-size: 15px;
     }
     .h5_nav li {
-        width: auto;
+        width: 16%;
         height: 59px;
         white-space: nowrap;
     }
     .h5_nav li a{
-        padding: 0 10px;
+        padding: 0 3px;
+        font-size: 15px;
         height: 59px;
     }
     .h5_search {
@@ -48,6 +52,7 @@
     .index_center {
         float: none;
         min-width: 320px;
+        margin: 0 auto;
     }
     .index_hot {
         width: 100%;
@@ -59,18 +64,26 @@
     }
     .hot_list_box {
         width: auto;
-        margin: 20px;
+        margin: 10px;
+        font-size: 16px;
     }
     .hot_img_box {
         width: 65px;
         height: 65px;
         border-radius: 20px;
     }
+    .hot_item {
+        width: 25%;
+        white-space: nowrap;
+    }
     .hot_select_box {
         height: 100px;    
     }
     .hot_item:hover .hot_select_box {
         visibility: hidden;
+    }
+    .game_type {
+        height: 30px;
     }
     .index_gamelist {
         min-width: 320px;
@@ -83,17 +96,18 @@
         content: '';
         clear: both;
     }
+    .gamelist_box {
+        width: 100%;
+        margin: 0 auto;
+    }
     .gamelist_box>div {
-        width: 100px;
+        width: 33%;
         font-size: 16px;
-        margin-top: 10px;
+        margin: 10px 0;
     }
     .gamelist_box img {
         width: 65px;
         height: 65px;
-    }
-    .game_type {
-        white-space: normal;
     }
     .h5_footer>div {
         width: 100% !important;

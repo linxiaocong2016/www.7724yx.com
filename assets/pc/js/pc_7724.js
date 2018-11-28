@@ -209,9 +209,10 @@ var JPlaceHolder = {
 };
 
 var PageList = (function() {
+	var appType = navigator.appVersion.toLocaleLowerCase().indexOf('mobile')!= -1 ? 'mobile' : 'pc';
 	function PageList() {
 		this.page_idx = 1;
-		this.page_size = 20;
+		this.page_size = appType == 'mobile' ? 21 : 20;
 		this.max_page = null;
 		this.start_pos = 1;
 		this.games = null;
@@ -363,6 +364,8 @@ var PageList = (function() {
 	function Games() {
 		this.game_data = [];
 	}
+
+	
 	Games.prototype = {
 		refreshList : function(start,end) {
 			var content = '';
@@ -377,7 +380,7 @@ var PageList = (function() {
 						<img src="'+data[i].img+'">\
 					</a>\
 					<p class="game_title"><a title='+data[i].name+'  href="/pc/game/gameDetail?gameid='+data[i].id+'">'+data[i].name+'</a></p>\
-					<p class="game_type">'+data[i].type.replace(',',' | ')+'</p>\
+					<p class="game_type">'+(appType=='pc'?data[i].type.replace(/,/g,' | '):data[i].type.split(',')[0])+'</p>\
 				</div>';
 			}
 			$('#gameListBox').html(content);
