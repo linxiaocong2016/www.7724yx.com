@@ -374,13 +374,15 @@ var PageList = (function() {
 				if(data[i] == null) {
 					break;
 				}
+				var types = data[i].type.split(','),
+				pcTypes = types[0] + (types[1]?' | '+types[1]:'');
 				content += 
 				'<div>\
 					<a target=_blank title='+data[i].name+' href="/pc/game/gameDetail?gameid='+data[i].id+'">\
 						<img src="'+data[i].img+'">\
 					</a>\
 					<p class="game_title"><a title='+data[i].name+'  href="/pc/game/gameDetail?gameid='+data[i].id+'">'+data[i].name+'</a></p>\
-					<p class="game_type">'+(appType=='pc'?data[i].type.replace(/,/g,' | '):data[i].type.split(',')[0])+'</p>\
+					<p class="game_type">'+(appType=='pc'?pcTypes:types[0])+'</p>\
 				</div>';
 			}
 			$('#gameListBox').html(content);

@@ -1203,7 +1203,7 @@ text-align: center;width:99.5%; float:left}
     margin: 35px 10px 20px 10px;
     text-align: center;
 }
-.game_title {white-space:nowrap;}
+.game_title {white-space:nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;}
 .game_type {color: #999999;white-space:nowrap;}
 .gamelist_box img {
     width: 133px;
