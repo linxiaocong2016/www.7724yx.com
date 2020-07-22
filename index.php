@@ -31,7 +31,7 @@ if (preg_match('/dev|local/', SITE_HOST)){
 }else{
     // 测试配置
 	error_reporting(E_ALL ^ E_NOTICE);
-	ini_set('display_errors', 0);
+	ini_set('display_errors', 0); 
 	error_reporting(E_ERROR);
 	define('YII_ENV', 'local');
 	$config = dirname(__FILE__) . '/protected/config/main_dev.php';
